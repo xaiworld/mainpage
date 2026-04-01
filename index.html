@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -15,146 +15,253 @@
     <nav>
       <a href="#" class="logo">xai.world</a>
       <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#worlds">My Worlds</a>
-        <a href="#instagram">Instagram</a>
-        <a href="#qna">Q&A</a>
+        <a href="#about" data-en="About" data-es="Sobre mí">About</a>
+        <a href="#passions" data-en="Passions" data-es="Pasiones">Passions</a>
+        <a href="#worlds" data-en="My Worlds" data-es="Mis Mundos">My Worlds</a>
+        <a href="#qna" data-en="Q&amp;A" data-es="Preguntas">Q&amp;A</a>
+        <button id="lang-toggle" class="lang-btn" title="Switch language">ES</button>
       </div>
     </nav>
   </header>
 
+  <!-- ═══════════════ HERO ═══════════════ -->
   <section class="hero">
+    <div class="hero-bg">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Castillo_nuevo_de_Manzanares_El_Real.JPG"
+           alt="Castle of Manzanares el Real with Sierra de Guadarrama mountains">
+    </div>
     <div class="hero-content">
       <h1>Welcome to <span class="highlight">xai.world</span></h1>
-      <p class="tagline">Brass player · Gardener · Bagpiper · Explorer of many worlds</p>
+      <p class="tagline" data-en="Software engineer · Boardgamer · Musician · Runner · Explorer"
+         data-es="Ingeniero de software · Jugador de mesa · Músico · Corredor · Explorador">
+        Software engineer · Boardgamer · Musician · Runner · Explorer
+      </p>
+      <p class="hero-location">
+        <span class="location-pin">📍</span>
+        <a href="https://en.wikipedia.org/wiki/Manzanares_el_Real" target="_blank"
+           data-en-href="https://en.wikipedia.org/wiki/Manzanares_el_Real"
+           data-es-href="https://es.wikipedia.org/wiki/Manzanares_el_Real"
+           data-en="Manzanares el Real, Spain"
+           data-es="Manzanares el Real, España">Manzanares el Real, Spain</a>
+      </p>
     </div>
   </section>
 
+  <!-- ═══════════════ ABOUT ═══════════════ -->
   <section id="about" class="section">
-    <h2>About Me</h2>
-    <div class="bio-card">
-      <div class="bio-photo">
-        <div class="photo-placeholder">📷</div>
-      </div>
-      <div class="bio-text">
-        <p>
-          Hello! I'm the person behind xai.world. I'm passionate about music, nature, and
-          building things on the web. When I'm not playing brass instruments or bagpipes,
-          you'll find me in the garden or tinkering with a new project.
-        </p>
-        <p>
-          This site is my home on the internet — a hub connecting all the different worlds
-          I inhabit. Each subdomain is a universe of its own. Feel free to explore!
-        </p>
-        <!-- Edit the paragraphs above with your real biography -->
-      </div>
+    <h2 data-en="About Me" data-es="Sobre Mí">About Me</h2>
+    <div class="about-content">
+      <p data-en="Hello! I'm the person behind xai.world. I'm a software engineer working for a Swiss company, living in the beautiful town of <a href='https://en.wikipedia.org/wiki/Manzanares_el_Real' target='_blank'>Manzanares el Real</a>, nestled at the foot of <a href='https://en.wikipedia.org/wiki/La_Pedriza' target='_blank'>La Pedriza</a> in the Sierra de Guadarrama."
+         data-es="¡Hola! Soy la persona detrás de xai.world. Soy ingeniero de software en una empresa suiza, viviendo en el precioso pueblo de <a href='https://es.wikipedia.org/wiki/Manzanares_el_Real' target='_blank'>Manzanares el Real</a>, al pie de <a href='https://es.wikipedia.org/wiki/La_Pedriza' target='_blank'>La Pedriza</a> en la Sierra de Guadarrama.">
+        Hello! I'm the person behind xai.world. I'm a software engineer working for a Swiss company, living in the beautiful town of <a href="https://en.wikipedia.org/wiki/Manzanares_el_Real" target="_blank">Manzanares el Real</a>, nestled at the foot of <a href="https://en.wikipedia.org/wiki/La_Pedriza" target="_blank">La Pedriza</a> in the Sierra de Guadarrama.
+      </p>
+      <p data-en="When I'm not writing code, you'll find me deep into a boardgame, running mountain trails, playing music, reading sci-fi, or peering through a microscope. This site is my home on the internet — a hub connecting all the different worlds I inhabit."
+         data-es="Cuando no estoy programando, me encontrarás metido en un juego de mesa, corriendo por senderos de montaña, tocando música, leyendo ciencia ficción, o mirando por un microscopio. Esta web es mi hogar en internet — un punto de encuentro de todos los mundos que habito.">
+        When I'm not writing code, you'll find me deep into a boardgame, running mountain trails, playing music, reading sci-fi, or peering through a microscope. This site is my home on the internet — a hub connecting all the different worlds I inhabit.
+      </p>
     </div>
   </section>
 
-  <section id="worlds" class="section section-alt">
-    <h2>My Worlds</h2>
-    <p class="section-subtitle">Each passion gets its own corner of the internet.</p>
+  <!-- ═══════════════ PASSIONS ═══════════════ -->
+  <section id="passions" class="section section-alt">
+    <h2 data-en="Passions" data-es="Pasiones">Passions</h2>
+    <p class="section-subtitle" data-en="The things that keep me busy when I'm not pushing commits."
+       data-es="Lo que me mantiene ocupado cuando no estoy haciendo commits.">
+      The things that keep me busy when I'm not pushing commits.
+    </p>
+
+    <div class="passions-grid">
+
+      <!-- Boardgames -->
+      <div class="passion-card passion-wide">
+        <span class="passion-icon">🎲</span>
+        <h3 data-en="Boardgames" data-es="Juegos de Mesa">Boardgames</h3>
+        <p data-en="Obsessed with <a href='https://en.wikipedia.org/wiki/Brass:_Lancashire' target='_blank'>Brass: Lancashire</a> since 2011 — over 600 games and counting. I built an <a href='https://brass.xai.world' target='_blank'>online implementation</a> so I can play anytime. But Brass is just the tip of the iceberg — I'm a dedicated boardgame enthusiast across all genres."
+           data-es="Obsesionado con <a href='https://es.wikipedia.org/wiki/Brass:_Lancashire' target='_blank'>Brass: Lancashire</a> desde 2011 — más de 600 partidas y subiendo. Construí una <a href='https://brass.xai.world' target='_blank'>implementación online</a> para poder jugar cuando quiera. Pero Brass es solo la punta del iceberg — soy un entusiasta de los juegos de mesa de todos los géneros.">
+          Obsessed with <a href="https://en.wikipedia.org/wiki/Brass:_Lancashire" target="_blank">Brass: Lancashire</a> since 2011 — over 600 games and counting. I built an <a href="https://brass.xai.world" target="_blank">online implementation</a> so I can play anytime. But Brass is just the tip of the iceberg — I'm a dedicated boardgame enthusiast across all genres.
+        </p>
+        <a href="https://boardgamegeek.com/profile/wejejeei" target="_blank" class="passion-link"
+           data-en="My BoardGameGeek profile →" data-es="Mi perfil en BoardGameGeek →">My BoardGameGeek profile →</a>
+      </div>
+
+      <!-- Basketball -->
+      <div class="passion-card">
+        <span class="passion-icon">🏀</span>
+        <h3 data-en="Basketball" data-es="Baloncesto">Basketball</h3>
+        <p data-en="Player and <a href='https://en.wikipedia.org/wiki/National_Basketball_Association' target='_blank'>NBA</a> fan. Nothing beats a good pickup game or watching the playoffs."
+           data-es="Jugador y fan de la <a href='https://es.wikipedia.org/wiki/National_Basketball_Association' target='_blank'>NBA</a>. Nada como un buen partido o ver los playoffs.">
+          Player and <a href="https://en.wikipedia.org/wiki/National_Basketball_Association" target="_blank">NBA</a> fan. Nothing beats a good pickup game or watching the playoffs.
+        </p>
+      </div>
+
+      <!-- Mountain Running -->
+      <div class="passion-card">
+        <span class="passion-icon">🏔️</span>
+        <h3 data-en="Mountain Running" data-es="Carreras de Montaña">Mountain Running</h3>
+        <p data-en="Living next to <a href='https://en.wikipedia.org/wiki/La_Pedriza' target='_blank'>La Pedriza</a> means world-class <a href='https://en.wikipedia.org/wiki/Trail_running' target='_blank'>trail running</a> right at my doorstep."
+           data-es="Vivir junto a <a href='https://es.wikipedia.org/wiki/La_Pedriza' target='_blank'>La Pedriza</a> significa tener <a href='https://es.wikipedia.org/wiki/Carrera_de_montaña' target='_blank'>carreras de montaña</a> de primer nivel a la puerta de casa.">
+          Living next to <a href="https://en.wikipedia.org/wiki/La_Pedriza" target="_blank">La Pedriza</a> means world-class <a href="https://en.wikipedia.org/wiki/Trail_running" target="_blank">trail running</a> right at my doorstep.
+        </p>
+      </div>
+
+      <!-- Music -->
+      <div class="passion-card passion-wide">
+        <span class="passion-icon">🎵</span>
+        <h3 data-en="Music" data-es="Música">Music</h3>
+        <p data-en="I play <a href='https://en.wikipedia.org/wiki/Galician_gaita' target='_blank'>Galician bagpipes (gaita)</a>, <a href='https://en.wikipedia.org/wiki/Tin_whistle' target='_blank'>Irish whistle</a>, and <a href='https://en.wikipedia.org/wiki/Ukulele#Baritone' target='_blank'>baritone ukulele</a>. From Celtic melodies to Hawaiian vibes — variety is the spice of life."
+           data-es="Toco <a href='https://es.wikipedia.org/wiki/Gaita_gallega' target='_blank'>gaita gallega</a>, <a href='https://es.wikipedia.org/wiki/Tin_whistle' target='_blank'>whistle irlandés</a> y <a href='https://es.wikipedia.org/wiki/Ukelele' target='_blank'>ukelele barítono</a>. De melodías celtas a vibraciones hawaianas — la variedad es la sal de la vida.">
+          I play <a href="https://en.wikipedia.org/wiki/Galician_gaita" target="_blank">Galician bagpipes (gaita)</a>, <a href="https://en.wikipedia.org/wiki/Tin_whistle" target="_blank">Irish whistle</a>, and <a href="https://en.wikipedia.org/wiki/Ukulele#Baritone" target="_blank">baritone ukulele</a>. From Celtic melodies to Hawaiian vibes — variety is the spice of life.
+        </p>
+      </div>
+
+      <!-- Gardening -->
+      <div class="passion-card">
+        <span class="passion-icon">🌱</span>
+        <h3 data-en="Gardening" data-es="Jardinería">Gardening</h3>
+        <p data-en="Vegetables, herbs, and flowers. There's something magical about growing your own food and watching <a href='https://en.wikipedia.org/wiki/Pollinator' target='_blank'>pollinators</a> visit your garden."
+           data-es="Verduras, hierbas aromáticas y flores. Hay algo mágico en cultivar tu propia comida y ver a los <a href='https://es.wikipedia.org/wiki/Polinizador' target='_blank'>polinizadores</a> visitar tu jardín.">
+          Vegetables, herbs, and flowers. There's something magical about growing your own food and watching <a href="https://en.wikipedia.org/wiki/Pollinator" target="_blank">pollinators</a> visit your garden.
+        </p>
+      </div>
+
+      <!-- Reading -->
+      <div class="passion-card">
+        <span class="passion-icon">📚</span>
+        <h3 data-en="Reading" data-es="Lectura">Reading</h3>
+        <p data-en="Favourite authors: <a href='https://en.wikipedia.org/wiki/Terry_Pratchett' target='_blank'>Terry Pratchett</a>, <a href='https://en.wikipedia.org/wiki/Douglas_Coupland' target='_blank'>Douglas Coupland</a>, and <a href='https://en.wikipedia.org/wiki/Tom_Holt' target='_blank'>Tom Holt</a>. Wit, satire, and a good dose of the absurd."
+           data-es="Autores favoritos: <a href='https://es.wikipedia.org/wiki/Terry_Pratchett' target='_blank'>Terry Pratchett</a>, <a href='https://es.wikipedia.org/wiki/Douglas_Coupland' target='_blank'>Douglas Coupland</a>, y <a href='https://en.wikipedia.org/wiki/Tom_Holt' target='_blank'>Tom Holt</a>. Ingenio, sátira y una buena dosis de absurdo.">
+          Favourite authors: <a href="https://en.wikipedia.org/wiki/Terry_Pratchett" target="_blank">Terry Pratchett</a>, <a href="https://en.wikipedia.org/wiki/Douglas_Coupland" target="_blank">Douglas Coupland</a>, and <a href="https://en.wikipedia.org/wiki/Tom_Holt" target="_blank">Tom Holt</a>. Wit, satire, and a good dose of the absurd.
+        </p>
+      </div>
+
+      <!-- Arctic Travel -->
+      <div class="passion-card">
+        <span class="passion-icon">❄️</span>
+        <h3 data-en="Arctic Travel" data-es="Viajes al Ártico">Arctic Travel</h3>
+        <p data-en="Drawn to the north — <a href='https://en.wikipedia.org/wiki/Iceland' target='_blank'>Iceland</a>, <a href='https://en.wikipedia.org/wiki/Norway' target='_blank'>Norway</a>, and anywhere the aurora dances. Cold landscapes, warm people."
+           data-es="Atraído por el norte — <a href='https://es.wikipedia.org/wiki/Islandia' target='_blank'>Islandia</a>, <a href='https://es.wikipedia.org/wiki/Noruega' target='_blank'>Noruega</a>, y cualquier lugar donde bailen las auroras. Paisajes fríos, gente cálida.">
+          Drawn to the north — <a href="https://en.wikipedia.org/wiki/Iceland" target="_blank">Iceland</a>, <a href="https://en.wikipedia.org/wiki/Norway" target="_blank">Norway</a>, and anywhere the aurora dances. Cold landscapes, warm people.
+        </p>
+      </div>
+
+      <!-- Geology -->
+      <div class="passion-card passion-has-img">
+        <span class="passion-icon">🪨</span>
+        <h3 data-en="Geology" data-es="Geología">Geology</h3>
+        <p data-en="Rocks tell stories millions of years old. My trusty <a href='https://en.wikipedia.org/wiki/Geological_hammer' target='_blank'>Estwing rock hammer</a> is always in my backpack."
+           data-es="Las rocas cuentan historias de millones de años. Mi fiel <a href='https://es.wikipedia.org/wiki/Martillo_de_geólogo' target='_blank'>martillo de geólogo Estwing</a> siempre va en mi mochila.">
+          Rocks tell stories millions of years old. My trusty <a href="https://en.wikipedia.org/wiki/Geological_hammer" target="_blank">Estwing rock hammer</a> is always in my backpack.
+        </p>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Geologenhammer-estw_hg.jpg"
+             alt="Estwing geology rock hammer" class="passion-img" loading="lazy">
+      </div>
+
+      <!-- Biology -->
+      <div class="passion-card passion-has-img">
+        <span class="passion-icon">🔬</span>
+        <h3 data-en="Biology" data-es="Biología">Biology</h3>
+        <p data-en="The micro world is endlessly fascinating. My <a href='https://en.wikipedia.org/wiki/Optical_microscope' target='_blank'>Bresser Trino 40-1000x microscope</a> opens up a universe invisible to the naked eye."
+           data-es="El micromundo es infinitamente fascinante. Mi <a href='https://es.wikipedia.org/wiki/Microscopio_óptico' target='_blank'>microscopio Bresser Trino 40-1000x</a> abre un universo invisible a simple vista.">
+          The micro world is endlessly fascinating. My <a href="https://en.wikipedia.org/wiki/Optical_microscope" target="_blank">Bresser Trino 40-1000x microscope</a> opens up a universe invisible to the naked eye.
+        </p>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Bresser_binocular_microscope_and_a_Stereo_microscope.jpg"
+             alt="Bresser microscope" class="passion-img" loading="lazy">
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ MY WORLDS ═══════════════ -->
+  <section id="worlds" class="section">
+    <h2 data-en="My Worlds" data-es="Mis Mundos">My Worlds</h2>
+    <p class="section-subtitle" data-en="Each passion gets its own corner of the internet."
+       data-es="Cada pasión tiene su propio rincón en internet.">
+      Each passion gets its own corner of the internet.
+    </p>
     <div class="worlds-grid">
 
       <a href="https://brass.xai.world" class="world-card" target="_blank">
-        <span class="world-icon">🎺</span>
+        <span class="world-icon">🎲</span>
         <h3>Brass</h3>
-        <p>Trumpet, trombone, and everything brass — performances, practice logs, and gear.</p>
+        <p data-en="Play Brass: Lancashire online — my own implementation of this brilliant boardgame."
+           data-es="Juega a Brass: Lancashire online — mi propia implementación de este brillante juego de mesa.">
+          Play Brass: Lancashire online — my own implementation of this brilliant boardgame.
+        </p>
       </a>
 
       <a href="https://gardening.xai.world" class="world-card" target="_blank">
         <span class="world-icon">🌱</span>
-        <h3>Gardening</h3>
-        <p>Seasons, soil, and seeds — my journey growing things from the ground up.</p>
+        <h3 data-en="Gardening" data-es="Jardinería">Gardening</h3>
+        <p data-en="Seasons, soil, and seeds — my journey growing things from the ground up."
+           data-es="Estaciones, tierra y semillas — mi viaje cultivando desde cero.">
+          Seasons, soil, and seeds — my journey growing things from the ground up.
+        </p>
       </a>
 
       <a href="https://bagpipes.xai.world" class="world-card" target="_blank">
         <span class="world-icon">🎵</span>
-        <h3>Bagpipes</h3>
-        <p>The Great Highland Bagpipe and beyond — tunes, technique, and tradition.</p>
+        <h3 data-en="Bagpipes" data-es="Gaitas">Bagpipes</h3>
+        <p data-en="Galician gaita — tunes, technique, and tradition."
+           data-es="Gaita gallega — melodías, técnica y tradición.">
+          Galician gaita — tunes, technique, and tradition.
+        </p>
       </a>
-
-      <!-- Add more world cards as needed:
-      <a href="https://SUBDOMAIN.xai.world" class="world-card" target="_blank">
-        <span class="world-icon">🔧</span>
-        <h3>Title</h3>
-        <p>Description of this world.</p>
-      </a>
-      -->
 
     </div>
   </section>
 
-  <section id="instagram" class="section">
-    <h2>Instagram</h2>
-    <p class="section-subtitle">Latest posts and reels from my adventures.</p>
-    <div class="instagram-grid">
-
-      <!-- Replace href and thumbnail with your actual Instagram links -->
-      <a href="https://www.instagram.com/YOUR_USERNAME/" class="insta-card" target="_blank" rel="noopener">
-        <div class="insta-placeholder">📸 Post 1</div>
-        <span class="insta-label">View on Instagram</span>
-      </a>
-      <a href="https://www.instagram.com/YOUR_USERNAME/" class="insta-card" target="_blank" rel="noopener">
-        <div class="insta-placeholder">🎬 Reel 1</div>
-        <span class="insta-label">View Reel</span>
-      </a>
-      <a href="https://www.instagram.com/YOUR_USERNAME/" class="insta-card" target="_blank" rel="noopener">
-        <div class="insta-placeholder">📸 Post 2</div>
-        <span class="insta-label">View on Instagram</span>
-      </a>
-      <a href="https://www.instagram.com/YOUR_USERNAME/" class="insta-card" target="_blank" rel="noopener">
-        <div class="insta-placeholder">🎬 Reel 2</div>
-        <span class="insta-label">View Reel</span>
-      </a>
-
-    </div>
-    <p class="insta-note">
-      Replace the placeholders above with actual Instagram embed links or thumbnail images.
-      You can use <code>&lt;img&gt;</code> tags with screenshot thumbnails linking to each post/reel.
-    </p>
-  </section>
-
+  <!-- ═══════════════ Q&A ═══════════════ -->
   <section id="qna" class="section section-alt">
-    <h2>Q&A</h2>
-    <p class="section-subtitle">Things people ask me.</p>
+    <h2 data-en="Q&amp;A" data-es="Preguntas Frecuentes">Q&amp;A</h2>
+    <p class="section-subtitle" data-en="Things people ask me." data-es="Cosas que me preguntan.">
+      Things people ask me.
+    </p>
     <div class="qna-list">
 
       <details class="qna-item">
-        <summary>How did you get into playing brass instruments?</summary>
-        <p>I picked up the trumpet in school and never looked back. There's something about
-        the resonance of brass that just speaks to me. Over the years I've expanded to
-        other instruments in the family.</p>
+        <summary data-en="How did you get into the Brass boardgame?"
+                 data-es="¿Cómo empezaste con el juego de mesa Brass?">How did you get into the Brass boardgame?</summary>
+        <p data-en="I first played <a href='https://en.wikipedia.org/wiki/Brass:_Lancashire' target='_blank'>Brass: Lancashire</a> around 2011 and was hooked instantly. Over 600 games later, I'm still obsessed with its economic strategy and canal/rail mechanics. I even built an online implementation at <a href='https://brass.xai.world'>brass.xai.world</a>."
+           data-es="Jugué por primera vez a <a href='https://es.wikipedia.org/wiki/Brass:_Lancashire' target='_blank'>Brass: Lancashire</a> alrededor de 2011 y me enganchó al instante. Más de 600 partidas después, sigo obsesionado con su estrategia económica y sus mecánicas de canales y ferrocarriles. Incluso construí una implementación online en <a href='https://brass.xai.world'>brass.xai.world</a>.">
+          I first played <a href="https://en.wikipedia.org/wiki/Brass:_Lancashire" target="_blank">Brass: Lancashire</a> around 2011 and was hooked instantly. Over 600 games later, I'm still obsessed with its economic strategy and canal/rail mechanics. I even built an online implementation at <a href="https://brass.xai.world">brass.xai.world</a>.
+        </p>
       </details>
 
       <details class="qna-item">
-        <summary>What do you grow in your garden?</summary>
-        <p>A mix of vegetables, herbs, and native flowers. I'm especially into tomatoes,
-        basil, and pollinator-friendly plants. The garden changes every season — check
-        <a href="https://gardening.xai.world">gardening.xai.world</a> for updates.</p>
+        <summary data-en="What do you grow in your garden?"
+                 data-es="¿Qué cultivas en tu jardín?">What do you grow in your garden?</summary>
+        <p data-en="A mix of vegetables, herbs, and flowers. I'm especially into tomatoes, basil, and pollinator-friendly plants. The garden changes every season — check <a href='https://gardening.xai.world'>gardening.xai.world</a> for updates."
+           data-es="Una mezcla de verduras, hierbas aromáticas y flores. Me gustan especialmente los tomates, la albahaca y las plantas que atraen polinizadores. El jardín cambia cada temporada — visita <a href='https://gardening.xai.world'>gardening.xai.world</a> para ver novedades.">
+          A mix of vegetables, herbs, and flowers. I'm especially into tomatoes, basil, and pollinator-friendly plants. The garden changes every season — check <a href="https://gardening.xai.world">gardening.xai.world</a> for updates.
+        </p>
       </details>
 
       <details class="qna-item">
-        <summary>Bagpipes — really?</summary>
-        <p>Really! The Great Highland Bagpipe is an incredible instrument once you get
-        past the learning curve. I play with a local pipe band and occasionally at events.
-        It's loud, it's proud, and it's a lot of fun.</p>
+        <summary data-en="Galician bagpipes — really?"
+                 data-es="¿Gaita gallega — en serio?">Galician bagpipes — really?</summary>
+        <p data-en="Really! The <a href='https://en.wikipedia.org/wiki/Galician_gaita' target='_blank'>Galician gaita</a> is an incredible instrument with deep Celtic roots. I also play <a href='https://en.wikipedia.org/wiki/Tin_whistle' target='_blank'>Irish whistle</a> and <a href='https://en.wikipedia.org/wiki/Ukulele#Baritone' target='_blank'>baritone ukulele</a> — quite the eclectic mix!"
+           data-es="¡En serio! La <a href='https://es.wikipedia.org/wiki/Gaita_gallega' target='_blank'>gaita gallega</a> es un instrumento increíble con profundas raíces celtas. También toco <a href='https://es.wikipedia.org/wiki/Tin_whistle' target='_blank'>whistle irlandés</a> y <a href='https://es.wikipedia.org/wiki/Ukelele' target='_blank'>ukelele barítono</a> — ¡una mezcla bastante ecléctica!">
+          Really! The <a href="https://en.wikipedia.org/wiki/Galician_gaita" target="_blank">Galician gaita</a> is an incredible instrument with deep Celtic roots. I also play <a href="https://en.wikipedia.org/wiki/Tin_whistle" target="_blank">Irish whistle</a> and <a href="https://en.wikipedia.org/wiki/Ukulele#Baritone" target="_blank">baritone ukulele</a> — quite the eclectic mix!
+        </p>
       </details>
 
       <details class="qna-item">
-        <summary>What tech stack do you use for these sites?</summary>
-        <p>This main page is plain HTML and CSS hosted on Render. The subdomains vary —
-        some are static, some use lightweight frameworks. I believe in keeping things
-        simple until complexity is actually needed.</p>
+        <summary data-en="What tech stack do you use for these sites?"
+                 data-es="¿Qué tecnología usas para estas webs?">What tech stack do you use for these sites?</summary>
+        <p data-en="This main page is plain HTML and CSS hosted on <a href='https://render.com' target='_blank'>Render</a>. The subdomains vary — some are static, some use lightweight frameworks. I believe in keeping things simple until complexity is actually needed."
+           data-es="Esta página principal es HTML y CSS puro alojado en <a href='https://render.com' target='_blank'>Render</a>. Los subdominios varían — algunos son estáticos, otros usan frameworks ligeros. Creo en mantener las cosas simples hasta que la complejidad sea realmente necesaria.">
+          This main page is plain HTML and CSS hosted on <a href="https://render.com" target="_blank">Render</a>. The subdomains vary — some are static, some use lightweight frameworks. I believe in keeping things simple until complexity is actually needed.
+        </p>
       </details>
 
       <details class="qna-item">
-        <summary>Can I reach out to you?</summary>
-        <p>Sure! The best way is through my Instagram DMs or by opening an issue on the
-        <a href="https://github.com/xrecio/mainpage" target="_blank">GitHub repo</a>.</p>
+        <summary data-en="Can I reach out to you?"
+                 data-es="¿Puedo contactarte?">Can I reach out to you?</summary>
+        <p data-en="Sure! The best way is by opening an issue on the <a href='https://github.com/xrecio/mainpage' target='_blank'>GitHub repo</a>."
+           data-es="¡Claro! La mejor forma es abriendo un issue en el <a href='https://github.com/xrecio/mainpage' target='_blank'>repositorio de GitHub</a>.">
+          Sure! The best way is by opening an issue on the <a href="https://github.com/xrecio/mainpage" target="_blank">GitHub repo</a>.
+        </p>
       </details>
-
-      <!-- Add more Q&A items by copying the <details> block above -->
 
     </div>
   </section>
@@ -163,9 +270,37 @@
     <p>&copy; 2026 xai.world · Built with care, hosted on <a href="https://render.com" target="_blank">Render</a></p>
     <div class="footer-links">
       <a href="https://github.com/xrecio" target="_blank">GitHub</a>
-      <a href="https://www.instagram.com/YOUR_USERNAME/" target="_blank">Instagram</a>
+      <a href="https://boardgamegeek.com/profile/wejejeei" target="_blank">BoardGameGeek</a>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      let lang = 'en';
+      const btn = document.getElementById('lang-toggle');
+
+      btn.addEventListener('click', function () {
+        lang = lang === 'en' ? 'es' : 'en';
+        btn.textContent = lang === 'en' ? 'ES' : 'EN';
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-' + lang + ']').forEach(function (el) {
+          const val = el.getAttribute('data-' + lang);
+          if (el.tagName === 'A' || el.tagName === 'P' || el.tagName === 'SPAN' ||
+              el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'SUMMARY') {
+            el.innerHTML = val;
+          } else {
+            el.textContent = val;
+          }
+        });
+
+        // Update href for links with language-specific URLs
+        document.querySelectorAll('[data-' + lang + '-href]').forEach(function (el) {
+          el.href = el.getAttribute('data-' + lang + '-href');
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>

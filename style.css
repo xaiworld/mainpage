@@ -13,9 +13,11 @@
   --color-text-muted: #9a9aab;
   --color-accent: #7c6ff7;
   --color-accent-glow: rgba(124, 111, 247, 0.25);
+  --color-accent-2: #f77c6f;
+  --color-accent-3: #6fe8f7;
   --color-border: #2a2a38;
   --radius: 12px;
-  --max-width: 960px;
+  --max-width: 1000px;
 }
 
 html {
@@ -59,10 +61,10 @@ nav {
 }
 
 .logo {
-  font-weight: 700;
-  font-size: 1.2rem;
+  font-weight: 900;
+  font-size: 1.3rem;
   color: var(--color-text);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .logo:hover {
@@ -73,6 +75,7 @@ nav {
 .nav-links {
   display: flex;
   gap: 1.5rem;
+  align-items: center;
 }
 
 .nav-links a {
@@ -87,30 +90,99 @@ nav {
   text-decoration: none;
 }
 
+.lang-btn {
+  background: var(--color-surface);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  letter-spacing: 0.04em;
+}
+
+.lang-btn:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
 /* ── Hero ── */
 .hero {
-  padding: 6rem 1.5rem 4rem;
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  filter: brightness(0.45) saturate(0.8);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
   text-align: center;
+  padding: 3rem 1.5rem 2.5rem;
+  max-width: var(--max-width);
+  width: 100%;
+  background: linear-gradient(to top, rgba(14,14,18,0.95) 0%, rgba(14,14,18,0.6) 60%, transparent 100%);
 }
 
 .hero h1 {
   font-size: clamp(2rem, 5vw, 3.2rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.75rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
 }
 
 .highlight {
-  background: linear-gradient(135deg, var(--color-accent), #a78bfa);
+  background: linear-gradient(135deg, var(--color-accent), #a78bfa, var(--color-accent-2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .tagline {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: var(--color-text-muted);
   font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+
+.hero-location {
+  font-size: 1rem;
+  color: var(--color-text);
+  font-weight: 400;
+}
+
+.hero-location a {
+  color: var(--color-text);
+  border-bottom: 1px dashed var(--color-accent);
+}
+
+.hero-location a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.location-pin {
+  margin-right: 0.3rem;
 }
 
 /* ── Sections ── */
@@ -127,6 +199,7 @@ nav {
 
 .section-alt > h2,
 .section-alt > p,
+.section-alt > .passions-grid,
 .section-alt > .worlds-grid,
 .section-alt > .qna-list {
   max-width: var(--max-width);
@@ -136,9 +209,9 @@ nav {
 
 .section h2 {
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 900;
   margin-bottom: 0.5rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .section-subtitle {
@@ -146,33 +219,90 @@ nav {
   margin-bottom: 2rem;
 }
 
-/* ── Bio ── */
-.bio-card {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
+/* ── About ── */
+.about-content {
   margin-top: 1.5rem;
 }
 
-.bio-photo {
-  flex-shrink: 0;
-}
-
-.photo-placeholder {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-}
-
-.bio-text p {
+.about-content p {
   margin-bottom: 1rem;
   color: var(--color-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* ── Passions Grid ── */
+.passions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.passion-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: transform 0.2s, border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.passion-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent);
+  box-shadow: 0 8px 30px var(--color-accent-glow);
+}
+
+.passion-wide {
+  grid-column: span 2;
+}
+
+.passion-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.passion-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.01em;
+}
+
+.passion-card p {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.passion-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  transition: color 0.2s;
+}
+
+.passion-link:hover {
+  color: var(--color-accent-3);
+}
+
+.passion-has-img {
+  display: flex;
+  flex-direction: column;
+}
+
+.passion-img {
+  margin-top: 0.75rem;
+  border-radius: 8px;
+  width: 100%;
+  max-height: 140px;
+  object-fit: cover;
+  border: 1px solid var(--color-border);
 }
 
 /* ── World Cards ── */
@@ -217,60 +347,6 @@ nav {
   font-size: 0.9rem;
 }
 
-/* ── Instagram ── */
-.instagram-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
-.insta-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  transition: border-color 0.2s, transform 0.2s;
-  color: var(--color-text);
-}
-
-.insta-card:hover {
-  border-color: var(--color-accent);
-  transform: translateY(-2px);
-  text-decoration: none;
-}
-
-.insta-placeholder {
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: var(--color-text-muted);
-  background: var(--color-bg-alt);
-}
-
-.insta-label {
-  padding: 0.75rem;
-  font-size: 0.85rem;
-  color: var(--color-accent);
-  text-align: center;
-}
-
-.insta-note {
-  margin-top: 1.5rem;
-  color: var(--color-text-muted);
-  font-size: 0.85rem;
-}
-
-.insta-note code {
-  background: var(--color-surface);
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-}
-
 /* ── Q&A ── */
 .qna-list {
   display: flex;
@@ -302,6 +378,7 @@ nav {
   font-size: 0.8rem;
   color: var(--color-accent);
   transition: transform 0.2s;
+  flex-shrink: 0;
 }
 
 .qna-item[open] summary::before {
@@ -344,18 +421,36 @@ footer {
 }
 
 /* ── Responsive ── */
-@media (max-width: 640px) {
-  .bio-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+@media (max-width: 768px) {
+  .passions-grid {
+    grid-template-columns: 1fr;
   }
 
-  .nav-links {
-    gap: 1rem;
+  .passion-wide {
+    grid-column: span 1;
   }
 
   .hero {
-    padding: 4rem 1.5rem 2.5rem;
+    min-height: 320px;
+  }
+
+  .nav-links {
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links a {
+    font-size: 0.8rem;
+  }
+
+  .section {
+    padding: 2.5rem 1rem;
   }
 }
