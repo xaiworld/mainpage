@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xai Framework — xai.world</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Markdown article styling ── */
+    .article-content {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .article-content h1 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--color-accent), #a78bfa, var(--color-accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .article-content h1 + p {
+      color: var(--color-text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .article-content h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-top: 3rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .article-content h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--color-accent);
+    }
+
+    .article-content p {
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    .article-content strong {
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
+    .article-content ul, .article-content ol {
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.4rem;
+      line-height: 1.7;
+    }
+
+    .article-content hr {
+      border: none;
+      border-top: 1px solid var(--color-border);
+      margin: 2.5rem 0;
+    }
+
+    .article-content pre {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin-bottom: 1.25rem;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .article-content code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+    }
+
+    .article-content p code,
+    .article-content li code {
+      background: var(--color-surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      border: 1px solid var(--color-border);
+      font-size: 0.8em;
+    }
+
+    .article-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .article-content th {
+      background: var(--color-surface);
+      color: var(--color-text);
+      font-weight: 600;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--color-border);
+    }
+
+    .article-content td {
+      color: var(--color-text-muted);
+      padding: 0.6rem 1rem;
+      border: 1px solid var(--color-border);
+    }
+
+    .article-content em {
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    .article-content blockquote {
+      border-left: 3px solid var(--color-accent);
+      padding-left: 1rem;
+      margin: 1rem 0;
+      color: var(--color-text-muted);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="/" class="logo">xai.world</a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/boardgames/">Boardgames</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="article-content">
+    <a href="/boardgames/" class="back-link">← Back to Boardgames</a>
+    <div id="md-content"></div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 xai.world · <a href="/">Home</a></p>
+    <div class="footer-links">
+      <a href="https://github.com/xaiworld" target="_blank">GitHub</a>
+      <a href="https://boardgamegeek.com/profile/wejejeei" target="_blank">BoardGameGeek</a>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal Markdown-to-HTML renderer for static content
+    (function () {
+      const md = `# Xai Framework for Online Async Board Games
+
+A reusable architectural framework for building turn-based cooperative board games as webapps. Designed for minimal disk and network footprint, full auditability, and incremental rule development.
+
+---
+
+## Core Principles
+
+### 1. Event Sourcing as the Foundation
+
+Game state is never mutated directly. Instead, every change is recorded as an immutable **event**. The current state is derived by replaying all events from the beginning.
+
+\`\`\`
+State = fold(evolve, initialState, events)
+\`\`\`
+
+**Why this matters:**
+- Full audit trail of every action taken in the game
+- Undo/replay by removing or replaying events
+- Debugging: you can reconstruct the exact state at any point in time
+- No data loss: events are append-only
+
+### 2. Composable Rule Modules
+
+Each game rule is an isolated module that implements a standard interface:
+
+\`\`\`typescript
+interface Rule {
+  name: string;
+  validate(state: GameState, action: Action): ValidationResult;
+  produce?(state: GameState, action: Action): GameEvent[];
+  evolve?(state: GameState, event: GameEvent): GameState;
+}
+\`\`\`
+
+Rules are composed via **AND logic** — all registered rules must pass validation for an action to succeed. This means:
+- Adding a new rule = create a file + register it
+- No existing rule code needs to change
+- Rules can be tested in isolation
+- Rules can be toggled on/off for variants or expansions
+
+### 3. The Decider Pattern
+
+The central orchestrator that connects actions to state changes:
+
+\`\`\`
+Action → Decider → Events → Evolve → New State
+\`\`\`
+
+1. **Player submits an Action** (intent: "I want to move to tile X")
+2. **Decider validates** the action against all registered rules
+3. If valid, the Decider **produces Events** (facts: "player moved to tile X")
+4. **Evolve** applies each event to the state, producing a new state
+5. Events are **persisted** to the append-only log
+
+The Decider is the only place where actions become events. This single bottleneck ensures all rules are always checked.
+
+### 4. Pure Engine, Impure Shell
+
+The game engine (types, rules, decider, evolve) is **pure** — no I/O, no database calls, no network access. It takes inputs and returns outputs.
+
+The **shell** (API routes, database layer, SSE endpoints) wraps the engine and handles all I/O.
+
+\`\`\`
+┌─────────────────────────────────┐
+│         Impure Shell            │
+│  (API routes, DB, networking)   │
+│                                 │
+│  ┌───────────────────────────┐  │
+│  │       Pure Engine         │  │
+│  │  (types, rules, decider,  │  │
+│  │   evolve, reconstruct)    │  │
+│  └───────────────────────────┘  │
+│                                 │
+└─────────────────────────────────┘
+\`\`\`
+
+**Benefits:**
+- Engine is trivially testable (no mocks needed)
+- Engine can be reused in different contexts (CLI, different web frameworks)
+- Clear boundary between game logic and infrastructure
+
+### 5. Async-First Multiplayer
+
+For turn-based games, real-time communication is overkill. Instead:
+
+- **Polling or SSE** (Server-Sent Events) for state updates
+- Players take turns one at a time — low network traffic
+- No WebSocket complexity, no connection management
+- Works well with serverless and simple hosting (e.g., Render)
+
+Players join via a **join code** (short alphanumeric string). Each player has an identity stored client-side (localStorage) and server-side (players table).
+
+### 6. Incremental Rules Development
+
+The rules document (\`docs/rules.md\`) is the **single source of truth** for game behavior. The code is its executable mirror.
+
+Workflow for adding a new rule:
+1. Add the rule in prose to \`docs/rules.md\`
+2. Create a new rule module implementing the \`Rule\` interface
+3. Register it in the rule registry
+4. Add tests for the new rule
+5. Update the wiki if needed
+
+The rules document grows over time without contradiction. Each addition includes a changelog entry.
+
+### 7. Full Auditability
+
+Every action and event is logged with:
+- Game ID
+- Sequence number (per-game ordering)
+- Event type
+- Player ID (who caused it)
+- Full payload (JSON)
+- Timestamp
+
+This log serves multiple purposes:
+- Game history replay
+- Debugging and dispute resolution
+- Analytics
+- Undo (reconstruct state up to N-1 events)
+
+---
+
+## Technology Choices
+
+| Concern | Choice | Rationale |
+|---------|--------|-----------|
+| Framework | Next.js + TypeScript | Full-stack, single deploy, SSR for wiki pages |
+| Database | SQLite (better-sqlite3) | File-based, zero network overhead, WAL mode for concurrent reads |
+| Styling | Tailwind CSS | Utility-first, minimal CSS footprint |
+| Multiplayer sync | Polling / SSE | Sufficient for turn-based, no WebSocket infra needed |
+| Testing | Vitest | Fast, TypeScript-native, works with pure engine functions |
+| Deployment | Render (Web Service) | Simple Node.js hosting, persistent disk for SQLite |
+
+---
+
+## Database Schema
+
+Three tables cover all persistence needs:
+
+\`\`\`sql
+-- Game sessions
+CREATE TABLE games (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  join_code TEXT UNIQUE NOT NULL,
+  state TEXT NOT NULL,           -- JSON snapshot of current GameState
+  status TEXT DEFAULT 'lobby',   -- lobby | active | completed
+  created_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT DEFAULT (datetime('now'))
+);
+
+-- Append-only event log (the true source of state)
+CREATE TABLE events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  game_id TEXT NOT NULL REFERENCES games(id),
+  sequence INTEGER NOT NULL,     -- per-game ordering
+  type TEXT NOT NULL,
+  player_id TEXT,
+  payload TEXT NOT NULL,          -- JSON
+  created_at TEXT DEFAULT (datetime('now')),
+  UNIQUE(game_id, sequence)
+);
+
+-- Players in a game session
+CREATE TABLE players (
+  id TEXT PRIMARY KEY,
+  game_id TEXT NOT NULL REFERENCES games(id),
+  name TEXT NOT NULL,
+  character TEXT,
+  is_host INTEGER DEFAULT 0,
+  joined_at TEXT DEFAULT (datetime('now'))
+);
+\`\`\`
+
+The \`games.state\` column is a **snapshot** for fast reads. The \`events\` table is the **source of truth** — state can always be reconstructed from events.
+
+---
+
+## Directory Structure Template
+
+\`\`\`
+project/
+├── docs/
+│   ├── rules.md              # Single source of truth for game rules
+│   └── wiki/                 # Markdown files → wiki pages
+├── src/
+│   ├── app/                  # Next.js App Router
+│   │   ├── page.tsx          # Landing page
+│   │   ├── game/[id]/        # Game session view
+│   │   ├── wiki/[...slug]/   # Wiki renderer
+│   │   └── api/
+│   │       ├── games/        # Create, get, join game
+│   │       ├── actions/      # Submit player actions
+│   │       └── events/       # Poll for new events
+│   ├── engine/               # Pure game logic (NO I/O)
+│   │   ├── types.ts          # GameState, Action, GameEvent, Player
+│   │   ├── rules/
+│   │   │   ├── types.ts      # Rule interface
+│   │   │   ├── registry.ts   # Rule registration
+│   │   │   └── *.ts          # Individual rule modules
+│   │   ├── decider.ts        # Action → Events
+│   │   ├── evolve.ts         # State + Event → New State
+│   │   └── reconstruct.ts    # Replay events → State
+│   ├── db/                   # Database layer
+│   │   ├── connection.ts     # SQLite singleton
+│   │   ├── games.ts          # Game CRUD
+│   │   ├── events.ts         # Event log
+│   │   └── players.ts        # Player management
+│   ├── components/           # UI components
+│   └── lib/                  # Utilities (markdown, session)
+└── tests/
+    └── engine/               # Pure engine tests
+\`\`\`
+
+---
+
+## API Routes
+
+| Method | Route | Purpose |
+|--------|-------|---------|
+| POST | \`/api/games\` | Create a new game session |
+| GET | \`/api/games/[id]\` | Get game state, players, events |
+| POST | \`/api/games/join\` | Join via join code |
+| POST | \`/api/actions\` | Submit a player action |
+| GET | \`/api/events/[gameId]?after=N\` | Poll for events after sequence N |
+
+---
+
+## Adapting for a Different Game
+
+To use this framework for a different board game:
+
+1. **Copy the directory structure** and technology setup
+2. **Define your GameState type** in \`engine/types.ts\` — what does the world look like?
+3. **Define your Actions** — what can players do?
+4. **Define your Events** — what facts result from actions?
+5. **Write rules** — one module per rule area, implementing the \`Rule\` interface
+6. **Write the evolve function** — how does each event change the state?
+7. **Build the UI** — game board, player panels, action controls
+
+The engine, database schema, API routes, and multiplayer infrastructure stay the same. Only the game-specific types, rules, and UI change.
+
+---
+
+## Key Design Decisions
+
+- **Snapshot + Event Log**: We store both a state snapshot (fast reads) and the full event log (source of truth). The snapshot is an optimization; the events are canonical.
+- **No WebSockets**: For turn-based games with low traffic, polling every few seconds or SSE is simpler and more reliable.
+- **SQLite over Postgres**: For single-server deployments, SQLite with WAL mode handles concurrent reads well and eliminates network round-trips to a database server.
+- **Rule AND-composition**: Every rule must pass. This is intentionally strict — it's easier to relax a rule than to debug why a forbidden action was allowed.
+- **localStorage for player identity**: Simple, no auth system needed for casual play. Can be upgraded to proper auth later if needed.
+
+---
+
+*Reference implementation: [Arydia: The Paths We Dare Tread]()*
+`;
+
+      function renderMarkdown(text) {
+        // Escape HTML
+        let html = text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+
+        // Code blocks (``` ... ```)
+        html = html.replace(/```(\w*)\n([\s\S]*?)```/g, function (_, lang, code) {
+          return '<pre><code>' + code.trim() + '</code></pre>';
+        });
+
+        // Tables
+        html = html.replace(/((?:^\|.+\|$\n?)+)/gm, function (tableBlock) {
+          const rows = tableBlock.trim().split('\n');
+          if (rows.length < 2) return tableBlock;
+
+          let table = '<table>';
+          // Header
+          const headerCells = rows[0].split('|').filter(c => c.trim());
+          table += '<thead><tr>' + headerCells.map(c => '<th>' + c.trim() + '</th>').join('') + '</tr></thead>';
+
+          // Skip separator row (row[1])
+          // Body
+          table += '<tbody>';
+          for (let i = 2; i < rows.length; i++) {
+            const cells = rows[i].split('|').filter(c => c.trim());
+            table += '<tr>' + cells.map(c => '<td>' + c.trim() + '</td>').join('') + '</tr>';
+          }
+          table += '</tbody></table>';
+          return table;
+        });
+
+        // Headings
+        html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+        html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+        // Horizontal rules
+        html = html.replace(/^---$/gm, '<hr>');
+
+        // Bold and inline code
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+        html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+
+        // Links
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+        // Unordered list items
+        html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+        html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
+
+        // Ordered list items
+        html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+
+        // Paragraphs — wrap remaining bare lines
+        html = html.replace(/^(?!<[a-z/])((?!$).+)$/gm, '<p>$1</p>');
+
+        // Clean up empty lines
+        html = html.replace(/\n{2,}/g, '\n');
+
+        return html;
+      }
+
+      document.getElementById('md-content').innerHTML = renderMarkdown(md);
+    })();
+  </script>
+
+</body>
+</html>
