@@ -406,6 +406,18 @@ nav {
   background: var(--color-accent-glow);
 }
 
+.sidebar .toc .toc-sub a {
+  padding-left: 1.2rem;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  opacity: 0.8;
+}
+
+.sidebar .toc .toc-sub a:hover,
+.sidebar .toc .toc-sub a.active {
+  opacity: 1;
+}
+
 .page-main {
   flex: 1;
   min-width: 0;
@@ -508,6 +520,10 @@ footer {
 
   .sidebar .toc li {
     margin-bottom: 0;
+  }
+
+  .sidebar .toc .toc-sub {
+    display: none;
   }
 
   .passions-grid {
