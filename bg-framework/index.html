@@ -10,10 +10,76 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     /* ── Markdown article styling ── */
+    /* ── Layout with sidebar ── */
+    .page-layout {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 0;
+    }
+
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 60px;
+      align-self: flex-start;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+      padding: 1.5rem 1rem 2rem 1.5rem;
+      border-right: 1px solid var(--color-border);
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .toc {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc li {
+      margin-bottom: 0.2rem;
+    }
+
+    .toc a {
+      display: block;
+      padding: 0.3rem 0.5rem;
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      line-height: 1.4;
+    }
+
+    .toc a:hover {
+      color: var(--color-text);
+      background: var(--color-surface);
+      text-decoration: none;
+    }
+
+    .toc a.active {
+      color: var(--color-accent);
+      background: var(--color-accent-glow);
+    }
+
+    .toc .toc-h3 {
+      padding-left: 1.2rem;
+      font-size: 0.78rem;
+    }
+
     .article-content {
       max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 2rem 1.5rem 4rem;
+      flex: 1;
+      min-width: 0;
+      padding: 2rem 1.5rem 4rem 2.5rem;
     }
 
     .article-content h1 {
@@ -150,6 +216,40 @@
       color: var(--color-accent);
       text-decoration: none;
     }
+
+    @media (max-width: 860px) {
+      .page-layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        position: relative;
+        top: 0;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        padding: 1rem 1.5rem;
+      }
+
+      .toc .toc-h3 {
+        display: none;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+      }
+
+      .toc li {
+        margin-bottom: 0;
+      }
+
+      .article-content {
+        padding: 2rem 1.5rem 4rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -164,9 +264,15 @@
     </nav>
   </header>
 
-  <div class="article-content">
-    <a href="/boardgames/" class="back-link">← Back to Boardgames</a>
-    <div id="md-content"></div>
+  <div class="page-layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">Contents</div>
+      <ul class="toc" id="toc"></ul>
+    </aside>
+    <div class="article-content">
+      <a href="/boardgames/" class="back-link">← Back to Boardgames</a>
+      <div id="md-content"></div>
+    </div>
   </div>
 
   <footer>
@@ -505,6 +611,35 @@ The engine, database schema, API routes, and multiplayer infrastructure stay the
       }
 
       document.getElementById('md-content').innerHTML = renderMarkdown(md);
+
+      // Build TOC from rendered headings
+      var toc = document.getElementById('toc');
+      var headings = document.querySelectorAll('#md-content h2, #md-content h3');
+      headings.forEach(function (h, i) {
+        var id = 'section-' + i;
+        h.id = id;
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + id;
+        a.textContent = h.textContent;
+        if (h.tagName === 'H3') a.classList.add('toc-h3');
+        li.appendChild(a);
+        toc.appendChild(li);
+      });
+
+      // Scroll-spy: highlight active section
+      var tocLinks = toc.querySelectorAll('a');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            tocLinks.forEach(function (l) { l.classList.remove('active'); });
+            var active = toc.querySelector('a[href="#' + entry.target.id + '"]');
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+      headings.forEach(function (h) { observer.observe(h); });
     })();
   </script>
 
