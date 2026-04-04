@@ -47,6 +47,18 @@
     </div>
   </section>
 
+  <div class="page-layout">
+    <aside class="sidebar">
+      <div class="sidebar-title" data-en="Navigation" data-es="Navegación">Navigation</div>
+      <ul class="toc" id="toc">
+        <li><a href="#about" data-en="About Me" data-es="Sobre Mí">About Me</a></li>
+        <li><a href="#passions" data-en="Passions" data-es="Pasiones">Passions</a></li>
+        <li><a href="#worlds" data-en="My Worlds" data-es="Mis Mundos">My Worlds</a></li>
+        <li><a href="#qna" data-en="Q&amp;A" data-es="Preguntas">Q&amp;A</a></li>
+      </ul>
+    </aside>
+    <div class="page-main">
+
   <!-- ═══════════════ ABOUT ═══════════════ -->
   <section id="about" class="section">
     <h2 data-en="About Me" data-es="Sobre Mí">About Me</h2>
@@ -294,6 +306,9 @@
     </div>
   </section>
 
+    </div><!-- .page-main -->
+  </div><!-- .page-layout -->
+
   <footer>
     <p>&copy; 2026 xai.world · Built with care, hosted on <a href="https://render.com" target="_blank">Render</a></p>
     <div class="footer-links">
@@ -327,6 +342,24 @@
           el.href = el.getAttribute('data-' + lang + '-href');
         });
       });
+    })();
+
+    // Scroll-spy for sidebar
+    (function () {
+      var sections = document.querySelectorAll('.page-main > section[id]');
+      var tocLinks = document.querySelectorAll('#toc a');
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            tocLinks.forEach(function (l) { l.classList.remove('active'); });
+            var active = document.querySelector('#toc a[href="#' + entry.target.id + '"]');
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+      sections.forEach(function (s) { observer.observe(s); });
     })();
   </script>
 

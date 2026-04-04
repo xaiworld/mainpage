@@ -347,6 +347,70 @@ nav {
   font-size: 0.9rem;
 }
 
+/* ── Page Layout with Sidebar ── */
+.page-layout {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 60px;
+  align-self: flex-start;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  padding: 1.5rem 1rem 2rem 1.5rem;
+  border-right: 1px solid var(--color-border);
+}
+
+.sidebar-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.sidebar .toc {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar .toc li {
+  margin-bottom: 0.15rem;
+}
+
+.sidebar .toc a {
+  display: block;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+  line-height: 1.4;
+}
+
+.sidebar .toc a:hover {
+  color: var(--color-text);
+  background: var(--color-surface);
+  text-decoration: none;
+}
+
+.sidebar .toc a.active {
+  color: var(--color-accent);
+  background: var(--color-accent-glow);
+}
+
+.page-main {
+  flex: 1;
+  min-width: 0;
+}
+
 /* ── Q&A ── */
 .qna-list {
   display: flex;
@@ -422,6 +486,30 @@ footer {
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
+  .page-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.75rem 1.5rem;
+  }
+
+  .sidebar .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .sidebar .toc li {
+    margin-bottom: 0;
+  }
+
   .passions-grid {
     grid-template-columns: 1fr;
   }
