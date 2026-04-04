@@ -64,6 +64,11 @@
         <li class="toc-sub"><a href="#p-geology" data-en="Geology" data-es="Geología">Geology</a></li>
         <li class="toc-sub"><a href="#p-biology" data-en="Biology" data-es="Biología">Biology</a></li>
         <li><a href="#worlds" data-en="My Worlds" data-es="Mis Mundos">My Worlds</a></li>
+        <li class="toc-sub"><a href="#w-brass">Brass</a></li>
+        <li class="toc-sub"><a href="#w-boardgames" data-en="Boardgames" data-es="Juegos de Mesa">Boardgames</a></li>
+        <li class="toc-sub"><a href="#w-framework" data-en="BG Framework" data-es="Framework JdM">BG Framework</a></li>
+        <li class="toc-sub"><a href="#w-gardening" data-en="Gardening" data-es="Jardinería">Gardening</a></li>
+        <li class="toc-sub"><a href="#w-bagpipes" data-en="Bagpipes" data-es="Gaitas">Bagpipes</a></li>
         <li><a href="#qna" data-en="Q&amp;A" data-es="Preguntas">Q&amp;A</a></li>
       </ul>
     </aside>
@@ -212,7 +217,7 @@
     </p>
     <div class="worlds-grid">
 
-      <a href="https://brass.xai.world" class="world-card" target="_blank">
+      <a id="w-brass" href="https://brass.xai.world" class="world-card" target="_blank">
         <span class="world-icon">🎲</span>
         <h3>Brass</h3>
         <p data-en="Play Brass: Lancashire online — my own implementation of this brilliant boardgame."
@@ -221,7 +226,7 @@
         </p>
       </a>
 
-      <a href="/boardgames/" class="world-card">
+      <a id="w-boardgames" href="/boardgames/" class="world-card">
         <span class="world-icon">🎯</span>
         <h3 data-en="Boardgames" data-es="Juegos de Mesa">Boardgames</h3>
         <p data-en="Communities, online platforms, resources, and my corner of the boardgaming world."
@@ -230,7 +235,7 @@
         </p>
       </a>
 
-      <a href="/bg-framework/" class="world-card">
+      <a id="w-framework" href="/bg-framework/" class="world-card">
         <span class="world-icon">🏗️</span>
         <h3 data-en="BG Framework" data-es="Framework JdM">BG Framework</h3>
         <p data-en="My architectural framework for building online async board games — event sourcing, composable rules, and more."
@@ -239,7 +244,7 @@
         </p>
       </a>
 
-      <a href="https://gardening.xai.world" class="world-card" target="_blank">
+      <a id="w-gardening" href="https://gardening.xai.world" class="world-card" target="_blank">
         <span class="world-icon">🌱</span>
         <h3 data-en="Gardening" data-es="Jardinería">Gardening</h3>
         <p data-en="Seasons, soil, and seeds — my journey growing things from the ground up."
@@ -248,7 +253,7 @@
         </p>
       </a>
 
-      <a href="https://bagpipes.xai.world" class="world-card" target="_blank">
+      <a id="w-bagpipes" href="https://bagpipes.xai.world" class="world-card" target="_blank">
         <span class="world-icon">🎵</span>
         <h3 data-en="Bagpipes" data-es="Gaitas">Bagpipes</h3>
         <p data-en="Galician gaita — tunes, technique, and tradition."
@@ -356,7 +361,7 @@
 
     // Scroll-spy for sidebar
     (function () {
-      var targets = document.querySelectorAll('.page-main > section[id], [id^="p-"]');
+      var targets = document.querySelectorAll('.page-main > section[id], [id^="p-"], [id^="w-"]');
       var tocLinks = document.querySelectorAll('#toc a');
 
       var observer = new IntersectionObserver(function (entries) {
