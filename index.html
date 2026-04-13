@@ -18,6 +18,7 @@
         <a href="#about" data-en="About" data-es="Sobre mí">About</a>
         <a href="#passions" data-en="Passions" data-es="Pasiones">Passions</a>
         <a href="#worlds" data-en="My Worlds" data-es="Mis Mundos">My Worlds</a>
+        <a href="#birthday" data-en="Birthday" data-es="Cumpleaños">Birthday</a>
         <a href="#qna" data-en="Q&amp;A" data-es="Preguntas">Q&amp;A</a>
         <button id="lang-toggle" class="lang-btn" title="Switch language">ES</button>
       </div>
@@ -69,6 +70,7 @@
         <li class="toc-sub"><a href="#w-framework" data-en="BG Framework" data-es="Framework JdM">BG Framework</a></li>
         <li class="toc-sub"><a href="#w-gardening" data-en="Gardening" data-es="Jardinería">Gardening</a></li>
         <li class="toc-sub"><a href="#w-bagpipes" data-en="Bagpipes" data-es="Gaitas">Bagpipes</a></li>
+        <li><a href="#birthday" data-en="Birthday Cake" data-es="Tarta de Cumpleaños">Birthday Cake</a></li>
         <li><a href="#qna" data-en="Q&amp;A" data-es="Preguntas">Q&amp;A</a></li>
       </ul>
     </aside>
@@ -265,6 +267,53 @@
     </div>
   </section>
 
+  <!-- ═══════════════ BIRTHDAY CAKE ═══════════════ -->
+  <section id="birthday" class="section">
+    <h2 data-en="Birthday Cake" data-es="Tarta de Cumpleaños">Birthday Cake</h2>
+    <p class="section-subtitle" data-en="Enter a number and blow the candles!"
+       data-es="¡Introduce un número y sopla las velas!">
+      Enter a number and blow the candles!
+    </p>
+
+    <div class="birthday-controls">
+      <input type="number" id="cake-number" min="1" max="120" placeholder="Age..."
+             data-en-placeholder="Age..." data-es-placeholder="Edad...">
+      <button id="cake-btn" data-en="Celebrate!" data-es="¡Celebrar!">Celebrate!</button>
+    </div>
+
+    <div id="cake-display" class="cake-display">
+      <div class="cake-big-number" id="cake-big-number"></div>
+      <div class="cake-scene">
+        <div class="cake-container">
+          <div class="candles-area" id="candles-area"></div>
+          <div class="cake-layer cake-top-layer">
+            <div class="frosting-drips">
+              <span class="drip" style="left:10%;height:18px;"></span>
+              <span class="drip" style="left:25%;height:24px;"></span>
+              <span class="drip" style="left:45%;height:14px;"></span>
+              <span class="drip" style="left:65%;height:20px;"></span>
+              <span class="drip" style="left:80%;height:16px;"></span>
+              <span class="drip" style="left:92%;height:22px;"></span>
+            </div>
+          </div>
+          <div class="cake-layer cake-mid-layer"></div>
+          <div class="cake-layer cake-bot-layer">
+            <div class="frosting-drips frosting-drips-bottom">
+              <span class="drip" style="left:8%;height:16px;"></span>
+              <span class="drip" style="left:20%;height:22px;"></span>
+              <span class="drip" style="left:38%;height:12px;"></span>
+              <span class="drip" style="left:55%;height:20px;"></span>
+              <span class="drip" style="left:72%;height:18px;"></span>
+              <span class="drip" style="left:88%;height:24px;"></span>
+            </div>
+          </div>
+          <div class="cake-plate"></div>
+        </div>
+      </div>
+      <div id="confetti-container" class="confetti-container"></div>
+    </div>
+  </section>
+
   <!-- ═══════════════ Q&A ═══════════════ -->
   <section id="qna" class="section section-alt">
     <h2 data-en="Q&amp;A" data-es="Preguntas Frecuentes">Q&amp;A</h2>
@@ -345,11 +394,17 @@
         document.querySelectorAll('[data-' + lang + ']').forEach(function (el) {
           const val = el.getAttribute('data-' + lang);
           if (el.tagName === 'A' || el.tagName === 'P' || el.tagName === 'SPAN' ||
-              el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'SUMMARY') {
+              el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'SUMMARY' ||
+              el.tagName === 'BUTTON') {
             el.innerHTML = val;
           } else {
             el.textContent = val;
           }
+        });
+
+        // Update placeholder for inputs with language-specific placeholders
+        document.querySelectorAll('[data-' + lang + '-placeholder]').forEach(function (el) {
+          el.placeholder = el.getAttribute('data-' + lang + '-placeholder');
         });
 
         // Update href for links with language-specific URLs
@@ -375,6 +430,196 @@
       }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
 
       targets.forEach(function (t) { observer.observe(t); });
+    })();
+
+    // Birthday Cake
+    (function () {
+      var cakeBtn = document.getElementById('cake-btn');
+      var cakeInput = document.getElementById('cake-number');
+      var cakeDisplay = document.getElementById('cake-display');
+      var bigNumber = document.getElementById('cake-big-number');
+      var candlesArea = document.getElementById('candles-area');
+      var confettiContainer = document.getElementById('confetti-container');
+      var audioCtx = null;
+      var musicPlaying = false;
+      var musicTimeout = [];
+
+      // Happy Birthday melody — notes as [frequency, duration in seconds]
+      var melody = [
+        // "Happy birthday to you"
+        [262, 0.3], [262, 0.3], [294, 0.6], [262, 0.6], [349, 0.6], [330, 1.0],
+        // "Happy birthday to you"
+        [262, 0.3], [262, 0.3], [294, 0.6], [262, 0.6], [392, 0.6], [349, 1.0],
+        // "Happy birthday dear ..."
+        [262, 0.3], [262, 0.3], [523, 0.6], [440, 0.6], [349, 0.6], [330, 0.6], [294, 1.0],
+        // "Happy birthday to you"
+        [466, 0.3], [466, 0.3], [440, 0.6], [349, 0.6], [392, 0.6], [349, 1.0]
+      ];
+
+      function playMelody() {
+        if (musicPlaying) return;
+        musicPlaying = true;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        var time = audioCtx.currentTime + 0.1;
+        var gap = 0.08;
+
+        melody.forEach(function (note) {
+          var osc = audioCtx.createOscillator();
+          var gain = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.value = note[0];
+          gain.gain.setValueAtTime(0.18, time);
+          gain.gain.exponentialRampToValueAtTime(0.001, time + note[1] - 0.05);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(time);
+          osc.stop(time + note[1]);
+          time += note[1] + gap;
+        });
+
+        // Add a second voice for richness (higher octave, quieter)
+        var time2 = audioCtx.currentTime + 0.1;
+        melody.forEach(function (note) {
+          var osc = audioCtx.createOscillator();
+          var gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = note[0] * 2;
+          gain.gain.setValueAtTime(0.06, time2);
+          gain.gain.exponentialRampToValueAtTime(0.001, time2 + note[1] - 0.05);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(time2);
+          osc.stop(time2 + note[1]);
+          time2 += note[1] + gap;
+        });
+
+        var totalDuration = 0;
+        melody.forEach(function (n) { totalDuration += n[1] + gap; });
+        var t = setTimeout(function () {
+          musicPlaying = false;
+          var playBtn = document.getElementById('music-btn');
+          if (playBtn) playBtn.classList.remove('playing');
+        }, totalDuration * 1000 + 500);
+        musicTimeout.push(t);
+      }
+
+      function stopMusic() {
+        musicPlaying = false;
+        musicTimeout.forEach(function (t) { clearTimeout(t); });
+        musicTimeout = [];
+        if (audioCtx) {
+          audioCtx.close();
+          audioCtx = null;
+        }
+        var playBtn = document.getElementById('music-btn');
+        if (playBtn) playBtn.classList.remove('playing');
+      }
+
+      function createCandles(count) {
+        candlesArea.innerHTML = '';
+        var colors = ['color-1', 'color-2', 'color-3', 'color-4', 'color-5'];
+        var displayCount = Math.min(count, 60);
+        for (var i = 0; i < displayCount; i++) {
+          var candle = document.createElement('div');
+          candle.className = 'candle';
+          candle.style.animationDelay = (i * 0.05) + 's';
+          var flame = document.createElement('div');
+          flame.className = 'flame';
+          flame.style.animationDelay = (Math.random() * 0.3) + 's';
+          var stick = document.createElement('div');
+          stick.className = 'candle-stick ' + colors[i % colors.length];
+          candle.appendChild(flame);
+          candle.appendChild(stick);
+          candlesArea.appendChild(candle);
+        }
+      }
+
+      function launchConfetti() {
+        confettiContainer.innerHTML = '';
+        var colors = ['#f77c6f', '#7c6ff7', '#6fe8f7', '#a78bfa', '#f7d76f', '#ff6b9d', '#51e898'];
+        for (var i = 0; i < 60; i++) {
+          var piece = document.createElement('div');
+          piece.className = 'confetti-piece';
+          piece.style.left = Math.random() * 100 + '%';
+          piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+          piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+          piece.style.animationDelay = (Math.random() * 1.5) + 's';
+          var size = 6 + Math.random() * 8;
+          piece.style.width = size + 'px';
+          piece.style.height = size + 'px';
+          piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+          confettiContainer.appendChild(piece);
+        }
+        setTimeout(function () { confettiContainer.innerHTML = ''; }, 5000);
+      }
+
+      function blowOutCandles() {
+        var flames = candlesArea.querySelectorAll('.flame');
+        flames.forEach(function (flame, i) {
+          setTimeout(function () {
+            flame.classList.add('blown-out');
+          }, i * 40 + Math.random() * 100);
+        });
+      }
+
+      function celebrate() {
+        var num = parseInt(cakeInput.value);
+        if (!num || num < 1 || num > 120) {
+          cakeInput.style.borderColor = 'var(--color-accent-2)';
+          setTimeout(function () { cakeInput.style.borderColor = ''; }, 800);
+          return;
+        }
+
+        stopMusic();
+        bigNumber.textContent = num;
+        createCandles(num);
+        cakeDisplay.classList.add('active');
+
+        // Remove old controls if any
+        var oldControls = cakeDisplay.querySelector('.cake-music-controls');
+        if (oldControls) oldControls.remove();
+
+        // Add music and blow-out controls
+        var controls = document.createElement('div');
+        controls.className = 'cake-music-controls';
+
+        var musicBtn = document.createElement('button');
+        musicBtn.id = 'music-btn';
+        musicBtn.className = 'cake-action-btn';
+        musicBtn.innerHTML = '&#127925; Happy Birthday!';
+        musicBtn.addEventListener('click', function () {
+          if (musicPlaying) {
+            stopMusic();
+          } else {
+            musicBtn.classList.add('playing');
+            playMelody();
+          }
+        });
+
+        var blowBtn = document.createElement('button');
+        blowBtn.className = 'cake-action-btn';
+        blowBtn.innerHTML = '&#128168; Blow candles!';
+        blowBtn.addEventListener('click', function () {
+          blowOutCandles();
+          launchConfetti();
+        });
+
+        controls.appendChild(musicBtn);
+        controls.appendChild(blowBtn);
+        cakeDisplay.appendChild(controls);
+
+        // Scroll into view
+        cakeDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Auto-play music
+        launchConfetti();
+        setTimeout(function () { playMelody(); }, 600);
+      }
+
+      cakeBtn.addEventListener('click', celebrate);
+      cakeInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') celebrate();
+      });
     })();
   </script>
 
