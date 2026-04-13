@@ -529,6 +529,112 @@ nav {
   transform: translateY(0);
 }
 
+/* Song controls */
+.song-controls {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.song-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+#song-select {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 500;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-width: 200px;
+}
+
+#song-select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-glow);
+}
+
+#song-select option {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.mic-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s, background 0.2s;
+  font-size: 1.1rem;
+  padding: 0;
+}
+
+.mic-btn:hover {
+  border-color: var(--color-accent);
+  transform: scale(1.1);
+}
+
+.mic-btn.listening {
+  border-color: var(--color-accent-2);
+  background: rgba(247, 124, 111, 0.15);
+  animation: mic-pulse 1s ease-in-out infinite;
+}
+
+@keyframes mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(247, 124, 111, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(247, 124, 111, 0); }
+}
+
+.mic-btn.no-support {
+  display: none;
+}
+
+.mic-icon {
+  pointer-events: none;
+}
+
+.voice-status {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  min-height: 1.2em;
+  transition: color 0.2s;
+}
+
+.voice-status.success {
+  color: #51e898;
+  font-weight: 600;
+}
+
+.voice-status.error {
+  color: var(--color-accent-2);
+}
+
+.voice-status.listening-text {
+  color: var(--color-accent-2);
+  animation: blink-text 1s ease-in-out infinite;
+}
+
+@keyframes blink-text {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 .cake-display {
   display: none;
   flex-direction: column;

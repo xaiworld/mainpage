@@ -281,6 +281,26 @@
       <button id="cake-btn" data-en="Celebrate!" data-es="¡Celebrar!">Celebrate!</button>
     </div>
 
+    <div class="song-controls">
+      <label class="song-label" data-en="Song:" data-es="Canción:">Song:</label>
+      <select id="song-select">
+        <option value="happy-birthday">🎂 Happy Birthday</option>
+        <option value="twinkle">⭐ Twinkle Twinkle</option>
+        <option value="jingle-bells">🔔 Jingle Bells</option>
+        <option value="ode-to-joy">🎵 Ode to Joy</option>
+        <option value="star-wars">⚔️ Star Wars</option>
+        <option value="imperial-march">🖤 Imperial March</option>
+        <option value="super-mario">🍄 Super Mario</option>
+        <option value="la-cucaracha">🪲 La Cucaracha</option>
+        <option value="fur-elise">🎹 Für Elise</option>
+        <option value="merry-christmas">🎄 Merry Christmas</option>
+      </select>
+      <button id="mic-btn" class="mic-btn" title="Say a song name">
+        <span class="mic-icon">🎤</span>
+      </button>
+      <span id="voice-status" class="voice-status"></span>
+    </div>
+
     <div id="cake-display" class="cake-display">
       <div class="cake-big-number" id="cake-big-number"></div>
       <div class="cake-scene">
@@ -440,30 +460,196 @@
       var bigNumber = document.getElementById('cake-big-number');
       var candlesArea = document.getElementById('candles-area');
       var confettiContainer = document.getElementById('confetti-container');
+      var songSelect = document.getElementById('song-select');
+      var micBtn = document.getElementById('mic-btn');
+      var voiceStatus = document.getElementById('voice-status');
       var audioCtx = null;
       var musicPlaying = false;
       var musicTimeout = [];
 
-      // Happy Birthday melody — notes as [frequency, duration in seconds]
-      var melody = [
-        // "Happy birthday to you"
-        [262, 0.3], [262, 0.3], [294, 0.6], [262, 0.6], [349, 0.6], [330, 1.0],
-        // "Happy birthday to you"
-        [262, 0.3], [262, 0.3], [294, 0.6], [262, 0.6], [392, 0.6], [349, 1.0],
-        // "Happy birthday dear ..."
-        [262, 0.3], [262, 0.3], [523, 0.6], [440, 0.6], [349, 0.6], [330, 0.6], [294, 1.0],
-        // "Happy birthday to you"
-        [466, 0.3], [466, 0.3], [440, 0.6], [349, 0.6], [392, 0.6], [349, 1.0]
-      ];
+      // ── Songbook ──
+      var songbook = {
+        'happy-birthday': {
+          label: '🎂 Happy Birthday',
+          keywords: ['happy birthday','cumpleaños feliz','cumpleanos','feliz cumpleaños','birthday'],
+          notes: [
+            [262,0.3],[262,0.3],[294,0.6],[262,0.6],[349,0.6],[330,1.0],
+            [262,0.3],[262,0.3],[294,0.6],[262,0.6],[392,0.6],[349,1.0],
+            [262,0.3],[262,0.3],[523,0.6],[440,0.6],[349,0.6],[330,0.6],[294,1.0],
+            [466,0.3],[466,0.3],[440,0.6],[349,0.6],[392,0.6],[349,1.0]
+          ]
+        },
+        'twinkle': {
+          label: '⭐ Twinkle Twinkle',
+          keywords: ['twinkle','estrellita','estrella','little star','campanita'],
+          notes: [
+            [262,0.4],[262,0.4],[392,0.4],[392,0.4],[440,0.4],[440,0.4],[392,0.8],
+            [349,0.4],[349,0.4],[330,0.4],[330,0.4],[294,0.4],[294,0.4],[262,0.8],
+            [392,0.4],[392,0.4],[349,0.4],[349,0.4],[330,0.4],[330,0.4],[294,0.8],
+            [392,0.4],[392,0.4],[349,0.4],[349,0.4],[330,0.4],[330,0.4],[294,0.8],
+            [262,0.4],[262,0.4],[392,0.4],[392,0.4],[440,0.4],[440,0.4],[392,0.8],
+            [349,0.4],[349,0.4],[330,0.4],[330,0.4],[294,0.4],[294,0.4],[262,0.8]
+          ]
+        },
+        'jingle-bells': {
+          label: '🔔 Jingle Bells',
+          keywords: ['jingle bells','jingle','cascabel','navidad bells'],
+          notes: [
+            [330,0.3],[330,0.3],[330,0.6],
+            [330,0.3],[330,0.3],[330,0.6],
+            [330,0.3],[392,0.3],[262,0.3],[294,0.3],[330,0.8],
+            [349,0.3],[349,0.3],[349,0.3],[349,0.3],
+            [349,0.3],[330,0.3],[330,0.3],[330,0.3],
+            [330,0.3],[294,0.3],[294,0.3],[330,0.3],[294,0.6],[392,0.6],
+            [330,0.3],[330,0.3],[330,0.6],
+            [330,0.3],[330,0.3],[330,0.6],
+            [330,0.3],[392,0.3],[262,0.3],[294,0.3],[330,0.8],
+            [349,0.3],[349,0.3],[349,0.3],[349,0.3],
+            [349,0.3],[330,0.3],[330,0.3],[392,0.3],
+            [392,0.3],[349,0.3],[294,0.3],[262,0.8]
+          ]
+        },
+        'ode-to-joy': {
+          label: '🎵 Ode to Joy',
+          keywords: ['ode to joy','oda a la alegria','alegria','beethoven','himno','joy','alegría','oda'],
+          notes: [
+            [330,0.4],[330,0.4],[349,0.4],[392,0.4],
+            [392,0.4],[349,0.4],[330,0.4],[294,0.4],
+            [262,0.4],[262,0.4],[294,0.4],[330,0.4],
+            [330,0.6],[294,0.2],[294,0.8],
+            [330,0.4],[330,0.4],[349,0.4],[392,0.4],
+            [392,0.4],[349,0.4],[330,0.4],[294,0.4],
+            [262,0.4],[262,0.4],[294,0.4],[330,0.4],
+            [294,0.6],[262,0.2],[262,0.8],
+            [294,0.4],[294,0.4],[330,0.4],[262,0.4],
+            [294,0.4],[349,0.2],[330,0.2],[262,0.4],
+            [294,0.4],[349,0.2],[330,0.2],[294,0.4],
+            [262,0.4],[294,0.4],[196,0.8],
+            [330,0.4],[330,0.4],[349,0.4],[392,0.4],
+            [392,0.4],[349,0.4],[330,0.4],[294,0.4],
+            [262,0.4],[262,0.4],[294,0.4],[330,0.4],
+            [294,0.6],[262,0.2],[262,0.8]
+          ]
+        },
+        'star-wars': {
+          label: '⚔️ Star Wars',
+          keywords: ['star wars','guerra de las galaxias','galaxias','la guerra','starwars','wars'],
+          notes: [
+            [233,0.2],[233,0.2],[233,0.2],
+            [311,1.0],[466,1.0],
+            [415,0.25],[392,0.25],[349,0.25],[622,1.0],
+            [466,0.5],[415,0.25],[392,0.25],[349,0.25],[622,1.0],
+            [466,0.5],[415,0.25],[392,0.25],[415,0.25],[349,1.0],
+            [0,0.3],
+            [233,0.2],[233,0.2],[233,0.2],
+            [311,1.0],[466,1.0],
+            [415,0.25],[392,0.25],[349,0.25],[622,1.0],
+            [466,0.5],[415,0.25],[392,0.25],[349,0.25],[622,1.0],
+            [466,0.5],[415,0.25],[392,0.25],[415,0.25],[349,1.0]
+          ]
+        },
+        'imperial-march': {
+          label: '🖤 Imperial March',
+          keywords: ['imperial march','marcha imperial','darth vader','vader','dark side','lado oscuro','imperial'],
+          notes: [
+            [392,0.5],[392,0.5],[392,0.5],
+            [311,0.4],[466,0.15],[392,0.5],
+            [311,0.4],[466,0.15],[392,1.0],
+            [587,0.5],[587,0.5],[587,0.5],
+            [622,0.4],[466,0.15],[370,0.5],
+            [311,0.4],[466,0.15],[392,1.0],
+            [0,0.3],
+            [392,0.5],[392,0.5],[392,0.5],
+            [311,0.4],[466,0.15],[392,0.5],
+            [311,0.4],[466,0.15],[392,1.0],
+            [587,0.5],[587,0.5],[587,0.5],
+            [622,0.4],[466,0.15],[370,0.5],
+            [311,0.4],[466,0.15],[392,1.0]
+          ]
+        },
+        'super-mario': {
+          label: '🍄 Super Mario',
+          keywords: ['super mario','mario bros','mario','nintendo','mario brothers'],
+          notes: [
+            [659,0.15],[659,0.15],[0,0.15],[659,0.15],[0,0.15],[523,0.15],[659,0.3],
+            [784,0.4],[0,0.3],[392,0.4],[0,0.3],
+            [523,0.3],[0,0.15],[392,0.3],[0,0.15],[330,0.3],
+            [440,0.3],[494,0.2],[466,0.15],[440,0.3],
+            [392,0.2],[659,0.2],[784,0.2],[880,0.3],[698,0.15],[784,0.3],
+            [659,0.3],[523,0.15],[587,0.15],[494,0.3],
+            [0,0.15],
+            [523,0.3],[0,0.15],[392,0.3],[0,0.15],[330,0.3],
+            [440,0.3],[494,0.2],[466,0.15],[440,0.3],
+            [392,0.2],[659,0.2],[784,0.2],[880,0.3],[698,0.15],[784,0.3],
+            [659,0.3],[523,0.15],[587,0.15],[494,0.3]
+          ]
+        },
+        'la-cucaracha': {
+          label: '🪲 La Cucaracha',
+          keywords: ['cucaracha','la cucaracha','cockroach'],
+          notes: [
+            [262,0.15],[262,0.15],[262,0.15],[349,0.3],[440,0.5],
+            [0,0.15],[262,0.15],[262,0.15],[262,0.15],[349,0.3],[440,0.5],
+            [0,0.15],[349,0.3],[349,0.3],[330,0.3],[330,0.3],[294,0.3],[294,0.3],[262,0.5],
+            [0,0.15],[330,0.3],[330,0.3],[294,0.3],[294,0.3],[262,0.3],[262,0.3],[233,0.5],
+            [0,0.2],
+            [262,0.15],[262,0.15],[262,0.15],[330,0.3],[349,0.5],
+            [0,0.15],[349,0.3],[330,0.3],[294,0.3],[262,0.3],
+            [294,0.3],[330,0.3],[349,0.5],
+            [0,0.15],[262,0.15],[262,0.15],[262,0.15],[349,0.3],[440,0.5],
+            [0,0.15],[349,0.3],[349,0.3],[330,0.3],[330,0.3],[294,0.3],[294,0.3],[262,0.8]
+          ]
+        },
+        'fur-elise': {
+          label: '🎹 Für Elise',
+          keywords: ['fur elise','für elise','para elisa','elise','elisa','beethoven elise'],
+          notes: [
+            [659,0.3],[622,0.3],[659,0.3],[622,0.3],[659,0.3],[494,0.3],[587,0.3],[523,0.3],[440,0.5],
+            [0,0.2],[262,0.3],[330,0.3],[440,0.3],[494,0.5],
+            [0,0.2],[330,0.3],[415,0.3],[494,0.3],[523,0.5],
+            [0,0.2],[659,0.3],[622,0.3],[659,0.3],[622,0.3],[659,0.3],[494,0.3],[587,0.3],[523,0.3],[440,0.5],
+            [0,0.2],[262,0.3],[330,0.3],[440,0.3],[494,0.5],
+            [0,0.2],[330,0.3],[523,0.3],[494,0.3],[440,0.7]
+          ]
+        },
+        'merry-christmas': {
+          label: '🎄 Merry Christmas',
+          keywords: ['merry christmas','feliz navidad','navidad','christmas','we wish you','villancico'],
+          notes: [
+            [392,0.3],[523,0.3],[523,0.2],[587,0.2],[523,0.2],[494,0.3],[440,0.3],
+            [440,0.3],[587,0.3],[587,0.2],[659,0.2],[587,0.2],[523,0.3],[494,0.3],
+            [392,0.3],[659,0.3],[659,0.2],[698,0.2],[659,0.2],[587,0.3],[523,0.3],
+            [440,0.3],[392,0.2],[392,0.2],[440,0.3],[587,0.3],[494,0.3],[523,0.6],
+            [0,0.2],
+            [392,0.3],[523,0.3],[523,0.3],[523,0.3],[494,0.5],[494,0.3],
+            [523,0.3],[494,0.3],[440,0.3],[392,0.5],
+            [587,0.3],[659,0.3],[587,0.2],[587,0.2],[523,0.3],[440,0.3],
+            [392,0.2],[392,0.2],[440,0.3],[587,0.3],[494,0.3],[523,0.6]
+          ]
+        }
+      };
 
+      function getSelectedNotes() {
+        var key = songSelect.value;
+        return songbook[key] ? songbook[key].notes : songbook['happy-birthday'].notes;
+      }
+
+      function getSelectedLabel() {
+        var key = songSelect.value;
+        return songbook[key] ? songbook[key].label : songbook['happy-birthday'].label;
+      }
+
+      // ── Playback ──
       function playMelody() {
         if (musicPlaying) return;
+        var notes = getSelectedNotes();
         musicPlaying = true;
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         var time = audioCtx.currentTime + 0.1;
         var gap = 0.08;
 
-        melody.forEach(function (note) {
+        notes.forEach(function (note) {
+          if (note[0] === 0) { time += note[1] + gap; return; }
           var osc = audioCtx.createOscillator();
           var gain = audioCtx.createGain();
           osc.type = 'triangle';
@@ -477,9 +663,10 @@
           time += note[1] + gap;
         });
 
-        // Add a second voice for richness (higher octave, quieter)
+        // Second voice (higher octave, quieter)
         var time2 = audioCtx.currentTime + 0.1;
-        melody.forEach(function (note) {
+        notes.forEach(function (note) {
+          if (note[0] === 0) { time2 += note[1] + gap; return; }
           var osc = audioCtx.createOscillator();
           var gain = audioCtx.createGain();
           osc.type = 'sine';
@@ -494,7 +681,7 @@
         });
 
         var totalDuration = 0;
-        melody.forEach(function (n) { totalDuration += n[1] + gap; });
+        notes.forEach(function (n) { totalDuration += n[1] + gap; });
         var t = setTimeout(function () {
           musicPlaying = false;
           var playBtn = document.getElementById('music-btn');
@@ -515,6 +702,108 @@
         if (playBtn) playBtn.classList.remove('playing');
       }
 
+      // ── Voice Recognition ──
+      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        micBtn.classList.add('no-support');
+      }
+
+      function matchSong(transcript) {
+        var text = transcript.toLowerCase().trim();
+        var bestMatch = null;
+        var bestScore = 0;
+        var keys = Object.keys(songbook);
+        for (var i = 0; i < keys.length; i++) {
+          var song = songbook[keys[i]];
+          for (var j = 0; j < song.keywords.length; j++) {
+            var kw = song.keywords[j];
+            if (text.indexOf(kw) !== -1) {
+              // Prefer longer keyword matches
+              if (kw.length > bestScore) {
+                bestScore = kw.length;
+                bestMatch = keys[i];
+              }
+            }
+          }
+        }
+        return bestMatch;
+      }
+
+      function setVoiceStatus(text, className) {
+        voiceStatus.textContent = text;
+        voiceStatus.className = 'voice-status' + (className ? ' ' + className : '');
+      }
+
+      var recognition = null;
+
+      micBtn.addEventListener('click', function () {
+        if (!SpeechRecognition) return;
+
+        if (recognition) {
+          recognition.abort();
+          recognition = null;
+          micBtn.classList.remove('listening');
+          setVoiceStatus('');
+          return;
+        }
+
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        // Try to detect browser language, fallback to English
+        recognition.lang = document.documentElement.lang === 'es' ? 'es-ES' : 'en-US';
+
+        micBtn.classList.add('listening');
+        setVoiceStatus(document.documentElement.lang === 'es'
+          ? 'Escuchando... di el nombre de una canción'
+          : 'Listening... say a song name', 'listening-text');
+
+        recognition.onresult = function (event) {
+          var transcript = event.results[0][0].transcript;
+          var matched = matchSong(transcript);
+          if (matched) {
+            songSelect.value = matched;
+            setVoiceStatus('✓ ' + songbook[matched].label, 'success');
+            // If cake is already visible and music not playing, auto-play
+            if (cakeDisplay.classList.contains('active')) {
+              stopMusic();
+              var playBtn = document.getElementById('music-btn');
+              if (playBtn) {
+                playBtn.innerHTML = '&#127925; ' + getSelectedLabel();
+                playBtn.classList.add('playing');
+              }
+              setTimeout(function () { playMelody(); }, 300);
+            }
+          } else {
+            setVoiceStatus(
+              (document.documentElement.lang === 'es'
+                ? 'No encontré: "'
+                : 'Not found: "') + transcript + '"',
+              'error'
+            );
+          }
+          setTimeout(function () { setVoiceStatus(''); }, 4000);
+        };
+
+        recognition.onerror = function (e) {
+          if (e.error !== 'aborted') {
+            setVoiceStatus(
+              document.documentElement.lang === 'es'
+                ? 'Error de micrófono'
+                : 'Mic error', 'error');
+            setTimeout(function () { setVoiceStatus(''); }, 3000);
+          }
+        };
+
+        recognition.onend = function () {
+          micBtn.classList.remove('listening');
+          recognition = null;
+        };
+
+        recognition.start();
+      });
+
+      // ── Cake visuals ──
       function createCandles(count) {
         candlesArea.innerHTML = '';
         var colors = ['color-1', 'color-2', 'color-3', 'color-4', 'color-5'];
@@ -562,6 +851,7 @@
         });
       }
 
+      // ── Celebrate ──
       function celebrate() {
         var num = parseInt(cakeInput.value);
         if (!num || num < 1 || num > 120) {
@@ -586,11 +876,12 @@
         var musicBtn = document.createElement('button');
         musicBtn.id = 'music-btn';
         musicBtn.className = 'cake-action-btn';
-        musicBtn.innerHTML = '&#127925; Happy Birthday!';
+        musicBtn.innerHTML = '&#127925; ' + getSelectedLabel();
         musicBtn.addEventListener('click', function () {
           if (musicPlaying) {
             stopMusic();
           } else {
+            musicBtn.innerHTML = '&#127925; ' + getSelectedLabel();
             musicBtn.classList.add('playing');
             playMelody();
           }
@@ -611,10 +902,23 @@
         // Scroll into view
         cakeDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-        // Auto-play music
+        // Auto-play selected song
         launchConfetti();
-        setTimeout(function () { playMelody(); }, 600);
+        setTimeout(function () {
+          var btn = document.getElementById('music-btn');
+          if (btn) btn.classList.add('playing');
+          playMelody();
+        }, 600);
       }
+
+      // Update music button label when song changes
+      songSelect.addEventListener('change', function () {
+        var btn = document.getElementById('music-btn');
+        if (btn) {
+          stopMusic();
+          btn.innerHTML = '&#127925; ' + getSelectedLabel();
+        }
+      });
 
       cakeBtn.addEventListener('click', celebrate);
       cakeInput.addEventListener('keydown', function (e) {
