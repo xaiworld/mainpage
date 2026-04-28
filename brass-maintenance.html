@@ -113,7 +113,7 @@
     // Pull the latest section of CHANGELOG.md from GitHub raw, render it.
     // Public repo so no auth needed. Fail gracefully — if GitHub is slow or
     // blocked, we still show the spinner + auto-refresh keeps trying the site.
-    const RAW_URL = 'https://raw.githubusercontent.com/xaiworld/brass/main/CHANGELOG.md';
+    const RAW_URL = 'https://xai.world/brass-changelog.md';
 
     function escapeHtml(s) {
       return String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
