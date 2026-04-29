@@ -1,6 +1,13 @@
 # Brass: Lancashire — Development Changelog
 
-## 368 versions of iterative development
+## 369 versions of iterative development
+
+### Wider i18n Coverage — Account, Profile, Achievements (v1.0.12)
+- **Account and Profile pages** now translate the section labels in all 9 languages: Game History, ELO Ratings, Achievements, Last Login, Login Count, "X games" (per ELO category), "X/Y earned" badge, the "no completed games" placeholder, the streak pill ("🔥 N day(s)"), and the day/days unit.
+- **All 45 achievement names** are translated in all 9 languages (English + Español, Galego, Català, Valencià, Asturianu, Euskara, Français, Deutsch, Italiano). The on-card name now reflects the viewer's chosen language. Achievement descriptions remain English in this revision and will be translated in a follow-up.
+- **Lobby**: the "You are up-to-date with the community, Mr. Wallace would be proud." banner, the "no active games" fallback, the System Data labels (Total games, Active games, Waiting, Finished, Players), the My Games heading, the Streak / Today sort buttons, the Rankings heading + descriptive paragraph, the ELO descriptive paragraph, and the no-games-yet placeholder all run through translations.
+- **Game credits** in the navbar ("Game by Martin Wallace · Art by Peter Dennis · Published by Eagle-Gryphon Games") translates across all pages that show it (lobby, profile, account, login, game-incompatible).
+- **Deferred to a follow-up**: achievement descriptions (45 strings × 9 languages, longer text), Hall of Fame trophy labels (43 × 9), wiki rules content (multi-page), and changelog content itself.
 
 ### Hall of Fame Counts Historic Canals Correctly (v1.0.11)
 - **Canals built were going uncounted in older games** because canal links get removed from the board at the canal→rail era transition — by the time a finished game is read, the engine no longer sees any link with `type: 'canal'` and the classifier returned null. Result: "Canals Built" and "Avg Canals / Game" trophies showed unclaimed even when players had built many canals across past games.
@@ -719,4 +726,4 @@
 
 ---
 
-*Built with love iteratively through 368 versions of user-driven development — from a blank repository to **v1.0.11**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (now also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties (now correctly attributing historic canal builds), a 9-language interface, and a newest-first changelog.*
+*Built with love iteratively through 369 versions of user-driven development — from a blank repository to **v1.0.12**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties (correctly attributing historic canal builds), a 9-language interface (now translating account/profile + 45 achievement names), and a newest-first changelog.*
