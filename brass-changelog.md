@@ -1,6 +1,6 @@
 # Brass: Lancashire — Development Changelog
 
-## 363 versions of iterative development
+## 364 versions of iterative development
 
 ### Foundation (v0.0.1 - v0.0.7)
 - **Initial release**: Full game with login, complete engine for all six action types, a draggable board, AI bots, an in-game wiki, and persistent saves.
@@ -665,6 +665,11 @@
 - **Top clearance** keeps the submenu from ever landing on top of (or behind) the desktop navbar when the anchor is near the top of the right sidebar. The clamp is enforced before and after the off-screen adjustment, so horizontal repositioning can't slide it back into the navbar zone.
 - **Off-right guard**: When the submenu would overflow the right edge, the leftward-shift fallback now keeps it fully on screen on narrow viewports where neither side has enough room.
 
+### Daily Counter Counts Turns, Not Actions (v1.0.7)
+- **🎲 badge now reflects completed turns**: Wild Build counts as 1 (one turn, even though it spends both actions), two loans count as 1 (both actions are part of the same turn), a single action that uses up the round-1 canal-era turn counts as 1.
+- **Trigger point**: the counter increments only at the moment a player's turn definitively ends — when their `currentPlayerIndex` slot moves to someone else, the game finishes, or after they hit Confirm if the confirm-turn flow was on. Partial sell-cotton submissions and mid-turn actions don't tick.
+- **Backfill recount**: existing daily counts are re-derived from today's action log using turn semantics (consecutive same-user actions in the same game = one turn). The previous per-action cache is invalidated and re-runs on the next boot.
+
 ### Per-Viewer Favorite Color (v1.0.6)
 - **Pick your favorite color on the account page** — your own seat is recolored everywhere on your device (board, player bar, mat, logs, chat, troll overlay, panels, admin tools) so you always see yourself in the color you like.
 - **Smart swap**: if your favorite is one of the four canonical seat colors and another seat already has it, that seat takes your old color in your view, so the four players still appear in four distinct colors. If your favorite is one of the three new ones (Black, Blue, White), only your seat changes — no other seat shifts.
@@ -681,4 +686,4 @@
 
 ---
 
-*Built with love iteratively through 363 versions of user-driven development — from a blank repository to **v1.0.6**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed, a wired-up maintenance page, and per-viewer favorite-color recoloring.*
+*Built with love iteratively through 364 versions of user-driven development — from a blank repository to **v1.0.7**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter (now correctly counting turns, not actions), live news feed, a wired-up maintenance page, and per-viewer favorite-color recoloring.*
