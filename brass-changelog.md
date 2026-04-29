@@ -1,6 +1,6 @@
 # Brass: Lancashire — Development Changelog
 
-## 365 versions of iterative development
+## 366 versions of iterative development
 
 ### Foundation (v0.0.1 - v0.0.7)
 - **Initial release**: Full game with login, complete engine for all six action types, a draggable board, AI bots, an in-game wiki, and persistent saves.
@@ -665,6 +665,13 @@
 - **Top clearance** keeps the submenu from ever landing on top of (or behind) the desktop navbar when the anchor is near the top of the right sidebar. The clamp is enforced before and after the off-screen adjustment, so horizontal repositioning can't slide it back into the navbar zone.
 - **Off-right guard**: When the submenu would overflow the right edge, the leftward-shift fallback now keeps it fully on screen on narrow viewports where neither side has enough room.
 
+### Hall of Fame Expansion + i18n + Trophy Owner Highlight (v1.0.9)
+- **Money spent now reflects the true total** including market resource costs (coal/iron purchases). The engine records lifetime spend per player on every money deduction in build, canal, single-rail, and double-rail actions; the Hall of Fame reads it from the final game state. Older games without the field fall back to the v1.0.8 proxy (industry tile cost + link base cost only).
+- **Ties shared between players**: when two or more players reach the same value for a metric, all of them hold the trophy together — the panel shows "alice + bob" instead of arbitrarily breaking ties on user ID. Holders sorted alphabetically.
+- **15 new "average per game" trophies** with 2-decimal precision. Same per-action stats as the cumulative ones (industry flips, loans, passes, mills sold, distant sells, distant -4 / 0 tiles, money spent, canals, rails, links) but divided by the number of all-human finished games each player played in. Listed under a new "Per-Game Averages" group at the bottom of the panel.
+- **Trophy owner is the highlight**: the holder's name is now the visually prominent line in each trophy row — gold, larger, bold — with the metric label demoted to a smaller uppercase caption above it. Claimed trophies also get a subtle gold gradient and a thicker gold border so they stand out from unclaimed ones at a glance.
+- **i18n with 9 languages**: a new picker on the account page sets the interface language. Choices: English (default), Español, Galego, Català, Valencià, Asturianu, Euskara, Français, Deutsch, Italiano. Translations cover the navbar, lobby panel headings, Hall of Fame group labels, color names, account page, and common buttons. Game-page text, the in-game wiki, individual trophy labels, and achievement names remain English in this revision and will be translated in follow-ups.
+
 ### Hall of Fame (v1.0.8)
 - **28 trophies** displayed in a panel above the News feed (right column on desktop, hoisted to the top above News on mobile, both collapsible). Each trophy is held by exactly one player at any given time.
 - **Only all-human games count** — bot-mixed games are excluded from every metric so trophies reflect head-to-head play.
@@ -702,4 +709,4 @@
 
 ---
 
-*Built with love iteratively through 365 versions of user-driven development — from a blank repository to **v1.0.8**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed, a wired-up maintenance page, per-viewer favorite-color recoloring, and a 28-trophy Hall of Fame.*
+*Built with love iteratively through 366 versions of user-driven development — from a blank repository to **v1.0.9**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, and a 9-language interface.*
