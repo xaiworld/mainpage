@@ -1,6 +1,6 @@
 # Brass: Lancashire — Development Changelog
 
-## 364 versions of iterative development
+## 365 versions of iterative development
 
 ### Foundation (v0.0.1 - v0.0.7)
 - **Initial release**: Full game with login, complete engine for all six action types, a draggable board, AI bots, an in-game wiki, and persistent saves.
@@ -665,6 +665,22 @@
 - **Top clearance** keeps the submenu from ever landing on top of (or behind) the desktop navbar when the anchor is near the top of the right sidebar. The clamp is enforced before and after the off-screen adjustment, so horizontal repositioning can't slide it back into the navbar zone.
 - **Off-right guard**: When the submenu would overflow the right edge, the leftward-shift fallback now keeps it fully on screen on narrow viewports where neither side has enough room.
 
+### Hall of Fame (v1.0.8)
+- **28 trophies** displayed in a panel above the News feed (right column on desktop, hoisted to the top above News on mobile, both collapsible). Each trophy is held by exactly one player at any given time.
+- **Only all-human games count** — bot-mixed games are excluded from every metric so trophies reflect head-to-head play.
+- **Categories**:
+  - **Ratings**: highest ELO in 2P, 3P, and 4P (3 trophies).
+  - **Activity**: most achievements earned, longest streak, highest single-day turn count (3).
+  - **Games Played**: most 2P, 3P, and 4P games played (3).
+  - **Records**: highest VP achieved in a single 2P, 3P, and 4P game (3).
+  - **Industry**: most flipped tiles owned per industry — Cotton Mills, Coal Mines, Iron Works, Ports, Shipyards (5). Attribution is by tile owner, regardless of who triggered the flip — your coal mine flipping because an opponent drained it still counts for you.
+  - **Money**: most loans taken, most passes, most money committed to permanent infrastructure (industry tiles + link costs) in a single game (3).
+  - **Selling**: most mills sold (any method), most sold to the distant market, most -4 distant tiles taken, most 0 distant tiles taken (4).
+  - **Building**: most canals built, most rails built, most total links built (3).
+  - **Battle**: most opponents with strictly higher pre-game ELO defeated (1).
+- **Lazy recompute**: cached server-side, refreshed automatically when a game finishes or an achievement is granted, with a 60-second TTL fallback. The lobby polls the panel every 2 minutes.
+- **Peak-day turn tracking**: a new per-user counter records the highest number of completed turns in a single UTC day. Backfilled from the action log on first boot.
+
 ### Daily Counter Counts Turns, Not Actions (v1.0.7)
 - **🎲 badge now reflects completed turns**: Wild Build counts as 1 (one turn, even though it spends both actions), two loans count as 1 (both actions are part of the same turn), a single action that uses up the round-1 canal-era turn counts as 1.
 - **Trigger point**: the counter increments only at the moment a player's turn definitively ends — when their `currentPlayerIndex` slot moves to someone else, the game finishes, or after they hit Confirm if the confirm-turn flow was on. Partial sell-cotton submissions and mid-turn actions don't tick.
@@ -686,4 +702,4 @@
 
 ---
 
-*Built with love iteratively through 364 versions of user-driven development — from a blank repository to **v1.0.7**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter (now correctly counting turns, not actions), live news feed, a wired-up maintenance page, and per-viewer favorite-color recoloring.*
+*Built with love iteratively through 365 versions of user-driven development — from a blank repository to **v1.0.8**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed, a wired-up maintenance page, per-viewer favorite-color recoloring, and a 28-trophy Hall of Fame.*
