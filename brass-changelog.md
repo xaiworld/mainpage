@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 370 versions of iterative development
+## 371 versions of iterative development
+
+### Submenu Stays Anchored to the Card (v1.0.14)
+- **Bug**: Click a card → action options appear next to it. Click "Develop" → the first dialog cascades from the card. But the next dialog (e.g., the Done/Cancel screen) jumped to the upper-right of the viewport instead of staying near the floating cards.
+- **Cause**: The submenu re-anchored on every render. The card popup is what positioned it the first time, but mid-flow the popup gets hidden and the fallback anchor — the right-sidebar action panel — took over, yanking the submenu across the screen.
+- **Fix**: Once the submenu is positioned for an action flow, subsequent renders keep its existing left/top instead of re-anchoring. Only viewport edge clamps apply. When the action flow ends (cancel, submit, or close), the inline position resets so the next flow re-anchors fresh against whichever card was clicked.
 
 ### Reset-Turn Reliability Fix (v1.0.13)
 - **Bug**: building a coal mine in rail era (with the auto-sell to coal market) and then resetting the turn could leave the live state unchanged — the overlay reported success, but the action was still on the board and actions-remaining stayed decremented.
@@ -732,4 +737,4 @@
 
 ---
 
-*Built with love iteratively through 370 versions of user-driven development — from a blank repository to **v1.0.13**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, and a more reliable reset-turn.*
+*Built with love iteratively through 371 versions of user-driven development — from a blank repository to **v1.0.14**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
