@@ -1,6 +1,6 @@
 # Brass: Lancashire — Development Changelog
 
-## 361 versions of iterative development
+## 363 versions of iterative development
 
 ### Foundation (v0.0.1 - v0.0.7)
 - **Initial release**: Full game with login, complete engine for all six action types, a draggable board, AI bots, an in-game wiki, and persistent saves.
@@ -660,7 +660,19 @@
 - **A self-contained HTML maintenance page** that auto-fetches the latest section of the development changelog and renders it with the game's color palette (gold on dark blue), a spinner, a version pill, and a 20-second auto-refresh, so the user lands back on the live site as soon as the deploy is done.
 - **Local preview route** so the page is reachable at a clean URL during development.
 
-### Maintenance Page Wire-up (v1.0.4)
+### Action Submenu Navbar-Overlap Fix (v1.0.4)
+- **Cascading Done/Cancel panel always sits above the navbar** regardless of stacking-context surprises, with explicit pointer events so its buttons stay clickable.
+- **Top clearance** keeps the submenu from ever landing on top of (or behind) the desktop navbar when the anchor is near the top of the right sidebar. The clamp is enforced before and after the off-screen adjustment, so horizontal repositioning can't slide it back into the navbar zone.
+- **Off-right guard**: When the submenu would overflow the right edge, the leftward-shift fallback now keeps it fully on screen on narrow viewports where neither side has enough room.
+
+### Per-Viewer Favorite Color (v1.0.6)
+- **Pick your favorite color on the account page** — your own seat is recolored everywhere on your device (board, player bar, mat, logs, chat, troll overlay, panels, admin tools) so you always see yourself in the color you like.
+- **Smart swap**: if your favorite is one of the four canonical seat colors and another seat already has it, that seat takes your old color in your view, so the four players still appear in four distinct colors. If your favorite is one of the three new ones (Black, Blue, White), only your seat changes — no other seat shifts.
+- **Per-viewer only**: the actual game state still records canonical seat colors. Two players in the same game can both pick the same favorite and each see themselves in it; what they see for the *other* player is unchanged from each viewer's perspective.
+- **Seven choices**: the original four (Red, Purple, Green, Yellow) plus Black, Blue, and White. The new three are favorite-only — never auto-assigned to a seat at game creation.
+- **Default option** keeps the canonical seat-color behavior, no remap.
+
+### Maintenance Page Wire-up (v1.0.5)
 - **Hosted copy of the maintenance page** on a separate static site so it can be set as the deployment platform's "Custom Maintenance Page URL". The platform requires the maintenance URL to live on a different service than the one in maintenance, so the in-app preview alone wasn't enough.
 - **Public mirror of the changelog** alongside the maintenance page so the page can fetch release notes without needing repo access. The original direct fetch was returning 404 because the source repo isn't public.
 - **Auto-mirror on changelog change**: Every push that touches the development changelog automatically pushes a copy to the public mirror, so the maintenance page's "What's changing" panel always reflects the most recent release.
@@ -669,4 +681,4 @@
 
 ---
 
-*Built with love iteratively through 361 versions of user-driven development — from a blank repository to **v1.0.4**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed, and a wired-up maintenance page.*
+*Built with love iteratively through 363 versions of user-driven development — from a blank repository to **v1.0.6**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed, a wired-up maintenance page, and per-viewer favorite-color recoloring.*
