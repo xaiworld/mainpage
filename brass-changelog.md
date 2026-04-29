@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 367 versions of iterative development
+## 368 versions of iterative development
+
+### Hall of Fame Counts Historic Canals Correctly (v1.0.11)
+- **Canals built were going uncounted in older games** because canal links get removed from the board at the canal→rail era transition — by the time a finished game is read, the engine no longer sees any link with `type: 'canal'` and the classifier returned null. Result: "Canals Built" and "Avg Canals / Game" trophies showed unclaimed even when players had built many canals across past games.
+- **Fix**: the classifier now uses three signals in priority order — (1) rail-only payload fields (resourcePlan / coalSources / coalEnd / coalEnd2 / secondLinkId) → rail; (2) state has the link with a type set → use that; (3) link missing from state and no rail-specific fields → default to canal (the era-removed canal case). All historic finished games' canal builds now contribute to the canal trophies.
+- **Caveat**: very old rail builds where the player let the engine auto-pick the coal source (no resource fields in payload) could in principle be misclassified as canals; this only matters for actions taken before the resource picker existed (v0.0.170). The trade-off favors counting canals correctly going forward over getting a few historic auto-pick rails right.
 
 ### Trophy News + Wider i18n + Newest-First Changelog (v1.0.10)
 - **News panel announces trophy ownership changes**: when a Hall of Fame trophy moves from one player to another (or is claimed for the first time), the lobby News feed shows a fresh entry: `alice took the Cotton Mills Flipped trophy (12) from bob`. Multiple new co-holders are joined with `+`. Detected by diffing each Hall of Fame recompute against the previous cache.
@@ -714,4 +719,4 @@
 
 ---
 
-*Built with love iteratively through 367 versions of user-driven development — from a blank repository to **v1.0.10**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (now also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, and a newest-first changelog.*
+*Built with love iteratively through 368 versions of user-driven development — from a blank repository to **v1.0.11**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (now also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties (now correctly attributing historic canal builds), a 9-language interface, and a newest-first changelog.*
