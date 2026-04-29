@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 369 versions of iterative development
+## 370 versions of iterative development
+
+### Reset-Turn Reliability Fix (v1.0.13)
+- **Bug**: building a coal mine in rail era (with the auto-sell to coal market) and then resetting the turn could leave the live state unchanged — the overlay reported success, but the action was still on the board and actions-remaining stayed decremented.
+- **Root cause**: the rollback path was preferring the historical version snapshot (which can drift when state-history pruning runs) over the deterministic embedded `state.turnStart` snapshot. The two paths usually agree, but in some scenarios the historical entry resolved to a state that, once written back, looked indistinguishable from the live state — so nothing actually rolled back.
+- **Fix**: the reset endpoint now uses `state.turnStart` as the primary source (it is always the start of the CURRENT player's turn by construction), with the historical version as a fallback for backwards-compat with games created before that snapshot field existed. Plus a defensive engine-side check: at the start of each action submission, if the player's turn just started but `state.turnStart` is missing or stale (was taken at a different player's turn), the snapshot is refreshed before the action runs.
+- **Server logging** added to the reset endpoint so future reset issues report which source was used (turnStart vs history) and what version the rollback came from.
 
 ### Wider i18n Coverage — Account, Profile, Achievements (v1.0.12)
 - **Account and Profile pages** now translate the section labels in all 9 languages: Game History, ELO Ratings, Achievements, Last Login, Login Count, "X games" (per ELO category), "X/Y earned" badge, the "no completed games" placeholder, the streak pill ("🔥 N day(s)"), and the day/days unit.
@@ -726,4 +732,4 @@
 
 ---
 
-*Built with love iteratively through 369 versions of user-driven development — from a blank repository to **v1.0.12**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties (correctly attributing historic canal builds), a 9-language interface (now translating account/profile + 45 achievement names), and a newest-first changelog.*
+*Built with love iteratively through 370 versions of user-driven development — from a blank repository to **v1.0.13**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, and a more reliable reset-turn.*
