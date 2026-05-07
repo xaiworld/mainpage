@@ -1,6 +1,9 @@
 # Brass: Lancashire — Development Changelog
 
-## 402 versions of iterative development
+## 403 versions of iterative development
+
+### Workflow Note: Environment vs Repo Secrets (v1.0.46)
+- Added a commented `environment:` line in `deploy-with-maintenance.yml` plus a clearer error message in the pre-flight step explaining the two GitHub Actions secret scopes (Repository vs Environment) and how to handle each. If your `RENDER_API_KEY` / `RENDER_SERVICE_ID` are stored under Settings → Environments → *(env)* → Environment secrets, uncomment `# environment: production` and set the name; otherwise move them to the repo-wide "Repository secrets" tab.
 
 ### Drop Fake Render Maintenance Endpoint (v1.0.45)
 - The previous `deploy-with-maintenance.yml` workflow tried to POST to `https://api.render.com/v1/services/{id}/maintenance-mode/enable` — that endpoint **doesn't exist** in Render's public API (404). My mistake; Render's Maintenance Mode is a dashboard-only feature, not exposed via REST.
