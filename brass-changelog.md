@@ -1,6 +1,9 @@
 # Brass: Lancashire — Development Changelog
 
-## 407 versions of iterative development
+## 408 versions of iterative development
+
+### SVG Silver/Gold Match HTML Donor Style (v1.0.51)
+- The in-game VP panel SVG drew silver/gold donor names as **dark text on a solid silver/gold pill**, while every HTML surface (lobby preview chip, game cards, rankings, ELO leaderboard, nav-user, etc.) showed them as **coloured text on a faint matching tint with a thin border**. Two visually different versions of the same style. SVG now mirrors the HTML: silver = `#e8e8ee` text on `rgba(220,220,230,0.18)` tint, gold = `#ffd166` text on `rgba(212,168,67,0.18)` tint, both with the existing rounded-rect background that was already drawn — just lighter, transparent, and bordered to match.
 
 ### Six New Donor Styles: Turtle, Dragon, Rocket, Lightning, Fire, Wizard (v1.0.50)
 - Six new themed glow highlights, each with its own neon-coloured text shadow and an emoji prefix on one side. Wired everywhere the existing seven styles already appear (lobby admin picker, account self-pick, lobby preview chips, game cards, rankings, ELO leaderboard, feedback, top-bar nav-user, in-game floating VP panel SVG, in-game player bar, log lines):
@@ -958,4 +961,4 @@
 
 ---
 
-*Built with love iteratively through 407 versions of user-driven development — from a blank repository to **v1.0.50**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 408 versions of user-driven development — from a blank repository to **v1.0.51**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
