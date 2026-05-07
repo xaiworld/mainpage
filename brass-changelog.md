@@ -1,6 +1,13 @@
 # Brass: Lancashire — Development Changelog
 
-## 404 versions of iterative development
+## 405 versions of iterative development
+
+### Tiebreak Achievements + "King of Empatitos" Trophy (v1.0.48)
+- **Two new achievements** for games where two or more players finish tied at the top VP. The single "tiebreak winner" is picked by the same chain ELO already uses (income → money → spent → turn order):
+  - **Tiebreak Champion** — you matched a top-VP tie and came out on top of the tiebreaker.
+  - **Bridesmaid** — you matched the winner on VP but lost the tiebreaker chain.
+  Total achievements goes from 49 → 51. Hall of Fame's `'/45'` denominator was already stale; switched it to read `definitions.length` lazily so it stays in sync from now on.
+- **Hall of Fame: "King of Empatitos" 🤝** (Battle group). Counts how many finished all-human games each player was in a tie-at-top situation — capped at +1 per game per player (naturally, since each player has a single VP). Holder is the player with the most such games; ties share the trophy.
 
 ### Spent Box £-Number + Potential VP Hex Fix (v1.0.47)
 - The "£ number" toggle now also applies to the **SPENT** SVG panel: when on, each row renders `£N` in gold text instead of the silver/bronze disc stack, matching the player bar's money row.
@@ -937,4 +944,4 @@
 
 ---
 
-*Built with love iteratively through 404 versions of user-driven development — from a blank repository to **v1.0.47**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 405 versions of user-driven development — from a blank repository to **v1.0.48**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
