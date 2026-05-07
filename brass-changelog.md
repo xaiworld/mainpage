@@ -1,6 +1,16 @@
 # Brass: Lancashire — Development Changelog
 
-## 406 versions of iterative development
+## 407 versions of iterative development
+
+### Six New Donor Styles: Turtle, Dragon, Rocket, Lightning, Fire, Wizard (v1.0.50)
+- Six new themed glow highlights, each with its own neon-coloured text shadow and an emoji prefix on one side. Wired everywhere the existing seven styles already appear (lobby admin picker, account self-pick, lobby preview chips, game cards, rankings, ELO leaderboard, feedback, top-bar nav-user, in-game floating VP panel SVG, in-game player bar, log lines):
+  - **🐢 turtle** — green glow (user request)
+  - **🐉 dragon** — red/orange glow
+  - **🚀 rocket** — cyan glow
+  - **⚡ lightning** — bright yellow glow
+  - **🔥 fire** — orange glow with a 1.6s pulse animation
+  - **🧙 wizard** — purple glow
+- Total donor styles: 7 → 13. Add to `DONOR_STYLES` (validation array), `style.css` (CSS classes), and `board-renderer.js` (SVG fallback used in the VP panel).
 
 ### Cache-Bust Static Assets (v1.0.49)
 - **Why donor highlights weren't showing in game cards / rankings / ELO / etc. for many users**: every view links `/css/style.css` (and `game.ejs` links the JS files) without any version query string. With no `Cache-Control` set on `express.static`, browsers heuristically cache aggressively — many users were running with a `style.css` from a v1.0.x weeks ago, predating the `.donor-name` / `.donor-rainbow` rules, the £-number pill, and the v1.0.47 outline-only `.vp-potential`. The DOM had `class="donor-name donor-gold"` but the CSS for it didn't exist in the cached file, so it rendered as plain text.
@@ -948,4 +958,4 @@
 
 ---
 
-*Built with love iteratively through 406 versions of user-driven development — from a blank repository to **v1.0.49**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 407 versions of user-driven development — from a blank repository to **v1.0.50**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
