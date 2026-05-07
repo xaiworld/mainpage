@@ -155,19 +155,19 @@
     }
 
     function pickLatestSection(md) {
-      // The changelog uses "### Title (vN.N.N)" headings per release. Grab the
-      // bottom-most one (newest) along with the bullets that follow until the
-      // next "###" or "---" or end of file.
+      // CHANGELOG is in NEWEST-FIRST order. The latest "### Title (vN.N.N)"
+      // heading is the FIRST one in the file, not the last. Take the first
+      // match and walk forward until the next "###" or "---" or EOF.
       const lines = md.split('\n');
-      let lastStart = -1;
+      let firstStart = -1;
       for (let i = 0; i < lines.length; i++) {
-        if (/^### .*\(v[\d.]+/.test(lines[i])) lastStart = i;
+        if (/^### .*\(v[\d.]+/.test(lines[i])) { firstStart = i; break; }
       }
-      if (lastStart === -1) return null;
+      if (firstStart === -1) return null;
       const out = [];
-      for (let i = lastStart; i < lines.length; i++) {
+      for (let i = firstStart; i < lines.length; i++) {
         const ln = lines[i];
-        if (i > lastStart && /^### /.test(ln)) break;
+        if (i > firstStart && /^### /.test(ln)) break;
         if (/^---\s*$/.test(ln)) break;
         out.push(ln);
       }

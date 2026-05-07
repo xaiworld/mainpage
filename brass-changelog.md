@@ -1,8 +1,18 @@
 # Brass: Lancashire — Development Changelog
 
-## 399 versions of iterative development
+## 400 versions of iterative development
 
-### Rainbow Donor in SVG VP Panel (v1.0.42)
+### Render API Automation + Donor Highlights Everywhere (v1.0.43)
+- **`.github/workflows/deploy-with-maintenance.yml`**: new workflow that, on every push to `main`, calls Render's API to **enable maintenance mode** before triggering a deploy, polls until the deploy is `live`, then **disables maintenance mode** (always — even if the deploy fails). Setup: add `RENDER_API_KEY` and `RENDER_SERVICE_ID` repo secrets, then turn OFF "Auto-Deploy" in Render's dashboard so this workflow drives deploys. Maintenance is served from Render's edge during the disk-swap gap that persistent-disk services hit, so users see the spinner+changelog instead of a 502.
+- **Mirror workflow extended** to also copy `public/maintenance.html` → `xaiworld/mainpage/brass-maintenance.html`. The maintenance page now stays in sync with whatever changes the brass repo makes (e.g. the next fix below).
+- **Maintenance page picked the OLDEST changelog entry**: `pickLatestSection()` in `public/maintenance.html` looped through all lines keeping the LAST `### Title (vN.N.N)` match, but the changelog is now in newest-first order, so "last" was actually "oldest" (it showed v0.0.1–v0.0.7). Fixed to break on the FIRST match. Same fix applies to the mainpage copy via the mirror workflow.
+- **Donor highlights now propagate to**:
+  - Top-bar **`nav-user`** link (your username with your own donor style) — applied to all 12 navbars by exposing `myDonorStyle` via `res.locals` in `server.js`.
+  - **Hall of Fame** holder names — `views/partials/hall-of-fame.ejs` looks up `donorStyles` and adds the donor class to the `.player-link`.
+  - **Feedback** entries' username (`<strong>` wrapped with donor class).
+  - **ELO Ratings** leaderboard rows — username cell wrapped.
+  - **Rankings** group rows — username cell wrapped.
+- **SVG VP panel: gold + silver styles get a real `<rect>` background** drawn behind the name (rounded, sized to the text), so the "card" look matches the HTML highlight. Other styles still use fill+emoji as before.
 - The SVG VP panel rendered every donor style with a flat gold fill (`#ffd166`), so a `rainbow` highlighted name showed up yellow even though the player's seat color was different (e.g. violet) — the user couldn't tell why their name went yellow.
 - **Fix**: a real `<linearGradient id="donor-rainbow-grad">` is now added once to the SVG `<defs>` (red → yellow → green → blue → purple, matching the HTML rainbow style), and rainbow names use `fill="url(#donor-rainbow-grad)"` so the gradient renders. Idempotent helper `_ensureRainbowGradient()` registers it.
 - Other donor styles (`gold`, `silver`, `crown`, `pint`, `sparkle`, `glow`) keep their existing fill+emoji approach since SVG text can't easily host backgrounds, borders, or text-shadow.
