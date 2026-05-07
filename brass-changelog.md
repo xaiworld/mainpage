@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 403 versions of iterative development
+## 404 versions of iterative development
+
+### Spent Box £-Number + Potential VP Hex Fix (v1.0.47)
+- The "£ number" toggle now also applies to the **SPENT** SVG panel: when on, each row renders `£N` in gold text instead of the silver/bronze disc stack, matching the player bar's money row.
+- **`.vp-potential` hex** (the gold "+N" badge next to live VP) was visibly larger than the pink VP hex it sat beside (22×20 vs 16×15). Resized to match `.tile-vp-inline` (16×15, 8px font) and switched from a solid gold `clip-path` polygon to an outline-only inline-SVG background — the bonus now reads as a same-size gold-bordered hex sitting next to the pink VP hex, not a fat overpowering blob. Mobile rule scaled down accordingly.
 
 ### Workflow Note: Environment vs Repo Secrets (v1.0.46)
 - Added a commented `environment:` line in `deploy-with-maintenance.yml` plus a clearer error message in the pre-flight step explaining the two GitHub Actions secret scopes (Repository vs Environment) and how to handle each. If your `RENDER_API_KEY` / `RENDER_SERVICE_ID` are stored under Settings → Environments → *(env)* → Environment secrets, uncomment `# environment: production` and set the name; otherwise move them to the repo-wide "Repository secrets" tab.
@@ -933,4 +937,4 @@
 
 ---
 
-*Built with love iteratively through 371 versions of user-driven development — from a blank repository to **v1.0.14**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 404 versions of user-driven development — from a blank repository to **v1.0.47**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
