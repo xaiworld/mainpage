@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 405 versions of iterative development
+## 406 versions of iterative development
+
+### Cache-Bust Static Assets (v1.0.49)
+- **Why donor highlights weren't showing in game cards / rankings / ELO / etc. for many users**: every view links `/css/style.css` (and `game.ejs` links the JS files) without any version query string. With no `Cache-Control` set on `express.static`, browsers heuristically cache aggressively — many users were running with a `style.css` from a v1.0.x weeks ago, predating the `.donor-name` / `.donor-rainbow` rules, the £-number pill, and the v1.0.47 outline-only `.vp-potential`. The DOM had `class="donor-name donor-gold"` but the CSS for it didn't exist in the cached file, so it rendered as plain text.
+- **Fix**: every `style.css` and the four `game.ejs` script tags now include `?v=<%= appVersion %>`. Each version bump invalidates the cache automatically. Going forward, after a deploy users see the latest CSS/JS on next page load instead of holding onto the stale copy until they manually hard-reload.
 
 ### Tiebreak Achievements + "King of Empatitos" Trophy (v1.0.48)
 - **Two new achievements** for games where two or more players finish tied at the top VP. The single "tiebreak winner" is picked by the same chain ELO already uses (income → money → spent → turn order):
@@ -944,4 +948,4 @@
 
 ---
 
-*Built with love iteratively through 405 versions of user-driven development — from a blank repository to **v1.0.48**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 406 versions of user-driven development — from a blank repository to **v1.0.49**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
