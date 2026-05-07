@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 408 versions of iterative development
+## 409 versions of iterative development
+
+### Donor Highlights Render in ELO / Clasificaciones / Game Cards / Feedback (v1.0.52)
+- **Why donor highlights weren't showing in the lobby ELO leaderboard rows or the Clasificaciones (group rankings) rows**, despite working in the nav-user, preview chips, and player list: four sites in `views/lobby.ejs` build the entire `class="..."` attribute from inside a `<%= … %>` interpolation. EJS's `<%=` HTML-escapes its output, so the literal `"` characters in ` class="donor-name donor-rainbow"` became `&quot;`, and the browser saw `<span class=&quot;donor-name donor-rainbow&quot;>` — i.e. no usable `class` attribute, so `.donor-name` / `.donor-<style>` never matched. The CSS was correct, the data was correct, the markup was just being mangled at render-time.
+- **Fix**: switched `<%=` → `<%-` (raw, unescaped) on the four offending sites: ELO leaderboard rows (line 579, user's complaint), group rankings rows (line 621, user's complaint), game cards in My Games (line 387), and recent feedback inside the admin panel (line 165). Safe because the interpolated value is `userDonorStyles[username]`, which is constrained at write-time to the closed `DONOR_STYLES` enum in `lib/db.js`. The other three working sites (nav-user line 18, preview chips line 140, player list line 209) interpolate inside an already-quoted attribute and never had this problem.
 
 ### SVG Silver/Gold Match HTML Donor Style (v1.0.51)
 - The in-game VP panel SVG drew silver/gold donor names as **dark text on a solid silver/gold pill**, while every HTML surface (lobby preview chip, game cards, rankings, ELO leaderboard, nav-user, etc.) showed them as **coloured text on a faint matching tint with a thin border**. Two visually different versions of the same style. SVG now mirrors the HTML: silver = `#e8e8ee` text on `rgba(220,220,230,0.18)` tint, gold = `#ffd166` text on `rgba(212,168,67,0.18)` tint, both with the existing rounded-rect background that was already drawn — just lighter, transparent, and bordered to match.
@@ -961,4 +965,4 @@
 
 ---
 
-*Built with love iteratively through 408 versions of user-driven development — from a blank repository to **v1.0.51**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 409 versions of user-driven development — from a blank repository to **v1.0.52**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
