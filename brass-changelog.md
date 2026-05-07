@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 409 versions of iterative development
+## 410 versions of iterative development
+
+### News Feed: Bigger Scrollable History + Type Filters + Donor Highlights in News & HoF (v1.0.53)
+- **Larger history**: news panel now shows up to 150 entries (was 30) inside a fixed-height scrollable list (max 520px, custom thin scrollbar). Server-side ring buffer raised from 200 → 500 entries (`NEWS_MAX` in `lib/db.js`) so historical depth actually accumulates instead of getting trimmed. `/api/news?limit=…` cap raised from 100 → 300.
+- **Type filters**: three pill toggles above the news list — 👑 **Wins**, 🏆 **Achievements**, 🏅 **Trophies** — multi-select. 0 active = show everything (default). 1+ active = show only those types. Streak-record entries always pass through (rare and special). Filter state persists in `localStorage` so it survives refreshes; the 30-second auto-poll re-applies the filter after every fetch.
+- **Donor highlights now render in news subject names + Hall of Fame holder names** — both server-side EJS *and* the client-side JS pollers (`renderNewsItem`, `renderHallOfFame`) now apply `donor-name donor-<style>` classes, so a refresh no longer wipes the highlights. Lobby exposes a `DONOR_STYLES` JS global (mirrors the `game.ejs` pattern) and a `donorClassFor(username)` helper. HoF partial include now explicitly forwards the donor map instead of relying on `res.locals` inheritance.
 
 ### Donor Highlights Render in ELO / Clasificaciones / Game Cards / Feedback (v1.0.52)
 - **Why donor highlights weren't showing in the lobby ELO leaderboard rows or the Clasificaciones (group rankings) rows**, despite working in the nav-user, preview chips, and player list: four sites in `views/lobby.ejs` build the entire `class="..."` attribute from inside a `<%= … %>` interpolation. EJS's `<%=` HTML-escapes its output, so the literal `"` characters in ` class="donor-name donor-rainbow"` became `&quot;`, and the browser saw `<span class=&quot;donor-name donor-rainbow&quot;>` — i.e. no usable `class` attribute, so `.donor-name` / `.donor-<style>` never matched. The CSS was correct, the data was correct, the markup was just being mangled at render-time.
@@ -965,4 +970,4 @@
 
 ---
 
-*Built with love iteratively through 409 versions of user-driven development — from a blank repository to **v1.0.52**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes), a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 410 versions of user-driven development — from a blank repository to **v1.0.53**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes) with type filters and a deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and donor highlights, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
