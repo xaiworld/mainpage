@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 401 versions of iterative development
+## 402 versions of iterative development
+
+### Drop Fake Render Maintenance Endpoint (v1.0.45)
+- The previous `deploy-with-maintenance.yml` workflow tried to POST to `https://api.render.com/v1/services/{id}/maintenance-mode/enable` — that endpoint **doesn't exist** in Render's public API (404). My mistake; Render's Maintenance Mode is a dashboard-only feature, not exposed via REST.
+- **Fixed**: workflow renamed in spirit (file kept) and stripped to just two real Render API calls — `POST /v1/services/{id}/deploys` and polling `GET /v1/services/{id}/deploys/{id}` until `status: live`. That part works and is useful when Auto-Deploy is off. A pre-flight step now hard-fails with a clear error if `RENDER_API_KEY` or `RENDER_SERVICE_ID` aren't set, so silent failures stop happening.
+- **For the maintenance page during deploys**: the only options remain (a) Render dashboard → Settings → Maintenance Mode toggled manually, (b) Cloudflare custom 5xx page, or (c) accept the ~20s gap.
 
 ### Rainbow CSS Fix + £-Number Money Toggle (v1.0.44)
 - **Rainbow donor name was rendering plain white** wherever the parent had an inline `style="color:#fff"` (e.g. lobby game cards). Cause: `background: linear-gradient(...) text;` is invalid CSS — the `text` keyword isn't a valid value for the `background` shorthand, so the entire declaration was dropped, leaving only the `color: transparent !important` from later rules and no gradient image to clip. Fixed by switching to `background-image: linear-gradient(...)` plus the existing `background-clip: text` / `-webkit-text-fill-color: transparent`.
