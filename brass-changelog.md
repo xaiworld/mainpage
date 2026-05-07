@@ -1,6 +1,175 @@
 # Brass: Lancashire — Development Changelog
 
-## 371 versions of iterative development
+## 398 versions of iterative development
+
+### Mirror Workflow: Explicit PAT in Push URL (v1.0.41)
+- The `mirror-changelog.yml` workflow's final `git push` now uses an explicit URL with the PAT (`https://x-access-token:${PAT}@github.com/xaiworld/mainpage.git`) instead of relying on `actions/checkout`'s `extraheader` config carrying through. If the push still 403s after this, the PAT itself lacks `Contents: Write` on `xaiworld/mainpage` — see deploy-notes below for the exact PAT settings.
+
+### Donor Highlight Everywhere (v1.0.40)
+- The donor highlight now propagates to **every surface** that renders a player's name, not just the lobby Players list:
+  - **Lobby game-row player names** (under each Active/Waiting/Finished card) — wraps the username with `.donor-name .donor-<style>`.
+  - **In-game player bar** (left side panel) — `_donorWrap()` helper in `public/js/game-ui.js` is now called from `updatePlayerBar` so the username sits inside the donor span.
+  - **VP panel on the SVG board** — SVG `<text>` can't take HTML classes, so the renderer falls back to a "lite" highlight: gold fill + bold + emoji prefix for `crown`/`pint`/`sparkle`, silver fill for `silver`. The seat color shows on the bar to the side, so the gold name still reads as ownership.
+  - **Game log entries** — only the nick gets the donor class. The rest of the line keeps the player's seat color (the donor class's `!important` color override applies inside the wrapped span only). Regex-escapes the username so special characters in nicks are safe.
+- **Server-side `donorStyles` map** is now exposed via `res.locals.donorStyles` (a `{username → style}` map of every user with an active highlight), so any view can use it without re-querying. The game page injects it as a `DONOR_STYLES` global JS variable for the client renderers.
+
+### Donor Self-Service + Live Preview (v1.0.39)
+- **Granted users can now change their own highlight in the account page.** Once an admin assigns a donor style to a user, `user.donorEnabled = true` is set; the user thereafter sees a "Donor highlight 🍺" section on their `/account` page with one radio per style (name shown styled with their actual username) plus a "None" option that removes the highlight without revoking donor status. Backed by `db.setOwnDonorStyle(userId, style)` (refuses if `donorEnabled !== true`) and `POST /account/donor-style`.
+- **Admin clearing the style preserves donor status** — `donorEnabled` stays `true` so the user can re-enable any style on their own.
+- **Admin preview chips now show the picked username** in each style. The lobby's "Admin: Donor Highlights" preview row used to show the style names ("gold", "silver", …) — when the admin picks a username from the dropdown, all chips swap to the username so the admin sees exactly how that name will look in each style. Includes an **8th "normal" chip** (no highlight) for the side-by-side comparison.
+
+### Donate Button + Donor Highlights (v1.0.38)
+- **Donate button** changed from "☕ Buy me a coffee" → "**🍺 Buy me a pint**". The "Loving the game? Tip via Revolut." hint line is removed.
+- **Admin-controlled donor highlights**: a new "Admin: Donor Highlights" panel in the lobby sidebar (xai-only) lets the admin pick a username + a style and POST `/admin/set-donor-style` to apply it. Backed by `db.setUserDonorStyle(userId, style)` and a new `user.donorStyle` field. Empty/unknown style clears the highlight.
+- **Seven highlight styles** (`donor-gold`, `donor-silver`, `donor-crown`, `donor-rainbow`, `donor-glow`, `donor-pint`, `donor-sparkle`), each with a different look — gold/silver pill, gold-glow text, rainbow text-gradient, leading 👑 / 🍺 / ✨ emoji, etc. The full list lives in `public/css/style.css` keyed by class names; the admin form builds the picker from `db.DONOR_STYLES` so adding a new entry there auto-extends the dropdown.
+- **Live preview** under the picker shows each style applied to its own name, so the admin can eyeball the look before picking.
+- **Players list** in the lobby renders the donor's name with `.donor-name .donor-<style>` so the highlight shows up next to their ELO/streak/turns badges. Other surfaces (game rows, news feed, profile) still use the plain name for now — easy to extend by adding the same class wherever `<a class="player-link">` appears.
+
+### Mandatory Turn Confirmation + Wild-Build Reset Fix (v1.0.37)
+- **Bug**: a player who finished a turn with a Wild Build couldn't reset — by the time they clicked Reset the server had already advanced to the next player. Wild Build atomically consumes 2 actions, so the client's `holdForConfirm` check (`gameState.actionsRemaining === 1`) didn't fire (Wild Build needs 2 actions, so `actionsRemaining` was 2 going in), the server didn't set `pendingConfirm`, and the turn auto-advanced.
+- **Fix**: new `_actionEndsTurn(action)` helper that returns true for any submission that will exhaust the player's last action — the normal `actionsRemaining === 1` case AND `buildIndustry` + `wildBuild` flag at `actionsRemaining >= 2`. All three submit paths (sellCotton, submitActionDirect/wildBuild, submitAction) now use it.
+- **Confirmation is now mandatory** — `confirmTurnOnEnd` is hard-coded to `true` (no per-user opt-out, no toggle in the action panel). The turn never advances to the next player until `/api/games/:id/confirm-turn` is hit, so Reset always works on the just-completed turn.
+- **Round-end confirmation included** — when a player's last action also ends the round, `pendingConfirm` is still set; the engine's `endRound` runs only inside `confirm-turn`, so the round (and any era transition) doesn't apply until the player clicks Confirm.
+- **Loan-warning overlay timing** is now naturally correct: while the previous player has `pendingConfirm`, the live `currentPlayerIndex` hasn't advanced, so `updateActionPanel` early-returns for the next viewer and `checkLoanWarning` is never reached. The overlay only fires once the previous player has explicitly committed.
+
+### Auto-Pick Specialized Slot for Port (v1.0.36)
+- Lancaster and Preston each have **two slots that can host a port**: a single-purpose `['port']` slot and a multi-purpose `['cottonMill','port']` slot. Previously, when a player chose "Build Port" at one of these locations and BOTH slots were empty, the UI asked which slot to use — which is fine, but most players want to burn the dedicated port slot first and keep the multi-purpose slot for a future cotton mill.
+- **Fix**: when all candidate slots at the chosen location are empty, the slot picker now auto-selects the slot with the **smallest `allowed.length`** (most restrictive) by index. Ties or any overbuild candidates still show the explicit picker. Same logic applied to the location-click path so the selection happens in one click rather than via a re-render bounce.
+- General-purpose: this also applies to any future location where a slot is uniquely most-restrictive for the chosen industry.
+
+### Potential VP Pill Becomes a Hexagon (v1.0.35)
+- The `+N` "potential VP" badge in the left-side player panel now uses the **same pointy-top hexagon shape** (`clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)`) as the existing `.tile-vp-hex`, so a player glancing at the player bar instantly reads it as a VP-related value rather than a generic pill.
+- Filled in **gold** (`#d4a843`) with dark text to stay visually distinct from the pink already-scored VP hex right next to it.
+- Sized at 22×20 px on desktop / 26×23 px on mobile, fitting `+0` through `+99` comfortably.
+
+### Link Tiles Derived From Board (v1.0.34)
+- **`linksRemaining` is no longer a stored field.** It's derived on demand from the live board state via `countOwnedLinks(state, seat)` in `lib/game-engine.js`, both at the action-time eligibility check (`actionBuildLink`) and in the player-bar render. Canals lose their `owner` at the canal→rail transition, so the same count function naturally reads "0 used this era" for rail era — no per-era reset needed and no risk of a stored counter drifting from reality.
+- **Player-bar badge format** is now `🔗 X/14` (was just `🔗 X`), with tooltip "*Link tiles remaining this era (used N / 14 — returned at canal→rail transition)*". Makes the per-era budget explicit.
+- **Engine** still sets `player.allLinksUsedThisGame = true` when post-build `countOwnedLinks(...) >= 14`, so the **Track Layer** achievement still fires for any player who exhausts the 14-tile set in either era.
+- **Migration removed** — no backfill needed since the value is derived. Any stale `linksRemaining` field on legacy state is just ignored.
+- **Why**: the prior stored-field approach showed `🔗 11` to a user who had visually counted 14 links on the board. A stored counter can drift; deriving from the board removes that whole class of bug. (The user's "14 on board" likely included canal-era builds that now render gray after the era transition wiped their owner — those don't count toward the rail-era 14 budget.)
+
+### Link Tiles Reset Per Era (v1.0.33)
+- **Per-era link budget** corrected: each player starts the **rail era** with a fresh **14 link tiles** (canal-era tokens are returned at the era transition, matching the physical-game rule). `transitionToRailEra` in `lib/game-setup.js` now resets `player.linksRemaining = 14` for every player alongside the `spentThisRound = 0` clear.
+- **Track Layer achievement** now uses a sticky `player.allLinksUsedThisGame` flag set the moment `linksRemaining` hits 0 in either era. The flag survives the canal→rail reset, so a player who exhausts their canal budget still earns the trophy at game end.
+- **Migration v2**: simplified to "links currently on the board → linksRemaining = 14 − that count", which naturally produces the right value for rail-era games (where only rail links exist on the board after the era transition). Replaces the earlier flag (`linksRemainingBackfillDone`) which double-counted canal builds for rail-era games.
+- **Player-bar tooltip** updated to: "Link tiles remaining this era (14 per era — returned at canal→rail transition)".
+
+### Link Tiles Tracked (14 / Player) + Achievements (v1.0.32)
+- **Players now start with `linksRemaining: 14`** (Brass: Lancashire physical-game link-tile budget). Set in `lib/game-setup.js`. Decremented inside `actionBuildLink`:
+  - canal build → −1
+  - single rail → −1
+  - 2-rail action (`secondLinkId`) → −2
+- **Engine refuses `buildLink` when the player doesn't have enough tiles** with `Out of link tiles (X left, need Y)`. Existing money/connection checks still apply first.
+- **Player-bar badge** in the left side panel now shows `🔗 N` next to income / cards (tooltip: "Link tiles remaining (start with 14)").
+- **DB migration** in `lib/db.js` `migrate()` backfills `linksRemaining` for in-progress games: counts links currently owned on the board (correct for canal-era games) and adds a log-derived count of canal builds for rail-era games (whose canals were wiped at the era transition). Idempotent behind `data.meta.linksRemainingBackfillDone`.
+- **Two new achievements**:
+  - **Track Layer** — use all 14 link tiles in one game (`linksRemaining === 0`).
+  - **Iron Horse** — execute at least one 2-rail (£15 + 2 coal) action in a game; uses the action log via `ctx.actions`.
+
+### Loan Capped by Income Floor (v1.0.31)
+- **Engine** (`actionTakeLoan` in `lib/game-engine.js`): rejects loan amounts that would push the player's income level below **-10** (the bottom of the track). Each £10 borrowed drops 1 income level, so the maximum allowable amount at current level `L` is `(L − (-10)) × £10`. Concretely:
+  - Level **−9** → max **£10** (1 band)
+  - Level **−8** → max **£20** (1 or 2 bands)
+  - Level **−7 or higher** → max **£30** (any of 1/2/3 bands)
+  Error: `"Loan would drop income below the floor (-10). At -9/turn the maximum loan is £10."`
+- **Client UI** (`renderActionFlow` `case 'takeLoan'` in `public/js/game-ui.js`): the £20 and £30 buttons are now `disabled` when they'd violate the floor, with a hover-tooltip "Would drop income below −10". A small grey hint above the buttons explains the cap when relevant: *"At -9/turn, max loan is £10 (income floor is −10)."*
+
+### Early-Listen Boot + Wiki Cards Page (v1.0.30)
+- **Real fix for the persistent 502s on Render**. Previously `server.js` ran `preBootCompact()` (synchronous `spawnSync`) and `db.load()` *before* calling `app.listen()`, so the new Render container had **no listener at all** for 10–60 s during boot. With nothing on the port, Render's healthCheckPath probe couldn't even connect — `/health` was effectively absent — so the load balancer routed traffic to a half-shut-down old container or returned 502.
+- **Refactor**: bind to `PORT` immediately with a stub app that returns **503 on `/health`** while `isReady === false` and serves `public/maintenance.html` (with status 503) for any other request. Render now sees a live listener returning 503 and keeps the OLD container serving real traffic. `init()` then runs `preBootCompactAsync()` (async `spawn`, not `spawnSync`) and `db.load()` in the background, registers all middleware/routes, and flips `isReady = true` — at which point `/health` returns 200, Render swaps over, and live traffic transitions to the new container with **zero 502s**.
+- **`init()` failures** flip a `bootError` flag so `/health` reports `500 boot error: …` instead of looping in 503 forever.
+- **New `/wiki/cards` page** with full deck breakdowns:
+  - 4P / 3P deck (66 cards) — 41 location cards (Liverpool ×4, Manchester ×4, Lancaster ×3, Preston ×3, … Bury ×1, Ellesmere Port ×1, Fleetwood ×1) + 25 industry cards (Cotton ×8, Port ×6, Coal ×5, Iron ×3, Shipyard ×3).
+  - 2P deck (40 cards, custom): which locations/industries are removed and how many copies remain.
+  - "Canal removed" / "Rail removed" per player count + how the draw pile size drives era length.
+- **"Cards" added to all wiki nav strips** (rules, actions, industries, strategy, index, cards), and routed via `wiki-routes.js`.
+
+### Done (1 rail) Strips 2-Rail Leftovers (v1.0.29)
+- **Bug**: clicking "Done (1 rail)" after "Add Second Rail" had been pressed could still produce `Not enough money (2 tracks costs £15)` from the server. The Done panel renders only when `!secondLinkId`, but the highlight callback on the board (armed by `startSecondLink`) remains active even after the panel changes — a stray click on a highlighted link sets `secondLinkId` and on the next submit the action carried `secondLinkId` along with `singleConfirmed`, so the engine ran the 2-rail check.
+- **Fix**: `confirmSingleRail()` now explicitly deletes `secondLinkId`, `coalEnd2`, `resourcePending`, `resourceIdx`, and `resourcePlan` from `actionParams` and calls `BoardRenderer.clearHighlights()` before submitting, so the resulting action is unambiguously a 1-rail commit regardless of any prior 2-rail attempts in this turn.
+
+### Mobile Top-Stack Heights Are Now Dynamic (v1.0.28)
+- The hardcoded mobile offsets (`game-name top: 34`, `turn-indicator top: 60`, `container padding-top: 92`) assumed a 34 px navbar, but on devices with larger system font, button line-heights, or zoom, the navbar runs taller — the game-name bar then started inside the navbar and the turn-indicator's era/round/money content disappeared behind the gold game-name strip.
+- **Fix**: `updateMobileTopStack()` measures `navbar.offsetHeight` and `nav-game-name.offsetHeight` at runtime and writes the correct `top:` to the game-name bar, the turn-indicator, and `padding-top` on `.game-container`. Re-runs on `resize`, `orientationchange`, and at 100 ms / 500 ms after init to catch late font/icon-load reflows.
+- **CSS**: removed the hardcoded `top: 34px` / `top: 60px` from `body.is-mobile .nav-game-name` / `.turn-indicator-bar` — the JS sets them now. All other styles (height, line-height, background, border, ellipsis truncation) are kept.
+
+### Mobile Game-Name / Turn-Indicator Spacing (v1.0.27)
+- The mobile game-name bar at `top: 34px` was overlapping the turn-indicator bar (era / round / money color bar) at `top: 58px` because the bar's natural height varied with the user's font-size / line-height settings.
+- Fixed by giving `.nav-game-name` an explicit `height: 24px; line-height: 18px; box-sizing: border-box` so it always fits in the 34–58 px slot, and bumping the turn-indicator to `top: 60px` for a 2 px breathing gap. `.game-container` `padding-top` adjusted from 90 → 92 px to match.
+
+### Highlight Active Surrounds Player Color (v1.0.26)
+- Previously the **Highlight active** view-filter overrode the tile's stroke to gold (`stroke: var(--gold) !important; stroke-width: 2.5 !important`), which painted *over* the player-color border and lost the ownership cue.
+- Now the player-color stroke is preserved and a **2 px hard gold outline + soft halo** is added *around* it instead. Implemented as four orthogonal `drop-shadow(±2px 0/±2px 0 0 gold)` filters (since CSS `drop-shadow` has no spread parameter) plus one soft `drop-shadow(0 0 4px gold)` for the glow. The player border still reads as the owner's color.
+
+### Mobile Game-Name Bar (v1.0.25)
+- **`.nav-game-name` is now a fixed bar directly under the navbar on mobile** (`top: 34px; left: 0; right: 0`) instead of an absolutely-centered overlay inside the navbar. On phone widths the centered overlay collided with the nav-links, masking Lobby / Wiki / Changelog / Stats / username taps. The new bar gets its own row, ellipsis-truncated for very long names.
+- **Turn indicator bumped to `top: 58px`** (was `34px`) and `.game-container` padding-top raised to `90px` (was `66px`) to make room for the new bar without covering board content.
+- **Desktop unchanged** — the absolutely-centered overlay still sits between the brand and nav-links since there's plenty of horizontal room there.
+
+### Non-Buildable Link VP in Live Display (v1.0.24)
+- **Bug**: a link touching a non-buildable location (Northwich, Blackpool, Southport, Scotland, Yorkshire, The Midlands) — e.g. a Northwich↔Midlands rail — scored **0 VP** in the in-game live display, even though server scoring correctly counts those endpoints as **2 VP icons each**. So a Northwich↔Midlands link should show **4 VP**, not 0.
+- **Cause**: client-side `calculateVPBreakdown` and `calculatePotentialVP` in `public/js/game-ui.js` looked up endpoints in `s.board.locations[locId]` only — non-buildable locations live in `BOARD.nonBuildable`, so the lookup returned `undefined`, the loop fell through with `vp = 0`, and the link contributed nothing to the player-bar VP hex or the VP breakdown popup.
+- **Fix**: both functions now check `BOARD.nonBuildable[locId]` first; if it matches, add 2 VP icons for that endpoint (matching the server's `countLocationVP` in `lib/scoring.js`). Same rule applied to the potential-VP best-case calc.
+- **Server-side scoring was always correct** — the actual canal/rail era scoring at era-end and game-end used the right rule. This fix only affects the live VP shown during play.
+
+### Board View Filters (v1.0.23)
+- **New "View:" controls row** in the board control bar (above the SVG, below the existing Minimal/No names/No icons row), visible on every game board both desktop and mobile. Doesn't shift the board or interfere with click targets.
+- **Five filters**, all opt-in, all persisted per browser via `localStorage`:
+  - **Only mine** — hides every tile the viewer doesn't own. Tiles are tagged with `tile-mine` / `tile-other` at render time based on `slot.owner === viewer's seat`, and `body.board-only-mine .tile-other { display: none }` does the rest.
+  - **Hide flipped** — `body.board-hide-flipped .tile-flipped { display: none }`.
+  - **No blink** — disables the `tile-glow` pulse on unflipped tiles via `animation: none !important; opacity: 1 !important;` (needed to beat the inline `style.animation`/`style.opacity` set in `board-renderer.js`).
+  - **Highlight active** — gold stroke + drop-shadow halo on every still-active tile, so unfinished work pops.
+  - **Dim flipped** — 4-stop slider (0=Off, 1=Light 0.85, 2=Medium 0.7 default, 3=Strong 0.35). Replaces the fixed 0.7 inline opacity.
+- **`BoardRenderer.toggleVisFlag(name, on)` / `setFlippedDim(level)` / `restoreVisFlags()`** in `public/js/board-renderer.js`. `restoreVisFlags()` runs in `init()` before the first render, so saved preferences apply on page load with no flicker.
+- **Mobile**: the new row gets hoisted into `#mobile-board-controls` alongside the existing row 2, so the filters are reachable from the Info tab on phones too.
+- "☕ Buy me a coffee" button now points to `https://revolut.me/wejejeei`.
+
+### "Buy me a coffee" Donate Button (v1.0.21)
+- **New gold gradient pill** under the Brass cover image in the lobby sidebar reading **"☕ Buy me a coffee"** with a small "Loving the game? Tip via Revolut." hint underneath. Links to `https://revolut.me/REVOLUT_HANDLE` — replace `REVOLUT_HANDLE` in `views/lobby.ejs` with your actual Revolut Tag (Settings → Profile → Revolut Tag in the app).
+- Sits naturally between the cover image and the existing sidebar panels; on mobile it stacks with everything else when the sidebar collapses.
+
+### Reset-Turn Resilience to Stale turnStart (v1.0.20)
+- **Bug**: a player would submit their final action with `holdForConfirm`, see the Confirm/Reset overlay, click **Reset**, and get back `Cannot reset — target state is not your turn` even though it clearly *was* their turn (the overlay was showing because of their own action).
+- **Cause**: the reset endpoint used `state.turnStart` unconditionally as the rollback target. If that snapshot was somehow stale (its `currentPlayerIndex` pointing at a different player — for example, never refreshed on the player's first action because `actionsRemaining` wasn't at the era's max), the seat-match check failed and the entire reset was rejected. The historical version (`hist`) was never tried as a fallback.
+- **Fix in `routes/game-routes.js`**:
+  - Authoritative ownership check now runs against the LIVE state first: if the live `turnOrder[currentPlayerIndex]` doesn't match the user's seat, we return a clearer "It's no longer your turn — the game advanced" message instead of the confusing turnStart-mismatch one.
+  - Rollback candidates are now collected in priority order (`turnStart` → history at `targetVersion`) and **each candidate is validated** that its current-player seat matches the user. A stale `turnStart` silently falls through to the history candidate instead of nuking the whole reset.
+  - Added per-candidate skip logging so future stale-snapshot incidents leave a breadcrumb in the server logs.
+
+### Coal/Iron Build Achievements + HoF Flip Regex (v1.0.19)
+- **Build-all achievements (`Iron Magnate`, `Coal Baron`, `Cotton Empire`, `Port Authority`, `Shipwright`, `Diversified`)** were counting tiles by iterating the FINAL game state. That undercounted in two scenarios: L1 tiles removed at the canal→rail era transition, and tiles overbuilt with a higher level later in the game. A player who built all four iron-works levels (L1+L2+L3+L4) only saw 3 tiles in the final state because L1 was gone — so Iron Magnate would never trigger. Same for the other "build all of X" achievements.
+- **Fix**: new `userBuildsCount(ctx, type)` helper in `lib/achievements.js` counts every `buildIndustry` action of the given industry type, scoped to the user's `user_id` in `ctx.actions`. `recordGameResult` in `routes/game-routes.js` now passes `actions` (filtered to this game) into `ctx`. Falls back to the old state-based counter only when `ctx.actions` isn't available.
+- **Hall of Fame "Coal Mines / Iron Works Flipped" regex fix**: the auto-flip log lines are wrapped by `logMsg` and indented with `  ↳ ` (e.g. `[C3]   ↳ Coal Mine L2 at Bolton flipped! alice inc ...`), so my v1.0.17 anchored regex `^(?:\[\w\d+\] )?Coal Mine L\d+...` missed every single one. Switched to a sub-string match (`Coal Mine L\d+ at .+? flipped! (\S+) /`) so the prefix doesn't matter — coal/iron flip counts are now actually counted.
+- **HoF cache bumped** (`hofFlipsRecomputeV` 1 → 2) so the cached holders recompute once on next boot rather than waiting out the 60 s TTL.
+
+### Finished-Game Notification Banner (v1.0.18)
+- **New purple lobby banner** at the very top: "🏆 N game(s) finished:" listing every all-finished game the viewer participated in but hasn't acknowledged yet. Each row shows the game name (linked), a per-row summary ("🎉 You won (89 VP)" if you won, or "Won by alice 89 — you finished with 72 VP" otherwise), and the time-ago. Modeled on the existing "▸ Your turn in N games" banner.
+- **Per-game ✕ dismiss** and a "Dismiss all" button. Visiting the game via its link also marks it seen automatically (in the `/games/:id` route handler).
+- **Storage**: `user.seenFinishedGameIds` (sorted integer array on the user record) — added via a new `db.markFinishedGamesSeen(userId, ids)` helper. Idempotent.
+- **API**: `POST /api/finished/dismiss` accepts `{ gameIds: [...] }` to dismiss specific games, or `{ all: true }` to dismiss every finished game the viewer is in. Used by the per-row ✕ and the "Dismiss all" button.
+- **Banner appears alongside, not replaced by, the existing banners** — the My Turn / Up-To-Date / Join-Create banner still shows below it as appropriate, since "you have unseen finished games" and "it's your turn somewhere else" are independent states.
+
+### Lobby Live VP + Hall of Fame Lifetime Flips (v1.0.17)
+- **Lobby game-row VPs for active games** now use a live projection (canal-era already-scored VP + flipped tiles in current era + current-era links + money / 10) instead of the raw `p.vp` field. Previously a player with many flipped tiles in canal era still showed **0 VP** in the lobby (since `p.vp` is 0 until canal-era scoring runs at era end), and during rail era they only showed their canal-only score. Now the lobby reflects what each player would score if the game ended right now — same logic the in-game VP hex uses.
+- **`lib/scoring.js`** gains a pure `liveProjection(state)` helper, used by `routes/lobby-routes.js` for active games. Finished games still read from the gameResults table (final VP). Mirrors `scoreCanalEra`/`scoreRailEra` exactly, including the rule that non-buildable locations (waypoints + external ports) count as 2 VP icons for link scoring.
+- **Hall of Fame flip counts** are now computed from the action log + state log, not just `iterFlippedSlots(finalState)`. Previously, L1 industries that were flipped during canal era then **removed at the canal→rail era transition** were missed from "Cotton Mills Flipped", "Coal Mines Flipped", "Iron Works Flipped", "Ports Flipped", and "Shipyards Flipped" trophies. Same for tiles flipped then overbuilt. The new counter:
+  - **Cotton mills**: each `sellCotton` sale = 1 mill flip, attributed to the seller (mill owner).
+  - **Coal mines / iron works**: parsed from the engine's explicit "Coal Mine L<N> at <loc> flipped! <user>" / "Iron Works L<N> at <loc> flipped! <user>" log lines.
+  - **Ports**: each via-port `sellCotton` sale = 1 port flip, attributed to the port owner (resolved by walking buildIndustry actions chronologically, with a fallback to the final-state slot owner if the port survived).
+  - **Shipyards**: each `buildIndustry` action with `industryType === 'shipyard'` = 1 flip (shipyards flip immediately on build).
+- **Hall of Fame cache invalidation**: a one-shot `data.meta.hofFlipsRecomputeV` flag in `migrate()` sets `hallOfFameStale = true` once after this deploy so the cached holders/values from the old algorithm get recomputed immediately rather than waiting out the 60 s TTL.
+
+### Loan-Lock Warning Overlay (v1.0.16)
+- **At the start of each player's turn** in rail-era rounds **5 (2P/3P) / 3 (4P)** — the second-to-last round in which loans can still be taken — a gold-bordered overlay appears: "*Heads up — second-to-last loan round*". Player clicks "I understand" to dismiss; doesn't appear again that round.
+- **Rail-era round 6 (2P/3P) / 4 (4P)** shows a more emphatic red-bordered, pulsing overlay titled "**⚠️ LAST CHANCE TO TAKE A LOAN**", explaining that this is the final round in which a loan can still be taken — the engine blocks loans once the draw pile runs out shortly after.
+- **Per-game-round-per-user dismissal** stored in `localStorage` (`brass-loan-warn:<gameId>:<userId>:<round>`), so the overlay never reappears once acknowledged. The check runs inside `updateActionPanel` only when it's the user's turn, so opponents' turns can't trigger it.
+- **No engine change** — this is purely a UX reminder. The actual rule (no loans once `state.drawPile` is empty in rail era) was already enforced in `actionTakeLoan` and is unchanged.
+
+### Rail-Era Round 1 Income Fix (v1.0.15)
+- **Bug**: `transitionToRailEra()` in `lib/game-setup.js` set `era='rail'`, `round=1`, then went straight to actions without running Phase 1 (income collection). `endRound()` collects income at the top of every new round, but the canal→rail transition bypassed it entirely — so every player skipped a full round of income at the start of rail era. Existed in every version since the engine was written.
+- **Fix**: added the same Phase 1 income block to `transitionToRailEra` (uses `incomeTrack[player.income]` and logs `[R1] Phase 1: <name> collects £N income …`).
+- **Backfill migration in `lib/db.js`**: scans every game state where `era === 'rail'` && `round === 1` && there's no `[R1] Phase 1` line in the log, credits each player with the income they should've received, and appends a backfill log entry. Idempotent behind `data.meta.railR1IncomeBackfillDone`.
 
 ### Submenu Stays Anchored to the Card (v1.0.14)
 - **Bug**: Click a card → action options appear next to it. Click "Develop" → the first dialog cascades from the card. But the next dialog (e.g., the Done/Cancel screen) jumped to the upper-right of the viewport instead of staying near the floating cards.
