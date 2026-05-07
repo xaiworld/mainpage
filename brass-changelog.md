@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 398 versions of iterative development
+## 399 versions of iterative development
+
+### Rainbow Donor in SVG VP Panel (v1.0.42)
+- The SVG VP panel rendered every donor style with a flat gold fill (`#ffd166`), so a `rainbow` highlighted name showed up yellow even though the player's seat color was different (e.g. violet) — the user couldn't tell why their name went yellow.
+- **Fix**: a real `<linearGradient id="donor-rainbow-grad">` is now added once to the SVG `<defs>` (red → yellow → green → blue → purple, matching the HTML rainbow style), and rainbow names use `fill="url(#donor-rainbow-grad)"` so the gradient renders. Idempotent helper `_ensureRainbowGradient()` registers it.
+- Other donor styles (`gold`, `silver`, `crown`, `pint`, `sparkle`, `glow`) keep their existing fill+emoji approach since SVG text can't easily host backgrounds, borders, or text-shadow.
 
 ### Mirror Workflow: Explicit PAT in Push URL (v1.0.41)
 - The `mirror-changelog.yml` workflow's final `git push` now uses an explicit URL with the PAT (`https://x-access-token:${PAT}@github.com/xaiworld/mainpage.git`) instead of relying on `actions/checkout`'s `extraheader` config carrying through. If the push still 403s after this, the PAT itself lacks `Contents: Write` on `xaiworld/mainpage` — see deploy-notes below for the exact PAT settings.
