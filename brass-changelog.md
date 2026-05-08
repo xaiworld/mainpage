@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 424 versions of iterative development
+## 425 versions of iterative development
+
+### Account Page: Vertical Breathing Room Between Sections (v1.0.68)
+- The Language, Name highlight, and Favorite color section descriptions all carried `margin-top: 0` inline, so each paragraph sat flush against its section header. Replaced with `margin: 6px 0 14px` (above + below) and gave each h3 a `margin-top: 32px` for clearer section separation.
+- Same change applied to all three sections; the rest of the account page (ELO grid, Achievements, Change Password, Game History) was already spaced fine.
 
 ### Radioactive Section: Inline-Flex Was Beating display:none (v1.0.67)
 - The collapse toggle was firing correctly and adding the `collapsed` class — but the buttons stayed visible because their inline `style="display:flex; flex-wrap:wrap; …"` has higher CSS specificity than a normal class selector. The `display:none` rule on `.radio-section.collapsed .radio-buttons` was silently overridden. Fixed with `!important` on that one rule.
@@ -1058,4 +1062,4 @@
 
 ---
 
-*Built with love iteratively through 424 versions of user-driven development — from a blank repository to **v1.0.67**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 425 versions of user-driven development — from a blank repository to **v1.0.68**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
