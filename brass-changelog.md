@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 417 versions of iterative development
+## 418 versions of iterative development
+
+### Radioactive Variants for Every Name Highlight (v1.0.61)
+- **28 new "radioactive" name highlights**, one per existing style. Each is `radioactive-<style>` (e.g. `radioactive-dragon`, `radioactive-coal`, `radioactive-rainbow`).
+- All radioactive variants share the same green pulsing glow — modeled on the radiating ember effect of the existing **coal** style — and each one keeps the original style's emoji, prefixed with ☢️ (so `radioactive-dragon` reads as ☢️🐉 with the green pulse).
+- The account-page picker shows them as a separate row below the regular ones, under a small `☢️ Radioactive` sub-heading. Click-to-apply works the same as the base styles.
+- Implementation note: the animation + green color + transparent-text reset live in a single shared `[class*="donor-radioactive-"]` rule, so each variant only needs its own `::before` content line. Adding more later is a one-line change.
 
 ### £-Number Toggle Re-Renders Spent Box (v1.0.60)
 - **Bug**: ticking the "£ number" checkbox flipped the player-bar money display from coin discs to a "£N" string instantly, but the same toggle on the on-board Spent box only took effect after a full page reload.
@@ -1024,4 +1030,4 @@
 
 ---
 
-*Built with love iteratively through 417 versions of user-driven development — from a blank repository to **v1.0.60**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 418 versions of user-driven development — from a blank repository to **v1.0.61**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a radioactive section) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
