@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 410 versions of iterative development
+## 411 versions of iterative development
+
+### News Feed: Recover-From-Stale-Filter Fixes (v1.0.54)
+- v1.0.53 introduced a persisted news filter set, but a stale or unrecognised value in `localStorage.newsFilters` could end up hiding everything (the panel looked empty even though the server was sending entries). Three guardrails:
+  - **Sanitise on load** — `newsFilters` is intersected with the known `{win, achievement, trophy}` set on every page load, so stale or invalid keys can't filter anything out anymore.
+  - **Permissive type matching** — items whose class doesn't match a known type now also pass through (instead of silently hiding) so a future news type can never accidentally vanish behind an active filter.
+  - **Empty-state notice + Clear button** — when active filters hide every visible item, a "No entries match the selected filters" message is appended, and a small `×` Clear button next to the filter pills resets the filter set in one click.
 
 ### News Feed: Bigger Scrollable History + Type Filters + Donor Highlights in News & HoF (v1.0.53)
 - **Larger history**: news panel now shows up to 150 entries (was 30) inside a fixed-height scrollable list (max 520px, custom thin scrollbar). Server-side ring buffer raised from 200 → 500 entries (`NEWS_MAX` in `lib/db.js`) so historical depth actually accumulates instead of getting trimmed. `/api/news?limit=…` cap raised from 100 → 300.
@@ -970,4 +976,4 @@
 
 ---
 
-*Built with love iteratively through 410 versions of user-driven development — from a blank repository to **v1.0.53**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes) with type filters and a deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and donor highlights, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 411 versions of user-driven development — from a blank repository to **v1.0.54**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes) with type filters and a deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and donor highlights, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
