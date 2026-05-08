@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 416 versions of iterative development
+## 417 versions of iterative development
+
+### £-Number Toggle Re-Renders Spent Box (v1.0.60)
+- **Bug**: ticking the "£ number" checkbox flipped the player-bar money display from coin discs to a "£N" string instantly, but the same toggle on the on-board Spent box only took effect after a full page reload.
+- **Cause**: the toggle handler refreshed only the player bar. The Spent box is drawn by the board renderer, which has a cache key based on `gameState`. Since the underlying state didn't change, the cache short-circuited the re-render.
+- **Fix**: after flipping the flag, the handler now also clears the board cache key and calls `BoardRenderer.render()` directly, so the Spent box (and anything else on the board that reads `moneyAsNumber` at draw time) updates immediately.
 
 ### Duration Trophies + Hall of Fame Filters + Loan Order (v1.0.59)
 - **Five new Hall of Fame trophies** under a new **Duration** group:
@@ -1019,4 +1024,4 @@
 
 ---
 
-*Built with love iteratively through 416 versions of user-driven development — from a blank repository to **v1.0.59**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 417 versions of user-driven development — from a blank repository to **v1.0.60**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
