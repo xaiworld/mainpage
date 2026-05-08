@@ -1,6 +1,15 @@
 # Brass: Lancashire — Development Changelog
 
-## 426 versions of iterative development
+## 427 versions of iterative development
+
+### Hall of Fame: Trophy Values Link to Where It Happened (v1.0.70)
+- The trophy values that point to a single specific game now render as links to that game. Clicking the value opens the game.
+- Trophies with links:
+  - **Shortest Game / Longest Game** → link to one of the matched games (most-recent, if there's a tie).
+  - **Longest Turn** → link to the game where the holder's longest turn occurred.
+  - **Highest VP — 2P / 3P / 4P** → link to the game where the holder hit that VP.
+- Trophies that aggregate across many games or aren't tied to a single event (counts, means, ELO ratings, achievements, streaks, etc.) keep showing a plain value with no link, since there's no single source to point to.
+- Hover styling matches the existing player-name links: gold highlight + underline.
 
 ### ELO Log Shows Live Rating + Game-Over Shows Your Placement (v1.0.69)
 - **ELO log fix**: the `=== ELO update ===` lines on the game state log were showing `snapshot_before → snapshot+delta` (the rating you had when the game STARTED, plus the delta). The actually stored rating is `live_before + delta`, where `live_before` already reflects any concurrent games that finished in the meantime — so the log number didn't match the rating shown elsewhere. Now the log captures each player's live rating right before applying the delta and prints `live_before → live_after`, so the numbers line up with what you see on the lobby/profile/account pages. The delta itself is unchanged: still computed against the snapshotted ratings (so finishing order between concurrent games doesn't matter).
@@ -1070,4 +1079,4 @@
 
 ---
 
-*Built with love iteratively through 426 versions of user-driven development — from a blank repository to **v1.0.69**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 427 versions of user-driven development — from a blank repository to **v1.0.70**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
