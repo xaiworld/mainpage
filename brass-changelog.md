@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 427 versions of iterative development
+## 428 versions of iterative development
+
+### Longest-Turn Trophy Deep-Links to the Exact Replay Moment (v1.0.71)
+- The **Longest Turn** value link now goes to `/games/<id>?v=<version>` — the state version of the action that ENDED the longest turn — so clicking it doesn't just open the game, it jumps the replay navigator to that exact moment.
+- Implementation: the aggregator already tracked `gameId`; now it also captures the `state_version` of the turn-ending action. `pickHolders()` accepts an optional `versionMap` and threads it onto the picked result; `add()` builds the link with `?v=`.
+- Game page reads the `v` query param in `init()` and calls the existing `fetchAndShowVersion()` after the live state has loaded — so the "back to Live" button still works and polling stays aware of the underlying live version.
+- The other linkable trophies (Shortest Game, Longest Game, Highest VP per count) still link to the game's live page (no `?v=`) since their record is the GAME, not a specific moment.
 
 ### Hall of Fame: Trophy Values Link to Where It Happened (v1.0.70)
 - The trophy values that point to a single specific game now render as links to that game. Clicking the value opens the game.
@@ -1079,4 +1085,4 @@
 
 ---
 
-*Built with love iteratively through 427 versions of user-driven development — from a blank repository to **v1.0.70**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 428 versions of user-driven development — from a blank repository to **v1.0.71**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
