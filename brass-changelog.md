@@ -1,6 +1,25 @@
 # Brass: Lancashire — Development Changelog
 
-## 411 versions of iterative development
+## 412 versions of iterative development
+
+### Fifteen New Donor Highlights: Ghost, Diamond, Galaxy, Leaf, Ocean, Crystal, Gear, Anchor, Train, Coal, Medal, Disco, Rose, Butterfly, Moon (v1.0.55)
+- Total donor styles: 13 → **28**. Wired everywhere the existing styles already appear (lobby admin picker, account self-pick, lobby preview chips, news, Hall of Fame, game cards, rankings, ELO leaderboard, feedback, top-bar nav-user, in-game floating VP panel SVG, in-game player bar, log lines).
+  - **👻 ghost** — pale blue-white text with a 3.4s flicker animation
+  - **💎 diamond** — icy cyan/white gradient text (same trick as rainbow, different palette)
+  - **🌌 galaxy** — purple → indigo → pink gradient text
+  - **🍃 leaf** — lime-green glow (lighter than turtle)
+  - **🌊 ocean** — deep-blue → cyan gradient text
+  - **🔮 crystal** — magenta neon glow
+  - **⚙️ gear** — bronze steampunk glow (Brass theme!)
+  - **⚓ anchor** — navy-blue nautical glow (canal era)
+  - **🚂 train** — steel-grey glow (rail era)
+  - **🪨 coal** — ember red with a 2.0s pulse animation
+  - **🏅 medal** — bronze-amber glow
+  - **🪩 disco** — rainbow gradient with a 4.0s `background-position` shift so the colours travel across the name
+  - **🌹 rose** — rose-pink glow
+  - **🦋 butterfly** — indigo glow
+  - **🌙 moon** — silvery glow with a faint blue secondary shadow
+- Add to `DONOR_STYLES` (validation array in `lib/db.js`), `style.css` (CSS classes — gradient ones mirror `.donor-rainbow`'s background-clip trick; emoji-prefixed ones go through `::before` so the donor-name container's padding/border-radius applies), and `board-renderer.js` (SVG fallback used in the in-game VP panel — gradient styles fall back to a single representative colour since each gradient would otherwise need its own `<linearGradient>` def).
 
 ### News Feed: Recover-From-Stale-Filter Fixes (v1.0.54)
 - v1.0.53 introduced a persisted news filter set, but a stale or unrecognised value in `localStorage.newsFilters` could end up hiding everything (the panel looked empty even though the server was sending entries). Three guardrails:
@@ -976,4 +995,4 @@
 
 ---
 
-*Built with love iteratively through 411 versions of user-driven development — from a blank repository to **v1.0.54**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes) with type filters and a deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and donor highlights, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 412 versions of user-driven development — from a blank repository to **v1.0.55**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes) with type filters and a deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and donor highlights, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
