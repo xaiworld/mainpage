@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 414 versions of iterative development
+## 415 versions of iterative development
+
+### Name Highlight Open to All — Click-to-Apply (v1.0.58)
+- **Every player can pick a name highlight** on their account page now, no admin grant required. The picker shows your username rendered in each of the 28 available styles (gold, silver, crown, rainbow, pint, dragon, …) plus a "None" option that strips the highlight.
+- **Click the sample to apply it** — no separate confirm or radio. Each preview is itself a submit button, so clicking the gold version of your username sets the gold highlight; clicking "None" removes it. The currently-applied option keeps a gold border + inset glow so you can see the selection at a glance.
+- **Admin lobby panel kept** for setting other users' highlights (handy for moderation or assigning unusual styles on someone's behalf).
+- The legacy `donorEnabled` flag is retained on user records as a no-op historical marker; it no longer gates anything.
 
 ### News Feed: 4th Filter Pill — Streaks (v1.0.57)
 - Added a `🔥 Streaks` toggle next to the existing `👑 Wins / 🏆 Achievements / 🏅 Trophies` pills, so all-time streak-record entries can be filtered like any other type. Behaviour mirrors the others: 0 active filters → show everything (default); 1+ active → show only entries whose type is in the active set. Dropped the previous "streak records always pass through" special case now that they have their own filter; unknown types still pass through so a future news type can never accidentally vanish.
@@ -1004,4 +1010,4 @@
 
 ---
 
-*Built with love iteratively through 414 versions of user-driven development — from a blank repository to **v1.0.57**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes) with type filters and a deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and donor highlights, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 415 versions of user-driven development — from a blank repository to **v1.0.58**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and name highlights for everyone, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
