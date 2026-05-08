@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 428 versions of iterative development
+## 429 versions of iterative development
+
+### Longest-Turn No Longer Charges the First Player for Lobby Lag (v1.0.72)
+- **Bug**: the Longest Turn trophy reported things like "8d 7h" and deep-linked to `?v=1`, but reviewing the game's logs nothing of the sort happened. Cause: the calc anchored the very first action against `started_at` (or `created_at` as a fallback), so the first player got charged for the entire period between the game becoming active and them noticing it had started — often days, since async play.
+- **Fix**: the very first action of each game is now skipped from longest-turn timing. There's no real "previous turn" to anchor against. Timing starts at the SECOND player's first action, where the boundary is real (their wait clock starts when the first player committed their last action). All subsequent turn boundaries unchanged.
+- Net effect: the trophy now reflects actual turn-to-turn elapsed time rather than initial-onboarding lag. Recompute on next Hall of Fame refresh.
 
 ### Longest-Turn Trophy Deep-Links to the Exact Replay Moment (v1.0.71)
 - The **Longest Turn** value link now goes to `/games/<id>?v=<version>` — the state version of the action that ENDED the longest turn — so clicking it doesn't just open the game, it jumps the replay navigator to that exact moment.
@@ -1085,4 +1090,4 @@
 
 ---
 
-*Built with love iteratively through 428 versions of user-driven development — from a blank repository to **v1.0.71**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 429 versions of user-driven development — from a blank repository to **v1.0.72**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
