@@ -1,6 +1,9 @@
 # Brass: Lancashire — Development Changelog
 
-## 413 versions of iterative development
+## 414 versions of iterative development
+
+### News Feed: 4th Filter Pill — Streaks (v1.0.57)
+- Added a `🔥 Streaks` toggle next to the existing `👑 Wins / 🏆 Achievements / 🏅 Trophies` pills, so all-time streak-record entries can be filtered like any other type. Behaviour mirrors the others: 0 active filters → show everything (default); 1+ active → show only entries whose type is in the active set. Dropped the previous "streak records always pass through" special case now that they have their own filter; unknown types still pass through so a future news type can never accidentally vanish.
 
 ### News Feed: Drop Persistence + Drop Inner Scroll + Fix Toggle Sibling (v1.0.56)
 - **Three real bugs** behind "the news section is empty" reports on v1.0.53–v1.0.55:
@@ -1001,4 +1004,4 @@
 
 ---
 
-*Built with love iteratively through 413 versions of user-driven development — from a blank repository to **v1.0.56**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes) with type filters and a deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and donor highlights, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 414 versions of user-driven development — from a blank repository to **v1.0.57**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes) with type filters and a deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and donor highlights, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
