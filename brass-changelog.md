@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 412 versions of iterative development
+## 413 versions of iterative development
+
+### News Feed: Drop Persistence + Drop Inner Scroll + Fix Toggle Sibling (v1.0.56)
+- **Three real bugs** behind "the news section is empty" reports on v1.0.53–v1.0.55:
+  - **Filter persistence in `localStorage`** could leave a stale value (`["win"]`, `["achievement"]`, etc.) from an earlier click hiding every entry on the next page load — even after the v1.0.54 sanitiser, a *valid* persisted filter would still hide non-matching items. Fix: filters no longer persist across page loads. Every lobby visit starts with an empty filter set, so the panel always shows everything by default. The page also actively `localStorage.removeItem('newsFilters')` on load to clear leftover keys from the old version.
+  - **Nested scroll containers**. The outer `.lobby-news` aside already has `max-height: calc(100vh - 24px); overflow-y: auto`. v1.0.53 added `max-height: 520px; overflow-y: auto` on the inner `.news-list` too — two stacked scroll containers, which some browsers clipped instead of nesting. Removed the inner constraint; the parent panel handles scrolling on its own.
+  - **`toggleLobbySection` collapse target**. The function toggles `header.nextElementSibling`. v1.0.53 inserted a new `.news-filters` div between the `<h3>` header and the `#news-list`, so clicking the news header was hiding the filters instead of the list (or, after a second click, leaving things in a half-collapsed state). Wrapped the filters and the list in a single `#news-section-body` div so the header's nextElementSibling is once again the unit that should collapse.
 
 ### Fifteen New Donor Highlights: Ghost, Diamond, Galaxy, Leaf, Ocean, Crystal, Gear, Anchor, Train, Coal, Medal, Disco, Rose, Butterfly, Moon (v1.0.55)
 - Total donor styles: 13 → **28**. Wired everywhere the existing styles already appear (lobby admin picker, account self-pick, lobby preview chips, news, Hall of Fame, game cards, rankings, ELO leaderboard, feedback, top-bar nav-user, in-game floating VP panel SVG, in-game player bar, log lines).
@@ -995,4 +1001,4 @@
 
 ---
 
-*Built with love iteratively through 412 versions of user-driven development — from a blank repository to **v1.0.55**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes) with type filters and a deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and donor highlights, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 413 versions of user-driven development — from a blank repository to **v1.0.56**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed (also tracking trophy ownership changes) with type filters and a deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and donor highlights, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
