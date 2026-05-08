@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 422 versions of iterative development
+## 423 versions of iterative development
+
+### Smooth Radioactive Pulse + Working Collapse Toggle (v1.0.66)
+- **Pulse no longer leaps in brightness**: the v1.0.65 keyframes used `color-mix(in srgb, currentColor X%, transparent)` to dial the alpha across the cycle, but at least one engine wasn't smoothly interpolating it across keyframes — the result jumped between two states instead of easing. Switched to pure blur-radius modulation on `currentColor` (a tight 2px+5px halo at the cycle's bottom, an 8px+16px bloom at the peak), which interpolates reliably everywhere. The gradient-text variant got the same treatment with matched filter-layer counts at both ends.
+- **Radioactive section collapse now actually toggles**: the inline `onclick` handler from v1.0.64 wasn't taking effect (likely a quoting/scoping quirk inside the form). Replaced with a defined `toggleRadioSection(this)` function plus `event.preventDefault()` so it can't accidentally submit the form.
 
 ### Radioactive Pulse Matches Coal-Ember Rhythm (v1.0.65)
 - The v1.0.64 keyframes pulsed all the way to fully transparent at the bottom of the cycle, which over-corrected the previous "always-glowing" complaint. Returned to the same rhythm as `donor-coal-ember`: a soft glow at the low end (smaller blur + reduced alpha), full glow at the peak.
@@ -1051,4 +1055,4 @@
 
 ---
 
-*Built with love iteratively through 422 versions of user-driven development — from a blank repository to **v1.0.65**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses in each base's own colour like the coal ember) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 423 versions of user-driven development — from a blank repository to **v1.0.66**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
