@@ -1,6 +1,15 @@
 # Brass: Lancashire — Development Changelog
 
-## 415 versions of iterative development
+## 416 versions of iterative development
+
+### Duration Trophies + Hall of Fame Filters + Loan Order (v1.0.59)
+- **Five new Hall of Fame trophies** under a new **Duration** group:
+  - **⚡ Shortest Game** — players in the all-human finished game with the smallest creation→end span. Shared by everyone in that game (and across multiple games if there's a tie).
+  - **🐢 Longest Game** — same idea, max span.
+  - **⏱️ Longest Turn** — single longest turn anyone has taken in any game (elapsed clock from when it became their turn until they submitted their last action of that turn — includes thinking/AFK time, which is most of it for async play).
+  - **🐌 Slowest Avg Game** and **🚀 Fastest Avg Game** — per-player mean game duration. Both require ≥2 finished games for the player to qualify, so a single quick game can't trivially crown someone.
+- **Hall of Fame filter pills**, news-style: 11 group toggles (Ratings, Activity, Games, Records, Industry, Money, Selling, Building, Battle, Duration, Means) plus a × clear button. Empty filter set shows everything (default); selecting one or more shows only those groups. Filters don't persist across page loads — same as the news panel.
+- **Loan amount buttons re-ordered**: £30 (3 bands) is on top, £20 in the middle, £10 at the bottom. £30 is the typical pick; putting it first cuts the click for the common case.
 
 ### Name Highlight Open to All — Click-to-Apply (v1.0.58)
 - **Every player can pick a name highlight** on their account page now, no admin grant required. The picker shows your username rendered in each of the 28 available styles (gold, silver, crown, rainbow, pint, dragon, …) plus a "None" option that strips the highlight.
@@ -1010,4 +1019,4 @@
 
 ---
 
-*Built with love iteratively through 415 versions of user-driven development — from a blank repository to **v1.0.58**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 43-trophy Hall of Fame with shared ties and name highlights for everyone, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 416 versions of user-driven development — from a blank repository to **v1.0.59**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
