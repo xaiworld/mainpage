@@ -1,6 +1,14 @@
 # Brass: Lancashire — Development Changelog
 
-## 431 versions of iterative development
+## 433 versions of iterative development
+
+### Shortest Turn Trophy (v1.0.76)
+- New 💨 **Shortest Turn** trophy in the Duration group: the smallest single-turn elapsed time recorded across all all-human finished games. Same calc as Longest Turn (skips the game's very first action so lobby-discovery lag doesn't poison the result), tracked alongside it.
+- Holder is the user who has the smallest minimum turn anywhere; value links to the exact replay version of that turn (`?v=…`), same deep-link pattern as Longest Turn.
+- New `pickHoldersMin` helper for "smallest positive value across users" trophies — reusable for other future "lowest" records.
+
+### Mobile News Init Targets the Right Wrapper Node (v1.0.75)
+- On mobile, the lobby's news section was permanently hidden after the first toggle: the mobile-init code set `display:none` on `#news-list` (the inner entries div) but the header toggle has been operating on `#news-section-body` (the outer wrapper added in v1.0.56) since the filter pills were introduced. So clicking the header toggled the wrapper but the inline `display:none` on the inner list never got cleared, leaving the entries permanently hidden even when the wrapper showed as expanded. Fix: mobile init now targets `#news-section-body`, the same node the header toggle works on, so a single header click cleanly expands the whole panel.
 
 ### Updated Controls Help Panel in the Left Sidebar (v1.0.74)
 - The in-game Controls help panel (left sidebar) was missing about half of the toggles that have been added in the last few months. Rewritten with section headings (Sliders / Display / View filters / Hand & turn) and entries for every current control:
@@ -1101,4 +1109,4 @@
 
 ---
 
-*Built with love iteratively through 431 versions of user-driven development — from a blank repository to **v1.0.74**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 433 versions of user-driven development — from a blank repository to **v1.0.76**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
