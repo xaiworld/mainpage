@@ -1,6 +1,52 @@
 # Brass: Lancashire — Development Changelog
 
-## 433 versions of iterative development
+## 437 versions of iterative development
+
+### Eleven New Trophies + Twelve New Achievements (v1.0.80)
+A big batch of new Hall of Fame trophies and per-player achievements, shipped in three logical groups inside one release.
+
+**New trophies (11)** — added across the existing Records / Battle / Means / Activity groups:
+- 🏗 **Most Tiles in a Game** — peak `buildIndustry` count across all your games (single game).
+- 🛤 **Most Links in a Game** — peak built links (rails count 2 in a double-rail action).
+- 🌍 **Widest Build (locations)** — most distinct locations you built in inside one game.
+- 💸 **Largest Single Spend** — the biggest single-action money cost (proxy from tile/link base cost).
+- 🎯 **Closest Win** — smallest VP gap between a solo winner and 2nd place. Holder = the winner of that game.
+- 💥 **Largest Win Margin** — biggest VP gap, same attribution.
+- 🏛 **Opponents Faced** — number of distinct humans you've sat down with in at least one all-human game.
+- 🏅 **Longest Winning Streak** — most consecutive game wins in chronological order.
+- 🐌 **Slowest Avg Turn** — per-player mean turn duration across all timed turns (≥5 turns to qualify).
+- 🚀 **Fastest Avg Turn** — same metric, smallest mean.
+- 🔁 **Most Concurrent Games** — peak count of in-progress all-human games you were in at any single instant. Computed by walking each game's `started_at → finished_at` interval per player.
+
+Each trophy whose record points at a single game gets a deep-link to that game (same pattern as v1.0.70/v1.0.71). Win-streak trophy links to the game that closed the streak.
+
+**New achievements (12)**:
+- **Globe Trotter** — own a link to all three external ports (Scotland, Yorkshire, The Midlands) in one game.
+- **Marathon Builder** — build 15+ industry tiles in a single game.
+- **Wide Builder** — build in 8+ distinct locations in one game.
+- **Loan King** — take all three loan bands (£10, £20, £30) in a single game.
+- **Coal Tycoon** — build 5+ coal mines in a single game (Coal Baron is the all-7 max).
+- **Demolisher** — be overbuilt 3+ times in a single game (your tiles got replaced).
+- **Speedrun** — be in a game that finished within 24 hours of starting.
+- **Marathon** — be in a game that took 30+ days to finish.
+- **Dynasty** — win 5 all-human games in a row.
+- **Reset Master** — use Reset Turn 50 times across your games. Tracked via a new `user.resetCount` counter, bumped on every successful `/reset-turn`.
+- **Polyglot** — use the interface in at least 3 different languages. Tracked via a new `user.langsUsed` array, appended on every language change.
+- **Customizer** — try at least 10 different name highlights. Tracked via a new `user.donorStylesTried` array, appended every time you pick a non-empty style on the account page.
+
+**Notes**:
+- Trophy/achievement counts will populate live for new games and as users do new things; the Reset/Polyglot/Customizer trackers don't backfill (no historical events to count for those), so a returning player needs to do the action once to start their counter.
+- Marathon Builder / Pacifist note: `Self-Made` already covers "win without taking any loans", so Pacifist was substituted with Marathon Builder. Underdog Crown was likewise substituted with Dynasty since `underdog` and `comeback_kid` already cover the lowest-rated-wins / last-place-comeback angles.
+- Hall of Fame total goes from 50 → 61 trophies. Achievements total goes from 51 → 63.
+
+### Stale-Trophy-News Cache-Hit-Path Scrub (v1.0.79)
+- The v1.0.78 stale-trophy-news scrubber only ran on the recompute path, so cache hits left the bogus pre-v1.0.77-fix trophy news visible until the next recompute. Hooked the scrub into the cache-hit branch too, plus a one-shot cache invalidation on first boot so the next read forces a fresh recompute and clean news.
+
+### Stale Trophy News Scrub on HoF Recompute (v1.0.78)
+- The pre-v1.0.77-fix Hall of Fame had been emitting trophy-change news entries with values inflated by the link-classifier bug ("Avg Rails / Game" > 14, etc.). Scrubbed those stale entries on every Hall of Fame recompute so the news feed stops showing the bogus numbers. Also added a CLAUDE.md note about the git-proxy 403 workaround via the GitHub MCP.
+
+### Hall of Fame classifyLinkBuild Fix (v1.0.77)
+- `classifyLinkBuild` previously checked `parsed.coalSources || parsed.resourcePlan || ...` as a "rail" heuristic, but the client sometimes leaves those initialised to `[]`. Empty arrays are TRUTHY in JS, so canal builds were being mis-classified as rails — inflating `acc.rails` / `acc.links` and producing impossible "Avg Rails / Game > 14" trophies. Replaced with a single read of `state.board.links[linkId].type` (which is `'rail'`, `'canal'`, or `null` for a removed canal — anything not `'rail'` is treated as canal).
 
 ### Shortest Turn Trophy (v1.0.76)
 - New 💨 **Shortest Turn** trophy in the Duration group: the smallest single-turn elapsed time recorded across all all-human finished games. Same calc as Longest Turn (skips the game's very first action so lobby-discovery lag doesn't poison the result), tracked alongside it.
@@ -1109,4 +1155,4 @@
 
 ---
 
-*Built with love iteratively through 433 versions of user-driven development — from a blank repository to **v1.0.76**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 437 versions of user-driven development — from a blank repository to **v1.0.80**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
