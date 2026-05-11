@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 437 versions of iterative development
+## 438 versions of iterative development
+
+### i18n catch-up + upset-trophy default-elo fallback (v1.0.81)
+Three small bug fixes around the v1.0.80 release:
+- Added the missing `hof.group.duration` translation key in all 10 languages — the Duration trophy group was rendering its raw key (`hof.group.duration`) in the lobby instead of a label like "Duration" / "Duración" / "Durée".
+- Added English `ach.<id>` entries for 16 achievements that were missing them (`globe_trotter`, `marathon_builder`, `wide_builder`, `loan_king`, `coal_tycoon`, `demolisher`, `speedrun`, `marathon`, `dynasty`, `reset_master`, `polyglot`, `customizer`, plus the older `track_layer`, `iron_horse`, `tiebreak_champion`, `bridesmaid` that had slipped through). Non-English languages fall back to English instead of showing the raw `ach.<id>` key. Translations into the other 9 languages can be filled in later.
+- Hardened the "Higher-ELO Beaten" (`upsets`) trophy: missing per-player entries in `state.eloAtStart` now default to 1000 (same convention as the `giant_killer` achievement) instead of silently skipping the comparison. The trophy can still be unclaimed if no one has actually outscored a higher-rated opponent yet, but it no longer drops valid candidates when one player's snapshot row is incomplete.
 
 ### Eleven New Trophies + Twelve New Achievements (v1.0.80)
 A big batch of new Hall of Fame trophies and per-player achievements, shipped in three logical groups inside one release.
@@ -1155,4 +1161,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 437 versions of user-driven development — from a blank repository to **v1.0.80**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 9-language interface, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 438 versions of user-driven development — from a blank repository to **v1.0.81**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
