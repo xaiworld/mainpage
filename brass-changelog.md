@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 440 versions of iterative development
+## 441 versions of iterative development
+
+### Floating VPs panel — delta wrapped in a gold hex, snug to the coloured one (v1.0.84)
+Two refinements to the v1.0.83 floating-VPs-panel delta:
+- The `+N` is now drawn inside its own gold outline hex (r=6, no fill, gold stroke) so it matches the pink coloured hex as a sibling — same shape language as the player-bar `.vp-potential` badge in HTML.
+- The gold hex now touches the coloured hex on the right, instead of floating a few px away.
+- The player name shifted slightly further right (pos.x+32 worth of clearance) so the gold hex doesn't clip into the first letter of the name even for long usernames or donor emoji prefixes.
 
 ### Potential-VP delta on the floating VPs panel + revert player-bar to delta (v1.0.83)
 Two adjustments:
@@ -1169,4 +1175,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 440 versions of user-driven development — from a blank repository to **v1.0.83**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 441 versions of user-driven development — from a blank repository to **v1.0.84**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
