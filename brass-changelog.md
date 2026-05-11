@@ -1,6 +1,21 @@
 # Brass: Lancashire — Development Changelog
 
-## 444 versions of iterative development
+## 445 versions of iterative development
+
+### Largest Single Spend trophy now counts coal/iron cubes, not just base cost (v1.0.88)
+The trophy was using the **base tile/link cost** only (proxy), so a shipyard L2 build (£25 tile) showed as £25 even when the player also paid £5+£5 for iron and coal from a depleted market. That's the issue you spotted (£15 record was the £15 base for a double-rail — true cost can be £25 once coal market is dry).
+
+Fix is wired front-to-back:
+- `lib/game-engine.js` — `actionBuildIndustry`, `actionBuildLink` (canal + single-rail + double-rail), and `actionDevelop` now all return `{ success: true, totalCost }` where `totalCost = base + market resources actually paid`. The dispatcher carries it up to the caller.
+- `routes/game-routes.js` + `lib/bot-engine.js` — embed `action.totalCost` into the stored action_data before stringifying, so the figure is persistent.
+- `lib/hall-of-fame.js` — the trophy aggregator prefers `parsed.totalCost` when present and falls back to the old base-cost proxy for actions recorded before v1.0.88. So pre-existing games keep their (low) proxy value and new spends start setting accurate records.
+
+Spend now includes:
+- **Build industry**: tile cost + each coal/iron cube actually purchased from market (board cubes are still free, as in the rules).
+- **Build link (rail, single)**: £5 + coal cost (£0 if board, up to £5 if market-bought).
+- **Build link (rail, double)**: £15 + 2× coal cost.
+- **Build link (canal)**: £3.
+- **Develop**: iron market cost (board iron is free, so this is only > £0 when the player explicitly buys iron from the market).
 
 ### Turn navigator moved up + buttons fit in the panel (desktop) (v1.0.87)
 The ⏮ ◀ ▶ ⏭ rewind / fast-forward controls in the desktop left panel were buried at the bottom of the panel, below the long Controls description block. They're now placed **right under the player cards** where they're easy to reach.
@@ -1185,4 +1200,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 444 versions of user-driven development — from a blank repository to **v1.0.87**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 445 versions of user-driven development — from a blank repository to **v1.0.88**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
