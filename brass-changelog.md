@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 439 versions of iterative development
+## 440 versions of iterative development
+
+### Potential-VP delta on the floating VPs panel + revert player-bar to delta (v1.0.83)
+Two adjustments:
+- The **player bar on the left** goes back to showing the gap as `+N` (the v1.0.82 absolute-value rendering was a misread of the request).
+- The **floating VPs panel** (the on-board panel showing player name + VP hex) now also gets a small gold `+N` between the hex and the player name when there's a gap to potential. The name was nudged 10 SVG-px to the right to make room. Hidden when the delta is 0 or when the game is finished.
 
 ### Potential VP shown as an absolute value in the player bar (v1.0.82)
 The gold-outlined hex next to each player's live VP score used to display the **delta** to their potential ("+12"). Now it shows the **absolute potential VP** ("97"), so the player bar always shows both numbers side by side: pink hex = projected score right now (live, if scoring happened in this state), gold hex = best-case score if every tile on the board flipped. The tooltip on the gold hex still surfaces the delta. Mobile and desktop both use the same pattern — both hexes are the same size (16×15 desktop, 18×17 mobile), so the layout is unchanged.
@@ -1164,4 +1169,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 439 versions of user-driven development — from a blank repository to **v1.0.82**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 440 versions of user-driven development — from a blank repository to **v1.0.83**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
