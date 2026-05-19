@@ -1,6 +1,34 @@
 # Brass: Lancashire — Development Changelog
 
-## 475 versions of iterative development
+## 476 versions of iterative development
+
+### Batch 4: 11 new achievements + 7 new trophies (v1.0.119)
+
+**Engine flag** — `actionBuildIndustry` now sets `action.usedWeirdestRule = true` when a build succeeds via the rail-era Birkenhead/Liverpool cross-Mersey exception. Persisted into `action_data` so the new achievement can detect it retroactively for future games.
+
+**11 new achievements** (all evaluated at game end except Insomniac which is action-time):
+- **Mersey Bridge** — build a Liverpool or Birkenhead industry using the Weirdest Rule (across-the-Mersey without an actual link).
+- **Both Sides of the Mersey** — build at least one industry in BOTH Liverpool and Birkenhead in one game.
+- **Income Sky** — reach the top of the income track (square 97+, +30/turn) in a single game.
+- **Skinflint** — win a game with under £10 remaining.
+- **Untouched** — win without any of your tiles being overbuilt.
+- **First Light** — submit the very first action of a game.
+- **Closer** — submit the last action of a game (the one that triggers end-of-rail-era scoring).
+- **Pure Strategy** — win without taking a loan AND without ever passing.
+- **Pass Master** — pass 5+ times in one game (joke achievement).
+- **Snake Eyes** — finish with 0 or 1 VP.
+- **Insomniac** — submit a turn between 03:00–05:00 local time (narrower window than Night Owl, action-kind).
+
+**7 new trophies** in the Hall of Fame:
+- **Highest Income Square** (Records, 📈) — peak income-track square reached at any game end. Display includes the +N/turn value via `incomeTrack[v]`.
+- **Wild Builds** (Building, 🌟) — lifetime count of `buildIndustry` with `wildBuild: true`.
+- **Tiles Developed** (Building, 🛠️) — lifetime sum of `develops.length` across all `develop` actions.
+- **Distinct Industries** (Industry, 🧭) — number of unique `industryType` values in your lifetime build log (max 5).
+- **Earliest First Sell** (Selling, ⚡) — smallest delta from `game.started_at` to the first `sellCotton` action across all games (uses `pickHoldersMin`).
+- **Latest Last Sell** (Selling, 🕰️) — largest delta from `game.started_at` to the last `sellCotton` action across all games.
+- **Closest Tiebreak Margin** (Battle, ⚖️) — for games that ended with 2+ tied at top VP, the smallest diff at the first tiebreak chain level (income → money → spent → turn-order) where they differ. Attributed to the tiebreak winner.
+
+All wired into `emptyAcc`, `aggregateGame`, `METRIC_DEFS`, and the `add()` calls in `compute()`. English `ach.<id>` translations added so non-English UIs fall back to English instead of showing raw IDs.
 
 ### HoF link counts: set-based dedup + safer classifier (v1.0.118)
 The "Most Links in a Game" trophy was capable of showing values above the physical 28-tile cap (14 canal + 14 rail per player). Two ways that could happen:
@@ -1240,4 +1268,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 475 versions of user-driven development — from a blank repository to **v1.0.118**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 476 versions of user-driven development — from a blank repository to **v1.0.119**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
