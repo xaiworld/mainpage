@@ -1,6 +1,13 @@
 # Brass: Lancashire — Development Changelog
 
-## 445 versions of iterative development
+## 469 versions of iterative development
+
+### Distant-market bottom-out on last action of last round now holds for confirm (v1.0.112)
+Fixed a hole in the end-of-turn confirmation path. When a player sold cotton to the distant market and the market **bottomed out** (demand dropped to 0, flipping the last demand tile), the engine force-finalised the sell action — but because the client had submitted it as a `partial: true` sub-action, no `holdForConfirm` flag was attached. The dispatcher therefore advanced the turn immediately. If that happened on the player's last action of the last round, the game ended with no confirmation dialog and no chance to reset.
+
+Fix in `lib/game-engine.js`: the dispatcher now treats `result.bottomedOut === true` on the player's last action of the turn (`actionsRemaining === 1`) as an implicit hold — sets `pendingConfirm` and waits for the player to explicitly confirm (or reset, where reset is still meaningful).
+
+Side fixes in `routes/game-routes.js`: the "your turn" notification and the bot trigger after action submission now check `result.newState.pendingConfirm` in addition to `action.holdForConfirm`. Previously a server-side hold (added in this release) would have wrongly notified the same player it's their turn and pinged the bot driver, because both blocks only watched the client-set flag.
 
 ### Largest Single Spend trophy now counts coal/iron cubes, not just base cost (v1.0.88)
 The trophy was using the **base tile/link cost** only (proxy), so a shipyard L2 build (£25 tile) showed as £25 even when the player also paid £5+£5 for iron and coal from a depleted market. That's the issue you spotted (£15 record was the £15 base for a double-rail — true cost can be £25 once coal market is dry).
@@ -1200,4 +1207,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 445 versions of user-driven development — from a blank repository to **v1.0.88**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 469 versions of user-driven development — from a blank repository to **v1.0.112**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
