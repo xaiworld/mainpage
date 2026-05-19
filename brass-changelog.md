@@ -1,6 +1,9 @@
 # Brass: Lancashire — Development Changelog
 
-## 469 versions of iterative development
+## 470 versions of iterative development
+
+### Tier progress bar moved to the top of the lobby (v1.0.113)
+The "progress to next tier" bar now sits right under the my-turn / up-to-date banner at the very top of the lobby so it's visible at a glance — no need to scroll to the Tiers section to see how close you are to the next rank. The bar is a clickable anchor that jumps down to the full Tiers section (which still has the descriptive text and the table of all tiers, just without the duplicate bar inside it).
 
 ### Distant-market bottom-out on last action of last round now holds for confirm (v1.0.112)
 Fixed a hole in the end-of-turn confirmation path. When a player sold cotton to the distant market and the market **bottomed out** (demand dropped to 0, flipping the last demand tile), the engine force-finalised the sell action — but because the client had submitted it as a `partial: true` sub-action, no `holdForConfirm` flag was attached. The dispatcher therefore advanced the turn immediately. If that happened on the player's last action of the last round, the game ended with no confirmation dialog and no chance to reset.
@@ -1207,4 +1210,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 469 versions of user-driven development — from a blank repository to **v1.0.112**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 470 versions of user-driven development — from a blank repository to **v1.0.113**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
