@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 470 versions of iterative development
+## 471 versions of iterative development
+
+### Tier visibility — who's in which tier (v1.0.114)
+Two surface-level additions so tiers are easy to see at a glance:
+- **Tier section** now has a fourth "Players" column listing every user whose current tier matches that row. Untiered users (not enough turns yet) get their own row at the bottom. Donor highlights are preserved on the names; clicking a name jumps to that user's profile.
+- **Players list** in the sidebar — the small tier icon next to each name is replaced with a proper gold-tinted **tier badge** that shows both the icon AND the tier name (e.g. `🪵 Wooden Coins`). Clicking it jumps to the Tiers section. Hover tooltip still shows tier number and lifetime turn count.
 
 ### Tier progress bar moved to the top of the lobby (v1.0.113)
 The "progress to next tier" bar now sits right under the my-turn / up-to-date banner at the very top of the lobby so it's visible at a glance — no need to scroll to the Tiers section to see how close you are to the next rank. The bar is a clickable anchor that jumps down to the full Tiers section (which still has the descriptive text and the table of all tiers, just without the duplicate bar inside it).
@@ -1210,4 +1215,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 470 versions of user-driven development — from a blank repository to **v1.0.113**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 471 versions of user-driven development — from a blank repository to **v1.0.114**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
