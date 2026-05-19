@@ -1,6 +1,17 @@
 # Brass: Lancashire — Development Changelog
 
-## 474 versions of iterative development
+## 475 versions of iterative development
+
+### HoF link counts: set-based dedup + safer classifier (v1.0.118)
+The "Most Links in a Game" trophy was capable of showing values above the physical 28-tile cap (14 canal + 14 rail per player). Two ways that could happen:
+1. **Classifier rule 1** (`secondLinkId → rail`) was triggering on canal-era actions that had a stray `secondLinkId` field (UI-bug or migration artifact), then counting them as 2 rails instead of 1 canal.
+2. **Duplicate buildLink entries** in the action log (rare retry/replay paths) were counted as additional links.
+
+Two structural fixes in `lib/hall-of-fame.js`:
+- The classifier no longer trusts `secondLinkId` on its own to imply "rail". It now goes: `resourcePlan present → rail` (canals never consume resources); then `totalCost ∈ {3, 6} → canal, else rail` (v1.0.88+); then a fallback to the final `link.type` on the board. Stray `secondLinkId` on a canal action no longer poisons the classification.
+- The per-game link counter switched from `count += 1 (or +2 for double-rail)` per action to a **Set of distinct linkIds per era per player**. Each link is counted at most once per era regardless of how many times the action appears in the log, so the per-game total naturally caps at 28 (14 canal + 14 rail). The lifetime `canals`, `rails`, and `links` accumulators are bumped from those set sizes at the end of each game.
+
+Side effect: the "Avg Canals / Game" and "Avg Rails / Game" means trophies will also re-stabilise — they were inflated by the same misclassification.
 
 ### Locations more opaque when the map slider is dimmed (v1.0.117)
 Previously the location rectangles on the board had a fixed `~67%` fill alpha (`#d6c8a8aa`). With the map at full brightness it looked balanced — the colourful map provided the background contrast — but with the map slider dragged left toward 0%, the dark page background showed through the translucent rectangles, making the location names and slots hard to read.
@@ -1229,4 +1240,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 474 versions of user-driven development — from a blank repository to **v1.0.117**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 475 versions of user-driven development — from a blank repository to **v1.0.118**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
