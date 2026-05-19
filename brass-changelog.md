@@ -1,6 +1,31 @@
 # Brass: Lancashire — Development Changelog
 
-## 478 versions of iterative development
+## 479 versions of iterative development
+
+### Batch 5: 9 new achievements + 6 new trophies + a Badges wiki page (v1.0.122)
+
+**9 new achievements** (`lib/achievements.js`):
+- **Pioneer** — built the very first link in a game.
+- **Tower** — finished owning 3+ tiles at the same location.
+- **Cotton Stockpile** — finished with 3+ of your own cotton mills still unflipped.
+- **Eve of Destruction** — overbuilt 3+ opponents' tiles in one game (attacker side of Demolisher).
+- **Sleeper Win** — won despite a 48+ hour gap between two of your own actions.
+- **Centurion +1** — finished with exactly 101 VP.
+- **Apprentice** — used the Develop action for the first time.
+- **Daily Double** — finished 2+ all-human games on the same UTC date.
+- **Burst Mode** — submitted 6+ actions within a single hour (action-kind, uses a new rolling 1-hour buffer on the user record via `db.recordRecentActionTs`).
+
+**6 new trophies** (`lib/hall-of-fame.js`):
+- **Overbuilds Caused** (Battle, 💥) — lifetime count of opponents' tiles you overbuilt.
+- **Tile-Level Sum** (Industry, 🏭) — sum of levels across every tile you've ever built. Rewards quality over quantity.
+- **Biggest Hoard at Game End** (Money, 💰) — largest money any player has ended a game with.
+- **Smallest Winning Hoard** (Money, 🪙) — smallest money a solo winner has ended with.
+- **Days Active** (Activity, 📆) — distinct UTC dates with at least one action.
+- **Tenure** (Activity, 🕰️) — days since the player's very first recorded action.
+
+**Wiki — new "Badges" page** at `/wiki/badges`. Auto-generated from `lib/achievements.js` and `lib/hall-of-fame.js`, so it always reflects the live definitions. Listed by group (game-end / action / streak for achievements; Ratings / Activity / Games / Records / Industry / Money / Selling / Building / Battle / Duration / Means for trophies). Each trophy has a one-line explanation of what it actually tracks. Link added to every wiki page's nav strip and the wiki index. All wiki pages render with the same chrome.
+
+Total: **83 achievements** / **73 trophies**.
 
 ### Remove the Distinct Industries trophy (v1.0.121)
 The `distinctIndustries` trophy (number of unique industry types built lifetime, capped at 5) was too easy to max out — any active player would saturate it within their first ~5 games and it stopped distinguishing anyone. Removed the trophy definition, its accumulator, its aggregation, and its `add()` call.
@@ -1278,4 +1303,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 478 versions of user-driven development — from a blank repository to **v1.0.121**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 479 versions of user-driven development — from a blank repository to **v1.0.122**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
