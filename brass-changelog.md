@@ -1,6 +1,24 @@
 # Brass: Lancashire — Development Changelog
 
-## 483 versions of iterative development
+## 484 versions of iterative development
+
+### Lobby — game-type awareness, tiers reversed, players table with headers (v1.0.127)
+
+**Games list**:
+- Each game row now shows a small **BL / BB** game-type badge next to its name, colour-coded (Lancashire blue, Birmingham orange).
+- A new tab strip above the games list filters by game type: **All Games | Brass: Lancashire | Brass: Birmingham**. Works on top of the existing status filter; persists via `localStorage.brass_gameTypeFilter`.
+
+**System Data section** — new tabs **Total | Lancashire | Birmingham**. The route now computes per-game-type active/waiting/finished/total counts (`systemCounts.{lancashire,birmingham,total}`). Total is the default; Players count is only shown on the Total tab.
+
+**ELO + Rankings sections** — new **Lancashire | Birmingham** tabs. The Birmingham panes show a "no data yet" placeholder until Phase 3 finishes Birmingham's engine and the first game produces ELO / VP records.
+
+**Tier table** — order reversed: tier 9 (Birkenhead's Virtual Link Æther) at the top, tier 1 at the bottom, with the "No tier yet" row still at the very bottom.
+
+**Players list → real table with headers**:
+- Was a flex-row list; converted to `<table id="players-table">` with four columns: **Player**, **Tier**, **Metric**, **Last seen**.
+- The Metric column header label updates dynamically (`sortPlayers()` writes "2P ELO" / "🏆 Ach" / etc. into `#players-metric-header`).
+- The whole Metric column is hidden via CSS (`:has()` selector) when the active filter is Recent / A-Z; works on mobile too — the table layout handles the narrower viewport cleanly.
+- Replaces the previous desktop-only one-badge-at-a-time hack with a column that's always semantically meaningful.
 
 ### Desktop players-list — one-metric-at-a-time filter (v1.0.126)
 Each player row was showing all six metric badges in one line (2P/3P/4P ELO + 🏆 ach + 🔥 streak + 🎲 today) plus the activity timestamp. On desktop with a narrow players-list panel the row overflowed off the right edge.
@@ -1375,4 +1393,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 483 versions of user-driven development — from a blank repository to **v1.0.126**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 484 versions of user-driven development — from a blank repository to **v1.0.127**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
