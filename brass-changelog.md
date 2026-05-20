@@ -1,6 +1,27 @@
 # Brass: Lancashire — Development Changelog
 
-## 492 versions of iterative development
+## 493 versions of iterative development
+
+### Birmingham board + mat polish (v1.0.136)
+
+A batch of fixes covering the issues you flagged on the Birmingham game:
+
+**Industry mat (per-game data)**:
+- Added a full Birmingham `INDUSTRIES_BIRMINGHAM` map in `public/js/industry-data-client.js` — mirrors `lib/games/birmingham/industry-data.js` (tile counts, VP, costs, era flags, brewery barrels) so the mat panel doesn't drift from the server.
+- The mat panel now picks per game via `industriesFor(gameType)`. Lancashire games keep the Lancashire data; Birmingham games read Birmingham's.
+- **No more phantom 3rd Cotton Mill L2 in Birmingham** — Birmingham L2 has `tiles: 2`, so the tile counter only shows 2.
+- **Manufacturer / Pottery / Brewery now have real per-level data** — the mat detail block stops being a bare header and shows each level's cost / coal / iron / VP / income properly.
+- **Cotton Mill L1 = 5 VP in Birmingham**, not 3.
+
+**Board renderer**:
+- **Capitalised display names** for every location, on both the board (`drawLocation`) and through the new `BB_DISPLAY_NAME` map — "kidderminster" → "Kidderminster", "burtonOnTrent" → "Burton-on-Trent", "stokeOnTrent" → "Stoke-on-Trent", etc. Unnamed breweries label as "🍺 Brewery" instead of an empty box.
+- **External markets only drawn when active** for the current player count. 2P games no longer show Warrington or Nottingham; 3P no longer shows Nottingham. Links that touch a dropped node are filtered too.
+- **Unbuilt links highlighted by era buildability** — canal-era-eligible unbuilt links render as dashed blue, rail-era-eligible as dashed brown, ineligible as faint dashed grey. Makes "what can I build right now" obvious at a glance.
+- **brewery1 moved** to (200, 175) — left of Cannock, above Wolverhampton — instead of the previous right-of-Cannock spot.
+- **Coal + iron markets redesigned** to a 2-wide bottom-up ladder (1 row per price). Bottom row = £1 (cheapest), top row = £7 (coal) / £5 (iron). Each row holds the two adjacent slots at that price. Price label sits next to each row. Iron stacks above coal on the right edge.
+
+**Card click popup** (`game-ui.js` / `game-ui-birmingham.js`):
+- The Lancashire **hover popup** (`onCardHover` → `showActionPopup`) now short-circuits for Birmingham games. Previously it was firing alongside the Birmingham "Use ⟨card⟩ as…" click popup, so you saw both menus at once. Now only the Birmingham cascading popup shows.
 
 ### Phase 5: Brass: Birmingham — board renderer + card-driven actions (v1.0.135)
 
@@ -1552,4 +1573,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 492 versions of user-driven development — from a blank repository to **v1.0.135**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 493 versions of user-driven development — from a blank repository to **v1.0.136**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
