@@ -1,6 +1,36 @@
 # Brass: Lancashire — Development Changelog
 
-## 479 versions of iterative development
+## 480 versions of iterative development
+
+### Phase 0: Brass: Birmingham game-type plumbing (v1.0.123)
+
+No user-visible gameplay change — this is the foundation for the second game.
+
+**New shared module**: `lib/game-types.js` defines two game types (`lancashire`, `birmingham`). Lancashire is the default with empty prefixes (so existing data shapes — `user.ratings['2p'|'3p'|'4p']`, `user.achievements.first_game`, etc. — are unchanged). Birmingham uses `bb_` ELO prefix and `bb:` achievement-ID prefix when it ships.
+
+**State + game records carry `gameType`**:
+- `lib/game-setup.js` `createInitialState` writes `gameType: 'lancashire'`.
+- `lib/db.js` `createGame(name, np, by, gameType)` writes the field on every new game record.
+- A one-time migration (`data.meta.gameTypeBackfillDone`) walks every existing game record AND every saved state and stamps them with `gameType: 'lancashire'` so reads can rely on the field being present.
+
+**Hall of Fame is now per-game-type**:
+- `lib/hall-of-fame.js` `compute(db, gameType)` filters `finishedGames` by `g.gameType`. Default 'lancashire' so legacy callers behave identically.
+- `lib/db.js` `getHallOfFame(maxAgeMs, gameType)` keeps a per-type cache under `meta.hallOfFameByType[gt]`. The legacy `meta.hallOfFame` slot is mirrored as the `lancashire` cache on first access.
+- `routes/lobby-routes.js` `/api/hall-of-fame` accepts `?gameType=…` and routes to the matching cache.
+
+**Lobby UI**:
+- New tabs at the top of the Hall of Fame section: **Brass: Lancashire | Brass: Birmingham**. Click to swap which game's HoF is shown. Birmingham renders empty until any Birmingham game finishes.
+- Per-tab cache invalidation is automatic — clicking a tab fetches `/api/hall-of-fame?gameType=…` and re-renders.
+
+**Wiki**:
+- New page at `/wiki/birmingham` with the full rule digest gathered in this session (setup numbers, action list, beer mechanics, scout, scoring, tiebreaker, etc.).
+- Nav link added to every existing wiki sub-page + index.
+
+**Out of scope for Phase 0** (handled by later phases):
+- No game creation picker for Birmingham yet — only Lancashire games can be created.
+- No Birmingham engine — `lib/games/birmingham/` doesn't exist yet.
+- Existing achievements/trophies are not yet tagged by `gameType` (will happen alongside the engine fork in Phase 1).
+- ELO storage keys for Lancashire remain `ratings.2p|3p|4p`. Birmingham will write to `ratings.bb_2p|bb_3p|bb_4p`.
 
 ### Batch 5: 9 new achievements + 6 new trophies + a Badges wiki page (v1.0.122)
 
@@ -1303,4 +1333,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 479 versions of user-driven development — from a blank repository to **v1.0.122**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 480 versions of user-driven development — from a blank repository to **v1.0.123**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
