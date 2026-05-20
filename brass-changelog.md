@@ -1,6 +1,27 @@
 # Brass: Lancashire — Development Changelog
 
-## 484 versions of iterative development
+## 485 versions of iterative development
+
+### Phase 3a: Brass: Birmingham — pass / loan / advanceTurn + network helpers (v1.0.128)
+
+The Birmingham engine takes its first real steps:
+
+**`lib/games/birmingham/network.js`** — BFS-based connectivity helpers that handle the 3-endpoint **Y-junction link** (Worcester ⇄ Kidderminster ⇄ UnnamedBrewery2). Walks neighbours from `link.endpoints[]` rather than the pairwise `from/to` Lancashire uses. Exposes `getPlayerNetwork` / `isConnected` / `getConnectedLocations` / `getConnectedWithDistances` / `countOwnedLinks` plus three resource-source finders (`findIronSources`, `findCoalSources`, `findBeerSources`) — the beer finder applies Birmingham's "own brewery = no network needed, opponent brewery = via network" asymmetry.
+
+**`lib/games/birmingham/engine.js`** — Phase 3a action surface:
+- `applyAction(state, userId, action)` dispatcher; everything not in this phase returns a `Phase 3 sub-phase pending` error.
+- `actionPass` — discards the played card to the player's personal discard.
+- `actionTakeLoan` — Birmingham's fixed £30 / 3-income-levels loan. Blocked when income value is below −7 (the rule the user clarified to be strict `<`, so income value −7 is still loanable). Also blocked in rail era after the draw deck exhausts (same restriction as Lancashire to keep end-game stable).
+- `advanceTurn` — Birmingham's end-of-round phase order: reorder by spent-this-round (ascending, ties keep prior order), reset spent boxes, refill hands to 8 from the deck, **then collect income** (Lancashire collects at start-of-round; Birmingham at end). First canal round = 1 action per player; everything else 2.
+- `collectIncomeOrPenalty` — implements the negative-income rule the user confirmed matches Lancashire: pay from money first, then remove cheapest tiles for half-cost-rounded-down each, then −1 VP per pound still owed.
+- Era-end detection — when the deck and every hand are empty, the era ends. Phase 3f wires the actual canal→rail transition and scoring; until then the game just halts cleanly at `phase: 'finished'`.
+
+**Smoke-tested** end-to-end with a pass-only game at 2P/3P/4P:
+- 2P canal completes in 38 actions (= 1×2 + 2×2×9), final round 10, deck and hands empty.
+- 3P canal completes in 51 actions (= 1×3 + 2×3×8), final round 9.
+- 4P canal completes in 60 actions (= 1×4 + 2×4×7), final round 8.
+
+Matches the deck math from the rule digest exactly. Phase 3b–3f (build, network, sell, develop, scout, era transition, scoring) still ahead.
 
 ### Lobby — game-type awareness, tiers reversed, players table with headers (v1.0.127)
 
@@ -1393,4 +1414,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 484 versions of user-driven development — from a blank repository to **v1.0.127**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 485 versions of user-driven development — from a blank repository to **v1.0.128**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
