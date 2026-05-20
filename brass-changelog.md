@@ -1,6 +1,23 @@
 # Brass: Lancashire — Development Changelog
 
-## 495 versions of iterative development
+## 496 versions of iterative development
+
+### Birmingham UX 3: right-sidebar declutter, bigger slots with images, income track, coal-on-top, market bank label (v1.0.139)
+
+A batch of polish from the in-game feedback:
+
+**Right sidebar — Birmingham desktop only**:
+- Action panel hidden when no dialog is open (no more "Your Turn" header / button list — actions are driven by clicking cards on the board).
+- Hand panel hidden entirely (cards are read from the floating hand under the board).
+- Mat + private notes remain (only those two panels visible).
+- Implemented as a body class `gt-birmingham` + a `.bb-empty` class the renderer toggles on `#action-panel`. Mobile keeps the legacy buttons-list flow since the mobile UX is a different surface.
+
+**Board renderer**:
+- **Bigger slots** — 18×18 (was 12×12). Industry letters render at 9 px, allowed-letters in unfilled slots at 7 px.
+- **Industry images, optional** — added an `industry images` checkbox to the controls strip. When ticked (default ON), filled slots render the per-industry image (reuses Lancashire's `cotton.jpg`, `coal.jpg`, `iron.jpg` for the three cross-game industries; manufacturer / pottery / brewery stay as letter glyphs until you supply images). When unticked, slots use the letter+level glyph. Level pill anchored at slot bottom-right when image mode is on.
+- **Coal on top of Iron** market — swapped vertical order. Coal ladder now anchors at y=260 (top of the right edge), iron beneath at y=510.
+- **Empty-market bank-fallback label** — when every slot in a market is empty, the heading row gains "(£8 from bank)" / "(£6 from bank)" so the next buy price is obvious at a glance.
+- **Income track** added along the bottom of the board (y=425, 524 px wide). 100 cells mapped to the same square↔income formula as the server. Tick marks every 10 squares, level labels every 20. Each player's seat-coloured circle marks their current square.
 
 ### Birmingham UX 2: multi-tile sell + zoom + move/undo/like-xai (v1.0.138)
 
@@ -1603,4 +1620,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 495 versions of user-driven development — from a blank repository to **v1.0.138**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 496 versions of user-driven development — from a blank repository to **v1.0.139**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
