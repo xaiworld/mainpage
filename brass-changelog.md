@@ -1,6 +1,41 @@
 # Brass: Lancashire — Development Changelog
 
-## 488 versions of iterative development
+## 489 versions of iterative development
+
+### Phase 4: Brass: Birmingham action panels + achievement/trophy tagging (v1.0.132)
+
+Birmingham games are now playable end-to-end (no board renderer yet — every spatial choice is via dropdowns).
+
+**Birmingham action panels** (`public/js/game-ui-birmingham.js`):
+- Augments the existing `GameUI` singleton with `_birminghamActionPanel` that fires when `gameState.gameType === 'birmingham'`. The Lancashire panel is untouched.
+- 7 action dialogs: Build Industry, Network (Link), Sell, Take Loan, Develop, Scout, Pass. Each dialog uses plain HTML `<select>` dropdowns for location / industry / link / merchant / card pickers — no board clicking needed.
+- Sell dialog supports the "use merchant beer" toggle (consumes the slot's beer cube + triggers its bonus); develop dialog supports 1-or-2 industry types; network dialog has a Double-rail toggle (rail era only) that reveals a second-link dropdown; scout dialog enforces 3 distinct cards.
+- Loaded after `game-ui.js` in `views/game.ejs`.
+
+**Achievements — gameType tagging + storage namespacing** (`lib/achievements.js`, `lib/db.js`, `routes/game-routes.js`):
+- Every definition can carry a `gameTypes` field (default `['lancashire']` for back-compat). Cross-game ones (streak, time-of-day, meta, generic VP, comeback, tiebreak) explicitly tagged `['lancashire', 'birmingham']`. Existing Lancashire-specific ones (cotton-empire, port-authority, distant-empire, etc.) implicitly stay Lancashire-only.
+- `evaluateGameEnd(ctx, gt)` / `evaluateAction(ctx, gt)` / `evaluateStreak(ctx, gt)` now filter by gameType and check the namespaced storage key via `game-types.achievementKey(gt, id)`. Lancashire keeps the bare id (`first_game`), Birmingham prefixes with `bb:` (`bb:first_game`) — so a single user record can hold both without colliding.
+- `db.grantAchievements(userId, ids, { gameId, gameName, gameType })` stamps both the storage key and the toast/news entry with the gameType.
+- Routes pass `gameTypeOf(state)` through to both evaluators and grant.
+
+**Birmingham-specific achievements** (8 new in `lib/achievements.js`):
+- **Scout Master** — 10+ scouts lifetime (action-kind, uses a new `user.bb_scoutCount` counter the bot/route layer can populate).
+- **Junction Builder** — built the Worcester / Kidderminster / UnnamedBrewery2 Y-junction.
+- **Brewmaster** — built 5+ of your brewery tiles in a single game.
+- **Unnamed Champion** — built at BOTH unnamed breweries in the same game.
+- **Cargo King** — sold 5+ tiles in a single Sell action.
+- **VP Hunter** — claimed BOTH the Shrewsbury (+4 VP) and Nottingham (+3 VP) merchant bonuses in the same game.
+- **Globe Trotter (Birmingham)** — own a link to every active external market for this game's player count (5 in 4P, 4 in 3P, 3 in 2P).
+- **Pottery Pyramid** — built a Pottery tile at every level L1–L5 across your Birmingham games.
+
+**Trophy tagging + Birmingham trophies** (`lib/hall-of-fame.js`):
+- METRIC_DEFS entries now carry `gameTypes` (default `['lancashire', 'birmingham']` for cross-game). Lancashire-only metrics explicitly tagged: `flipShip`, `flipPort`, `sellsDist`, `dist4`, `dist0`, `meanShip`, `meanPort`, `meanSellsDist`, `meanDist4`, `meanDist0`.
+- `compute(db, gameType)` filters the final trophies array by gameType so Lancashire metrics don't leak into the Birmingham HoF and vice versa.
+- 4 new Birmingham-only trophies: **Scouts** (lifetime scout actions), **Y-Junction Tiles Built**, **Most Tiles in One Sell**, **Merchant Beer Used**. Aggregator scans action data per-game for each.
+
+Totals: **91 achievements**, **77 trophies**. Lancashire HoF view shows 73 trophies, Birmingham HoF view shows 67 (everything cross-game + the 4 Birmingham-only).
+
+What's still ahead (Phase 5+): board renderer for Birmingham (locations + links on plain SVG, no background map per user spec), bot AI for Birmingham, in-game wiki section for Birmingham, polish on the Birmingham action panels (better validation hints, summaries, etc.).
 
 ### Phase 3 complete: Brass: Birmingham — sell + develop + scout + era transition + scoring (v1.0.131)
 
@@ -1479,4 +1514,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 488 versions of user-driven development — from a blank repository to **v1.0.131**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 489 versions of user-driven development — from a blank repository to **v1.0.132**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
