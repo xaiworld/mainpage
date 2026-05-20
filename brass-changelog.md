@@ -1,6 +1,23 @@
 # Brass: Lancashire — Development Changelog
 
-## 480 versions of iterative development
+## 481 versions of iterative development
+
+### Phase 1: Brass: Birmingham engine-registry indirection (v1.0.124)
+
+The route layer no longer imports `applyAction` / `getValidActions` / `advanceTurn` directly from `lib/game-engine.js`. Everything goes through a small registry:
+
+- **`lib/games/registry.js`** — single dispatch point. `engineForState(state)` returns the right game's engine module based on `state.gameType` (defaulting to Lancashire for missing/legacy data). Two slots: `lancashire`, `birmingham`.
+- **`lib/games/lancashire/index.js`** — adapter that re-exports the existing top-level modules (`game-engine.js`, `game-setup.js`, `scoring.js`) behind the shared engine interface. Zero behaviour change.
+- **`lib/games/birmingham/index.js`** — Phase-1 stub. Every method returns an error like `Brass: Birmingham — applyAction not implemented yet (Phase 3 of the Birmingham integration)`. Lets the route layer compile against the registry without any conditional logic for the missing engine.
+
+**Routes updated**:
+- `routes/game-routes.js` — action submit (`/api/games/:id/action`), confirm-turn (`/api/games/:id/confirm-turn`), and valid-actions (`/api/games/:id/actions`) all now do `engineForState(state).{applyAction,advanceTurn,getValidActions}(...)`.
+- `lib/bot-engine.js` — same. Bot driver picks the right engine for the game it's playing.
+
+**Out of scope for Phase 1** (Phase 2/3 still ahead):
+- `routes/lobby-routes.js` game-creation still hard-codes Lancashire (no game-type picker yet).
+- `liveProjection` in `lib/scoring.js` is called directly from `lobby-routes.js` for active-game VP projection — Lancashire-only since Phase 1 only allows Lancashire games to be created. Will be routed through the engine once Birmingham scoring exists.
+- Birmingham board data, industries, cards, sell flow, beer/merchant routing — all Phase 3.
 
 ### Phase 0: Brass: Birmingham game-type plumbing (v1.0.123)
 
@@ -1333,4 +1350,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 480 versions of user-driven development — from a blank repository to **v1.0.123**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 481 versions of user-driven development — from a blank repository to **v1.0.124**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
