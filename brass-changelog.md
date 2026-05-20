@@ -1,6 +1,22 @@
 # Brass: Lancashire — Development Changelog
 
-## 494 versions of iterative development
+## 495 versions of iterative development
+
+### Birmingham UX 2: multi-tile sell + zoom + move/undo/like-xai (v1.0.138)
+
+**Sell action — multi-tile**: the Sell dialog is now a checkbox table over every unflipped own mill / manufacturer / pottery. Tick the tiles you want to sell, configure each row's merchant + "use merchant beer" inline, then **Sell selected**. The server already accepted an array of sales (Phase 3d); the client just exposes it now.
+
+**Board controls strip parity with Lancashire**:
+- **Zoom** slider 50–200 % — sets `svg.style.transform = scale(N)` from the slider, same mechanic as Lancashire.
+- **Move** toggle puts the board in edit mode; while active, locations are draggable.
+- Drag handlers (`onDragStart` / `onDragMove` / `onDragEnd`) translate client-space coords to SVG-space via the SVG element's `getBoundingClientRect`. Custom positions are written into the in-memory `POS` table and persisted to the server with a 500 ms debounce.
+- **Undo** pops the most recent snapshot off a position-history stack (capped at 20). Each drag and each "Like Xai" pushes a snapshot first, so Undo works for both.
+- **Like Xai** copies the admin's saved Birmingham layout (the new `xaiPositionsBB` server-side pref → `XAI_POSITIONS_BB` global on the client) over your current one. Only visible while Move is active.
+
+**Persistence**:
+- New routes `POST/DELETE /api/user/bb-node-positions` parallel the Lancashire `/api/user/node-positions` but write to `prefs.bbNodePositions` so each game type has its own per-user layout.
+- Game route now passes `customPositionsBB` / `xaiPositionsBB` to the template.
+- The renderer reads `CUSTOM_POSITIONS_BB` on first init; falls back to `XAI_POSITIONS_BB`, else to the built-in defaults.
 
 ### Birmingham UX: dialog persistence + click-board-to-fill + controls + readability (v1.0.137)
 
@@ -1587,4 +1603,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 494 versions of user-driven development — from a blank repository to **v1.0.137**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 495 versions of user-driven development — from a blank repository to **v1.0.138**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
