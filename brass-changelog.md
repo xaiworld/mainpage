@@ -1,6 +1,28 @@
 # Brass: Lancashire — Development Changelog
 
-## 485 versions of iterative development
+## 486 versions of iterative development
+
+### Phase 3b: Brass: Birmingham — buildIndustry (v1.0.129)
+
+The build action is now fully wired for Birmingham:
+
+**`lib/games/birmingham/markets.js`** — coal/iron market helpers (`buyFromMarket`, `sellToMarket`, `nextBuyPrice`, `reseedFromState`). Buys take from the cheapest occupied slot; sells fill the cheapest empty slot; bank fallback prices are £8/coal and £6/iron.
+
+**`lib/games/birmingham/build.js` `actionBuildIndustry`** implements:
+- **Card validation**: location / industry / millOrManuf / wildLocation / wildIndustry. Wild cards return to the wild stockpile (`state.wildLocationPile` / `state.wildIndustryPile`) on use, NOT to the player's discard — per the user's confirmed rule.
+- **Wild-location ban** on the two unnamed breweries (`brewery1` / `brewery2`).
+- **Slot-restriction rule**: if the location has a single-industry slot matching the chosen industry, that slot MUST be used; only fall back to a multi-type slot if no single-type is available. Confirmed working: building cottonMill at Kidderminster fills slot 1 (`[cottonMill]`) before slot 0 (`[cottonMill, coalMine]`).
+- **First-build rule**: with an industry/wild-industry card, the location must be in the player's network — UNLESS the network is empty (very first build of the game).
+- **Tile pulled** as the lowest-level available for that industry on the player's mat, subject to `canBuildCanal` / `canBuildRail` for the current era.
+- **Resource cost**: tile money cost + iron cost (any iron works no-network, then market) + coal cost (board coal mines connected via network, then market). Coal market fallback REQUIRES a connection from the build location to any external market (Gloucester / Oxford / Shrewsbury / Nottingham / Warrington) — Birmingham rule. Iron market is always reachable.
+- **Engine-recorded `totalCost`** = tile + market-bought coal/iron, attached to the action so the Largest Single Spend trophy stays accurate for Birmingham too.
+- **Cube placement**: production tiles get their `coalCubesAdded` / `ironCubesAdded` / `barrelsAdded` (era-aware for breweries) cubes on the tile.
+- **Auto-market push**: built iron works push their iron cubes to the iron market immediately (no connectivity gate); built coal mines push to the coal market IF the build location reaches any external market. Player gets paid the slot prices; tile cubes deplete; if the tile empties, it auto-flips and the player gains the tile's income.
+- **Resource consumption auto-flips** opponent coal mines / iron works when their last cube is taken; the OWNER of the flipped tile gets the income gain (matches Lancashire).
+
+Smoke-tested end to end: coal mine build at Dudley costs £5, decreases the mat from 7 → 6, leaves 2 cubes on the tile (no market reachable yet), card goes to personal discard. Wild-location targeting `brewery1` correctly rejected. Slot-restriction rule correctly picks slot 1 over slot 0 at Kidderminster.
+
+Phase 3c–3f (network/sell/develop/scout, era transition, scoring) still ahead.
 
 ### Phase 3a: Brass: Birmingham — pass / loan / advanceTurn + network helpers (v1.0.128)
 
@@ -1414,4 +1436,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 485 versions of user-driven development — from a blank repository to **v1.0.128**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 486 versions of user-driven development — from a blank repository to **v1.0.129**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
