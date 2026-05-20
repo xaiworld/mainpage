@@ -1,6 +1,22 @@
 # Brass: Lancashire — Development Changelog
 
-## 486 versions of iterative development
+## 487 versions of iterative development
+
+### Phase 3c: Brass: Birmingham — buildLink (Network action) (v1.0.130)
+
+`actionBuildLink` is live with the full Birmingham rule set:
+
+- **Era costs**: canal £3 / single rail £5 + 1 coal / **double rail £15 + 2 coal + 1 beer** (the Birmingham-only beer requirement).
+- **Y-junction** (Worcester ⇄ Kidderminster ⇄ UnnamedBrewery2) is treated as a single link tile with 3 endpoints. Building it places one tile and registers all 3 locations in the player's network. Smoke-tested: building the junction from a network that already contains Kidderminster correctly extends to Worcester + brewery2.
+- **Network-connectivity check**: the first link's endpoints must include at least one location in the player's network. The second rail (if any) is checked against the network **extended with the first link's endpoints**, mirroring Lancashire's chain-build rule. First-build rule waives connectivity entirely when the player has no industries and no links on the board.
+- **14-tile-per-era cap**: the engine pre-checks `countOwnedLinks(...) + linksNeeded ≤ 14` (Y-junction counts as 1 tile).
+- **Coal sourcing**: cheapest connected coal mine (BFS distance across all anchors — endpoints of every link being built). Market fallback requires one anchor to reach an external market (Gloucester / Oxford / Shrewsbury / Nottingham / Warrington). Auto-flip when a coal mine empties; owner gets the income gain.
+- **Beer for double-rail**: own brewery first (no connectivity needed — "own beer flies"), then opponent breweries reachable from the first link's endpoint. Merchant beer is NOT consumed here (rule clarification — merchant beer only applies to sells).
+- **Card destination**: wild cards back to the wild stockpile, normal cards to the player's personal discard.
+
+Dispatcher accepts both `buildLink` and `network` action types as aliases.
+
+Phase 3d–3f (sell, develop, scout, era transition, scoring) still ahead.
 
 ### Phase 3b: Brass: Birmingham — buildIndustry (v1.0.129)
 
@@ -1436,4 +1452,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 486 versions of user-driven development — from a blank repository to **v1.0.129**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 487 versions of user-driven development — from a blank repository to **v1.0.130**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
