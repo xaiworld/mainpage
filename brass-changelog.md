@@ -1,6 +1,33 @@
 # Brass: Lancashire — Development Changelog
 
-## 487 versions of iterative development
+## 488 versions of iterative development
+
+### Phase 3 complete: Brass: Birmingham — sell + develop + scout + era transition + scoring (v1.0.131)
+
+All seven Birmingham actions are now wired end-to-end. A 2P pass-only game now runs through canal era → era transition → rail era → final scoring → tiebreaker resolution without error.
+
+**Phase 3d — `actionSell`** (`lib/games/birmingham/sell.js`):
+- Multi-good per action: any number of own cottonMill / manufacturer / pottery tiles in one Sell action.
+- Each sub-sale validates: tile owned + unflipped + sellable type; tile location connected via network to the chosen merchant slot; merchant tile accepts the industry (or is wild).
+- `barrelsToSell` beer cubes paid per tile. Beer sources priority: own brewery (no network) → opponent brewery (via network from tile location) → merchant slot beer (one cube, if `useMerchantBeer: true` in the sub-sale's action data).
+- **Merchant beer triggers the slot's location bonus**: Gloucester = +1 free develop credit (consumed by a later develop action), Oxford = +2 income levels, Shrewsbury = +4 VP, Nottingham = +3 VP, Warrington = +£5. Beer cube marked unavailable until era transition.
+- Tile flips on sale; income gain applied. VP is accumulated at era-end scoring, not on the sale itself (matches Birmingham rules).
+
+**Phase 3e — `actionDevelop` + `actionScout`** (`lib/games/birmingham/develop_scout.js`):
+- Develop: 1 or 2 tiles per action. Each removes the lowest-level tile from the player's mat for the chosen industry; tile's `developable` flag must be true. Iron cost waived per tile when a `freeDevelopCredits` from the Gloucester bonus is available; otherwise 1 iron from any iron works (no network) or the iron market.
+- Scout: discard the played card + 2 more from hand (all 3 to personal discard); gain one wild location + one wild industry. Forbidden if any wild already in hand. Wild stockpile must have at least one of each remaining.
+
+**Phase 3f — scoring + era transition** (`lib/games/birmingham/scoring.js`):
+- `scoreCanalEra` / `scoreRailEra`: VP per flipped industry tile + VP per built link (sum of each endpoint's contribution — flipped industries' `valueForLinks` + 2 VP per external-market endpoint, matching Lancashire). Y-junction naturally contributes 3 endpoints' worth.
+- `transitionToRailEra`: scores canal era; removes all canal links; refreshes merchant beer cubes; reshuffles every player's personal discardPile + remaining deck into a fresh rail-era draw pile; deals fresh 8-card hands; resets spent boxes; sets `era: 'rail'`, `round: 1`, `actionsRemaining: 2`. **Level-1 industries are NOT swept at canal end** (Birmingham keeps them, vs Lancashire's L1-sweep).
+- `finalizeRailEra`: scores rail era; marks `phase: 'finished'`; **money does NOT convert to VP** (Birmingham rule); tiebreaker is income → money → draw (no spent / no turn-order kicker per the user's rule).
+- The end-of-round income phase is implicitly skipped on the final round of rail era — `endRound` routes straight to `endEra` before running income whenever the deck and all hands are empty.
+
+**`lib/games/birmingham/index.js`** now exposes the full engine surface — every method is real, no more `notImplemented` stubs.
+
+Smoke-tested: 2P all-pass game completes in 78 actions (38 canal + 40 rail), declared a draw with both players on 0 VP (correctly, no builds = no scoring). 3P/4P math also checks out.
+
+What's still ahead (Phase 4+): the in-game UI (board renderer, action panels, sell dialog, scout dialog, merchant-beer toggle), bot AI for Birmingham, in-game wiki for Birmingham, polish.
 
 ### Phase 3c: Brass: Birmingham — buildLink (Network action) (v1.0.130)
 
@@ -1452,4 +1479,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 487 versions of user-driven development — from a blank repository to **v1.0.130**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 488 versions of user-driven development — from a blank repository to **v1.0.131**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
