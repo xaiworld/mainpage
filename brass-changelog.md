@@ -1,6 +1,25 @@
 # Brass: Lancashire — Development Changelog
 
-## 498 versions of iterative development
+## 499 versions of iterative development
+
+### Webpage trophies — site-wide records bar above the Hall of Fame (v1.0.142)
+A new strip above the Hall of Fame shows **site-wide records** (independent of per-player ones). Each pill shows an icon + record value + label + (when relevant) the date it was set.
+
+The ten metrics, all derived from `db.json` at lobby render:
+- **🌐 Peak Concurrent Games** — max simultaneous in-progress games at any single instant (timeline sweep over every game's `started_at` / `finished_at`).
+- **👥 Players in One Day** — max distinct users with at least one action on a single UTC day.
+- **🎲 Turns in One Day** — max total turns played on a single UTC day (turn = consecutive same-user actions in same game, matching the daily turns badge).
+- **🏁 Games Finished in One Day** — max game-results recorded on a single day.
+- **🏆 Achievements Unlocked in One Day** — sum of `user.achievements[*].at` per day.
+- **🌱 New Players in One Day** — sum of `user.created_at` per day.
+- **🎮 Games Created (all-time)**, **✅ Games Finished (all-time)**, **🧑 Players Registered**, **⚡ Actions Submitted (all-time)** — running totals.
+
+Backend wiring:
+- `lib/webpage-trophies.js` `compute(db)` does the computation.
+- `lib/db.js` `getWebpageTrophies(maxAgeMs = 60s)` mirrors the HoF cache pattern — cached on `meta.webpageTrophies`, recomputed lazily.
+- `routes/lobby-routes.js` passes the cached result to the template.
+
+Future: a single trophy could also break out per game type if needed; today the totals are combined across both Lancashire and Birmingham.
 
 ### Birmingham income panel matches Lancashire's serpentine style (v1.0.141)
 The previous Birmingham income track was a single thin horizontal row of 100 cells with circle markers — fine but visually nothing like Lancashire's familiar serpentine income panel. Replaced with the Lancashire-style design ported to Birmingham:
@@ -1646,4 +1665,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 498 versions of user-driven development — from a blank repository to **v1.0.141**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 499 versions of user-driven development — from a blank repository to **v1.0.142**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
