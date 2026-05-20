@@ -1,6 +1,17 @@
 # Brass: Lancashire — Development Changelog
 
-## 489 versions of iterative development
+## 490 versions of iterative development
+
+### Birmingham game-page polish — kill the Lancashire bleed-through (v1.0.133)
+
+Tested the Birmingham game page in-app and a bunch of Lancashire elements were leaking through. This release stops the bleeding while the proper Birmingham board renderer waits for a later phase:
+
+- **Nav brand + page title** now reflect the game's `gameType` — Birmingham games show "Brass: Birmingham" everywhere instead of the hard-coded "Brass: Lancashire".
+- **Lancashire SVG board hidden** for Birmingham games. The board renderer's `render()` now short-circuits at the top when `gameState.gameType === 'birmingham'` and draws a clean three-line placeholder ("Brass: Birmingham — early access", "Board renderer not implemented yet — use the action panel on the right", "Locations + links + Birmingham markets coming in a later phase."). The `.board-controls` strip above the SVG is hidden too. This covers the previously-visible Lancashire map background, port + shipyard panels with the destroyed icons, the demand market panel, and the wrong-shape coal/iron market columns.
+- **Cards in hand** — `parseCardId` now recognises Birmingham IDs (`loc-<location>-N`, `ind-<group>-N`, `wild-loc-N`, `wild-ind-N`) and returns useful info. `renderCardHTML` shows Mill / Manuf for the combined card, "Any Location" / "Any Industry" with a ⭐ badge for wilds, and falls back to the raw industry/location for everything else. No more "8 LOC cards" misrender.
+- **Mat panel** — Birmingham industries `manufacturer`, `pottery`, `brewery` added to the client `INDUSTRIES` map (sparse: name + icon + colour + flipCondition only, no cost data — that stays server-authoritative in `lib/games/birmingham/industry-data.js`) so the mat-panel label resolver returns "Manufacturer" / "Pottery" / "Brewery" instead of the raw key.
+
+Birmingham action panels (Phase 4a) remain the playable surface — the placeholder explicitly directs you there. Phase 5 will replace the placeholder with a Birmingham-shaped SVG board (no background map per your earlier spec — plain canvas with locations + links + merchant slots).
 
 ### Phase 4: Brass: Birmingham action panels + achievement/trophy tagging (v1.0.132)
 
@@ -1514,4 +1525,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 489 versions of user-driven development — from a blank repository to **v1.0.132**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 490 versions of user-driven development — from a blank repository to **v1.0.133**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
