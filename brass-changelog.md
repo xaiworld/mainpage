@@ -1,6 +1,24 @@
 # Brass: Lancashire — Development Changelog
 
-## 481 versions of iterative development
+## 482 versions of iterative development
+
+### Phase 2: Brass: Birmingham board data + state assembly + lobby picker (v1.0.125)
+
+Birmingham games can now be **created and persisted** (their action surface is still stubbed — clicking anything will return a Phase 3 error from the engine).
+
+**New data modules** under `lib/games/birmingham/`:
+- `board-data.js` — 22 locations (incl. 2 unnamed breweries), 39 link tiles (incl. the **Worcester ⇄ Kidderminster ⇄ UnnamedBrewery2 Y-junction** modeled as one tile with 3 endpoints), 5 external markets with their bonuses (Develop, +2 income, +4 VP, +3 VP 4P-only, +5 money 3P/4P-only), 9-tile merchant pool (2 mill, 2 manuf, 1 pottery, 1 wild, 3 empty), coal/iron market setups (8/6 slot ladders with their starting cube counts of 13/8).
+- `industry-data.js` — full per-level table for all 6 industries (cottonMill, manufacturer, pottery, ironWorks, brewery, coalMine) with cost / coal+iron cost / VP / **valueForLinks** / **barrelsToSell** / barrelsAdded (era-dependent for brewery L2-4) / developable flag / era-build flags.
+- `card-data.js` — exact deck composition by player count (41/35/27 location cards + 23/19/13 industry cards = 64/54/40 deck, plus a separate pool of 4 wild-location and 4 wild-industry cards). The Mill/Manufacturer combined card is represented as `industryGroup: 'millOrManuf'` so the engine knows the player chooses at build time.
+- `game-setup.js` — `createInitialState` that assembles a complete Birmingham state: 8-card hands + 1 face-down R1-compensation card per player, £17 start, income square 10, full board filtered by player count, shuffled deck, merchant tiles randomly assigned to merchant slots (each seeded with a beer cube), industry mats per player.
+
+**Engine adapter** `lib/games/birmingham/index.js` now exposes the real `createInitialState`. Other methods (`applyAction`, `advanceTurn`, scoring, network helpers) remain Phase-3 stubs.
+
+**Route layer** (`routes/lobby-routes.js`) — the create-game endpoints (`/games/create`, `/games/quick`, `/games/:id/start`, and the `startGameIfFull` auto-start helper) now dispatch `createInitialState` through the engine registry based on the game's `gameType`. `db.createGame(name, np, by, gameType)` accepts the new argument; both `/games/create` and `/games/quick` read `req.body.gameType` and default to Lancashire.
+
+**Lobby UI** — the Custom Game form gets a "Game" radio group with two options: **Brass: Lancashire** (default) and **Brass: Birmingham** (labelled "early access — no bots, no playable actions yet"). Picking Birmingham creates a Birmingham game record + state.
+
+**Phase 3 ahead** — wire `applyAction` for the 7 Birmingham actions (build, network, sell, loan, develop, scout, pass) including beer routing, merchant beer/bonus, the Y-junction in the network BFS, scoring (no money→VP, income → money → draw tiebreak), and the end-of-round income/turn-order phase (skipped in the final rail-era round).
 
 ### Phase 1: Brass: Birmingham engine-registry indirection (v1.0.124)
 
@@ -1350,4 +1368,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 481 versions of user-driven development — from a blank repository to **v1.0.124**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 482 versions of user-driven development — from a blank repository to **v1.0.125**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
