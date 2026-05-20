@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 490 versions of iterative development
+## 491 versions of iterative development
+
+### Fix: Lancashire mat showing empty Manufacturer / Pottery / Brewery sections (v1.0.134)
+v1.0.133 added `manufacturer`, `pottery`, and `brewery` entries to the shared client `INDUSTRIES` map so Birmingham labels would resolve. The mat-panel detail block iterated `Object.entries(INDUSTRIES)`, so those new keys started rendering as empty sections on every Lancashire mat too.
+
+Fixed by iterating `Object.keys(viewPlayer.industryMat)` — only the industries the current player actually has on their mat. Lancashire mats show 5 industries (cottonMill, coalMine, ironWorks, port, shipyard) as before; Birmingham mats show 6 (cottonMill, manufacturer, pottery, ironWorks, coalMine, brewery). No bleed-through either way.
 
 ### Birmingham game-page polish — kill the Lancashire bleed-through (v1.0.133)
 
@@ -1525,4 +1530,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 490 versions of user-driven development — from a blank repository to **v1.0.133**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 491 versions of user-driven development — from a blank repository to **v1.0.134**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
