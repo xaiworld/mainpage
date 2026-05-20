@@ -1,6 +1,22 @@
 # Brass: Lancashire — Development Changelog
 
-## 496 versions of iterative development
+## 497 versions of iterative development
+
+### Birmingham UX 4: mobile, news filter + badges, achievement i18n + per-game-type display (v1.0.140)
+
+**Achievements showing raw keys fixed** — Birmingham achievement IDs (`bb_scout_master`, `bb_junction_builder`, `bb_brewmaster`, `bb_unnamed_champion`, `bb_cargo_king`, `bb_vp_hunter`, `bb_globe_trotter`, `bb_pottery_pyramid`) now have English `ach.<id>` entries in `lib/i18n.js`, so the account-page label `t('ach.' + def.id)` resolves to "Scout Master" / "Junction Builder" / etc. instead of falling back to the raw key like `ach.bb_cargo_king`.
+
+**Account page handles per-game-type achievement storage**: lookup now checks BOTH the bare id (Lancashire storage key) and the `bb:`-prefixed key (Birmingham storage key, set by `game-types.achievementKey`). A cross-game def earned in both games shows both **BL** and **BB** game-type badges next to its name.
+
+**News feed gets game-type plumbing**:
+- Every news item now carries `data-game-type` (defaults to `lancashire` for entries that pre-date the field) and renders a small **BL** / **BB** badge inline at the end of the entry's text, using the same colour-coded `badge-gametype` styling as the games list.
+- New filter row under the existing type-filter pills: **Lancashire only** | **Birmingham only** | **both**. Toggles update `newsGtFilter`, which the existing `applyNewsFilter` reads to hide non-matching items.
+
+**Mobile UX for Birmingham**:
+- Opening a Birmingham action dialog now auto-switches to the **Hand & Tiles** mobile tab (where the action-panel is mirrored), so the dialog the player just opened is immediately visible instead of buried under the board tab.
+- The card-click **cascading popup** now centres itself on the screen on mobile (`top: 40%`, `max-width: 90vw`) instead of trying to anchor next to a card that might be in a tiny floating hand. Desktop positioning is unchanged.
+
+The HoF tabbed-per-game-type already shipped in Phase 0 (v1.0.123) — Lancashire / Birmingham tabs above the Hall of Fame swap between cached results for each game.
 
 ### Birmingham UX 3: right-sidebar declutter, bigger slots with images, income track, coal-on-top, market bank label (v1.0.139)
 
@@ -1620,4 +1636,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 496 versions of user-driven development — from a blank repository to **v1.0.139**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 497 versions of user-driven development — from a blank repository to **v1.0.140**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
