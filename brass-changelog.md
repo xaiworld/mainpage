@@ -1,6 +1,28 @@
 # Brass: Lancashire — Development Changelog
 
-## 491 versions of iterative development
+## 492 versions of iterative development
+
+### Phase 5: Brass: Birmingham — board renderer + card-driven actions (v1.0.135)
+
+The Birmingham game page is no longer a placeholder. A plain-SVG board now shows everything you need to play:
+
+**`public/js/board-renderer-birmingham.js`** — pure vector renderer (no background map, per spec):
+- 22 locations laid out roughly to match Midlands geography. Each location is a rounded box with its name + slot grid; each slot shows the allowed industries (M/F/P/I/C/B letters) when empty, or the owner's coloured tile + level + flipped strike-through when built.
+- Two unnamed breweries (UB1 / UB2) drawn as anonymous brewery icons.
+- 39 links drawn as lines between endpoints. Canal = blue, rail = warm-brown, unbuilt = dashed grey. **Y-junction** (Worcester ⇄ Kidderminster ⇄ UnnamedBrewery2) drawn as three legs meeting at a central anchor with a tinted dot in the middle. Owner colour appears as a tick at the link midpoint.
+- 5 external markets pinned to the canvas edges (Gloucester, Oxford, Shrewsbury, Nottingham, Warrington). Each one shows its merchant slots inside the pill — accepted industries as letters (M / F / P / ★ for wild), beer-cube dot when still available, plus the slot bonus text below.
+- Coal market + iron market drawn as right-edge price ladders showing each slot's price and whether a cube currently sits there.
+- Compact top-left player summary (name + £ + VP, coloured by seat).
+
+**Board renderer dispatcher** (`board-renderer.js`) now delegates to `BBBoardRenderer.render(gameState)` when `gameState.gameType === 'birmingham'`. The Lancashire board controls strip stays hidden for Birmingham games.
+
+**Cards drive actions** (`game-ui-birmingham.js`):
+- Clicking any card in the Birmingham hand opens a small **"Use ⟨card⟩ as…"** popup with all 7 actions (Build / Network / Sell / Develop / Loan / Scout / Pass).
+- Picking an action opens that action's existing dialog with the card **pre-selected**. For a location card, the build dialog also pre-fills the location. For an industry card, it pre-fills the industry.
+- This bridges the original side-panel-button flow with a Lancashire-style "select card → choose action" feel.
+- The popup auto-dismisses on outside clicks; pressing the same card just re-opens it. The Lancashire `selectCard` path is untouched — for Lancashire games, card click still selects (no popup).
+
+**Scout was already wired** end-to-end since v1.0.131 (engine) + v1.0.132 (action panel). The side panel's "Scout" button has always been functional — it opens the 3-card-picker dialog. The new card-click popup just adds another entry point: click any card → Scout → that card becomes "card 1 (played)" in the dialog, you pick the two extras.
 
 ### Fix: Lancashire mat showing empty Manufacturer / Pottery / Brewery sections (v1.0.134)
 v1.0.133 added `manufacturer`, `pottery`, and `brewery` entries to the shared client `INDUSTRIES` map so Birmingham labels would resolve. The mat-panel detail block iterated `Object.entries(INDUSTRIES)`, so those new keys started rendering as empty sections on every Lancashire mat too.
@@ -1530,4 +1552,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 491 versions of user-driven development — from a blank repository to **v1.0.134**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 492 versions of user-driven development — from a blank repository to **v1.0.135**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
