@@ -1,6 +1,20 @@
 # Brass: Lancashire — Development Changelog
 
-## 493 versions of iterative development
+## 494 versions of iterative development
+
+### Birmingham UX: dialog persistence + click-board-to-fill + controls + readability (v1.0.137)
+
+Fixes for the in-game feedback:
+
+**Sub-dialog no longer disappears every 3 seconds**: a `GameUI._bbDialogOpen` flag tracks which action dialog is on screen. `updateActionPanel` (which polling triggers on every state refresh) now skips the top-level re-render while a sub-dialog is up and it's still the player's turn. Submit / cancel / turn-end clears the flag.
+
+**Card location names start with a capital letter**: `renderCardHTML` for Birmingham games now resolves the label through `BB_DISPLAY_NAME` (Capitalised, hyphenated where appropriate) instead of falling back to the lowercase id. The Build / Network / Sell dropdowns also use the same map — links read like "Kidderminster ⇄ Dudley", merchants like "Gloucester #1".
+
+**Click the board to fill the open dialog**: each location box on the SVG carries `data-bb-location`; each link line carries `data-bb-link`. The SVG's click handler routes to `GameUI.bbBoardClickLocation(locId)` / `GameUI.bbBoardClickLink(linkId)`. If a build / network dialog is already open, the click pre-selects the matching dropdown (with a brief gold outline flash). If no dialog is open and it's your turn, the click opens the build / network dialog with that location / link pre-filled.
+
+**Birmingham board controls strip** restored where Lancashire's used to live, with Birmingham-relevant toggles: hide/show era-buildable unbuilt links, hide/show other unbuilt links, hide/show the player summary. Plus a hint line: "click a location / link on the board to fill the open dialog".
+
+**Location boxes more readable**: fill lightened from `#241f1a` to `#3a3528` (unnamed brewery: `#2a1c14` → `#3a2818`), stroke lightened, name font bumped from 6.5 → 8 px, padding from 4 → 5 px. Box width auto-stretches to the longer of "slot grid wide" or "name wide" so labels like "Stoke-on-Trent" no longer get clipped.
 
 ### Birmingham board + mat polish (v1.0.136)
 
@@ -1573,4 +1587,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 493 versions of user-driven development — from a blank repository to **v1.0.136**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 494 versions of user-driven development — from a blank repository to **v1.0.137**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
