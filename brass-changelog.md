@@ -1,6 +1,14 @@
 # Brass: Lancashire — Development Changelog
 
-## 506 versions of iterative development
+## 507 versions of iterative development
+
+### Birmingham: dedicated VICTORY POINTS panel + controls strip no longer overlaps the board (v1.0.150)
+
+**VICTORY POINTS panel on the board.** Even though the breakdown hover already worked from the side player-bar, the on-board panel was missing. Added `drawVPPanelBB()` below the SPENT panel: one row per player (in turn order), seat-coloured VP hexagon with the live VP inside, username, and a `+N` potential-VP badge whenever the every-tile-flipped projection beats the live total. A transparent row-wide hit zone calls the same `GameUI.showVPBreakdown(event, playerIdx)` / `GameUI.hideVPBreakdown()` handlers the side panel uses — the breakdown popup now opens from either place.
+
+**TURN ORDER no longer shows VP.** Removed the inline `XVP` label from each TURN ORDER row — VP belongs in its dedicated panel. Made room for an extra character in the username (12 chars instead of 8).
+
+**Controls strip no longer overlaps the playing area.** The shared `.board-controls` container is styled `position:absolute; top:4px; right:4px` for Lancashire (a small floating overlay). Birmingham's strip carries far more controls and was overflowing on top of the board. Override the positioning to `static` + full-width block when the BB strip is injected — the bar now flows as a normal element at the top of the board container, and the SVG sits cleanly underneath it.
 
 ### Birmingham: VP breakdown, view filters, minimal + resize modes, £ number, ELO tooltip (v1.0.149)
 
@@ -1743,4 +1751,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 506 versions of user-driven development — from a blank repository to **v1.0.149**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 507 versions of user-driven development — from a blank repository to **v1.0.150**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
