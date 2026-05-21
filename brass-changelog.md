@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 504 versions of iterative development
+## 505 versions of iterative development
+
+### Birmingham: SPENT panel + merchant cities are now movable (v1.0.148)
+
+**SPENT panel.** Lancashire shows each player's `spentThisRound` in a dedicated panel — Birmingham did not. Added `drawSpentPanel()` directly below the TURN ORDER panel: same row order (turn order, not seat), seat-colour swatch, silver-£5 + bronze-£1 money discs (capped at 8 silvers with a `Nx` count badge), and a `£N` right-aligned total. The two panels read as one block in the top-left.
+
+**Merchant cities are draggable.** Gloucester / Oxford / Shrewsbury / Warrington / Nottingham can now be repositioned in edit mode — the merchant pill rect (and its label) now carry the `data-bb-location` attribute so the existing drag handler picks them up like any other location. Position is persisted per-user via `prefs.bbNodePositions`, same as city nodes.
 
 ### Birmingham layout pass: markets stacked top-right, income vertical, links match Lancashire (v1.0.147)
 
@@ -1715,4 +1721,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 504 versions of user-driven development — from a blank repository to **v1.0.147**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 505 versions of user-driven development — from a blank repository to **v1.0.148**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
