@@ -1,6 +1,18 @@
 # Brass: Lancashire — Development Changelog
 
-## 501 versions of iterative development
+## 502 versions of iterative development
+
+### Birmingham: controls strip back, resource cubes on tiles, ELO scoped to game type (v1.0.145)
+
+**Board controls strip stays visible.** After the first state poll on a Birmingham game, the Move / Undo / zoom controls vanished. Cause: Lancashire's renderer sets `.board-controls { display:none }` on every short-circuit to Birmingham, but the Birmingham `ensureBoardControlsBB()` only set `display=''` inside the *first-creation* branch (when the strip didn't already exist). On subsequent renders, the strip existed → skipped the show-line → stayed hidden. Fix: always re-show `.board-controls` on every call, not just on first creation.
+
+**Strip expanded.** Added `no names` checkbox, `Reset` button (drops all custom positions, with confirm), and updated Undo to also restore default coords for any location whose drag was the only entry in `customPositions`. Removed the Map opacity slider — Birmingham has no background image, so the slider was a no-op confusing the user.
+
+**Mobile reachability.** On `body.is-mobile`, the strip is re-parented into `#mobile-board-controls` (the Info tab) every render — so it's reachable next to game info, not squeezed against the top edge of the cramped board view.
+
+**Coal / iron / beer cubes appear on tiles.** Built coalMine / ironWorks / brewery tiles weren't showing their resource cubes on the board — the slot square showed only the industry letter/image, with no indication of remaining coal/iron/beer. Added a row of small pips across the top edge of each filled slot, color-coded by industry (coal: black, iron: orange, beer: brown). Counts > 5 collapse to "5 pips + `+N`" so a level-4 coal mine with 5+ cubes doesn't overflow the 18px slot.
+
+**ELO scoped per game type.** Birmingham games were showing — and writing to — the Lancashire ELO bucket because `attachEloRatings` and the result-recording flow built the category as `numPlayers + 'p'` instead of routing through `gameTypes.eloCategory(state.gameType, state.numPlayers)`. Lancashire stays at `2p / 3p / 4p` (no migration needed); Birmingham now uses `bb_2p / bb_3p / bb_4p`. Snapshot at game start, live display during play, and rating-update on finish all use the gameType-aware category now. `recomputeAllElo()` also fixed.
 
 ### Peak Concurrent Games — never lower than the current active count (v1.0.144)
 
@@ -1684,4 +1696,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 501 versions of user-driven development — from a blank repository to **v1.0.144**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 502 versions of user-driven development — from a blank repository to **v1.0.145**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
