@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 516 versions of iterative development
+## 517 versions of iterative development
+
+### Birmingham: floating-hand Dock button hidden (v1.0.160)
+
+The static floating-hand header includes a `Dock` button that toggles the hand back into the side panel — useful in Lancashire, but Birmingham's hand layout is different and the button was confusing. Hidden in BB only via `ensureBoardLayoutBB`. Lancashire keeps it.
 
 ### Birmingham: panels are now draggable + resizable independently, and city resize works on inner clicks (v1.0.159)
 
@@ -1872,4 +1876,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 516 versions of user-driven development — from a blank repository to **v1.0.159**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 517 versions of user-driven development — from a blank repository to **v1.0.160**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
