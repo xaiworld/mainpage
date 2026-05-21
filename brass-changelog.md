@@ -1,6 +1,28 @@
 # Brass: Lancashire — Development Changelog
 
-## 505 versions of iterative development
+## 506 versions of iterative development
+
+### Birmingham: VP breakdown, view filters, minimal + resize modes, £ number, ELO tooltip (v1.0.149)
+
+A batched feature pass closing the Lancashire-vs-Birmingham gap identified in the v1.0.148 audit.
+
+**VP breakdown hover works on Birmingham.** `GameUI.calculateVPBreakdown()` and `calculatePotentialVP()` were hard-coded to Lancashire rules — wrong industry table, link `from`/`to` instead of the BB `endpoints` array, and an erroneous money→VP bucket (Birmingham does NOT convert money to VP at game end). Added `_calculateVPBreakdownBB()` and `_calculatePotentialVPBB()` and made the public methods dispatch on `state.gameType === 'birmingham'`. New rules:
+- Tile VP = sum of `def.vp` for each flipped tile.
+- Link VP = for each owned link, sum `endpointVP(ep)` across its endpoints. `endpointVP` returns `BB_MARKET_LINK_VP[ep]` for external markets (2 each) or the sum of `valueForLinks` for flipped industries at the location.
+- Y-junction (3-endpoint) links naturally contribute three endpoints' worth.
+- No money/10 bonus.
+
+Added `valueForLinks` to every level in client-side `INDUSTRIES_BIRMINGHAM` (mirrors `lib/games/birmingham/industry-data.js`) plus a new `BB_MARKET_LINK_VP` map.
+
+**View filters on Birmingham tiles.** Slot rects now carry `board-slot filled tile-flipped|tile-active tile-mine|tile-other` classes (mirroring Lancashire), so the existing body-class CSS rules apply directly to the BB board: `only mine`, `hide flipped`, `no blink`, `highlight active`, and the 4-step `dim flipped` slider. Added all of them to the BB controls strip, plus a sync block that initialises the checkbox / slider visuals from the persisted body classes on first render.
+
+**Minimal mode.** New `minimal` toggle. Skips the industry image and the resource-cube pips, leaving a clean coloured square + letter glyph per slot. Cuts visual noise during planning.
+
+**Resize mode.** New Resize button in the controls strip. Hold the button and drag a city vertically — drag down grows the box, drag up shrinks it. Per-location scale stored in `customPositions[id].scale`, clamped to 0.5–2.0, persisted server-side via the existing `prefs.bbNodePositions` plumbing. Move and Resize modes are mutually exclusive. Reset / Undo cover scale changes too.
+
+**£ number toggle on the SPENT panel.** The Lancashire-only `GameUI.moneyAsNumber` flag now also drives the BB SPENT panel: when on, each row renders `£N` instead of silver/bronze discs. Toggling the checkbox re-renders the board so the change is immediate.
+
+**ELO badge tooltip says which game.** The player-bar ELO badge tooltip used to read `ELO 2P (3 games)` — same string in Lancashire and Birmingham, which was confusing since the rating is now per-game-type. Tooltip now reads `Brass: Birmingham · ELO 2P (3 games)` (or `Brass: Lancashire · …`).
 
 ### Birmingham: SPENT panel + merchant cities are now movable (v1.0.148)
 
@@ -1721,4 +1743,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 505 versions of user-driven development — from a blank repository to **v1.0.148**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 506 versions of user-driven development — from a blank repository to **v1.0.149**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
