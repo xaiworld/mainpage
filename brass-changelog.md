@@ -1,6 +1,15 @@
 # Brass: Lancashire — Development Changelog
 
-## 502 versions of iterative development
+## 503 versions of iterative development
+
+### Birmingham: empty merchant slots no longer carry a stray beer token (v1.0.146)
+
+`buildMerchantSlots()` was setting `beerAvailable: true` on every slot — including slots with no merchant tile assigned (when the tile pool ran out for the player count). Renderer dutifully painted a beer dot on those blank slots.
+
+Three-part fix:
+- **Setup:** `beerAvailable` only true when a merchant tile is actually placed in the slot.
+- **Era refresh:** `refreshMerchantBeer()` at canal→rail transition skips slots without a merchant tile.
+- **Renderer defensive guard:** beer cube only drawn when the slot has at least one `accepts` entry — so existing games with stale `beerAvailable:true` on empty slots stop showing the dot without needing a save migration.
 
 ### Birmingham: controls strip back, resource cubes on tiles, ELO scoped to game type (v1.0.145)
 
@@ -1696,4 +1705,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 502 versions of user-driven development — from a blank repository to **v1.0.145**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 503 versions of user-driven development — from a blank repository to **v1.0.146**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
