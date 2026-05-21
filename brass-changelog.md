@@ -1,6 +1,21 @@
 # Brass: Lancashire — Development Changelog
 
-## 515 versions of iterative development
+## 516 versions of iterative development
+
+### Birmingham: panels are now draggable + resizable independently, and city resize works on inner clicks (v1.0.159)
+
+**Each overlay panel is its own movable/resizable unit.** TURN ORDER, SPENT, VICTORY POINTS, COAL market, IRON market, and INCOME track can now be dragged and resized one at a time:
+- **Move mode**: click anywhere inside a panel and drag to reposition it. The whole panel travels together.
+- **Resize mode**: click + drag vertically — drag down = bigger, drag up = smaller. Scale clamps to 0.5×..2.0×, anchored to the panel's top-left so the panel grows down-right.
+- Positions + scales persist per user via the existing `prefs.bbNodePositions` payload, with panel ids namespaced `__panel:<id>` so they don't collide with city ids.
+
+Mechanism: each panel is wrapped in a `<g data-bb-panel="<id>" transform="translate(dx,dy) translate(def.x,def.y) scale(s) translate(-def.x,-def.y)">` group on the overlay SVG. The transform anchors scaling at the panel's default top-left, then offsets to the user's chosen position — so panels grow from their current corner rather than jumping when resized. The drag/resize handler walks up the DOM from the mousedown target to find the nearest ancestor with `data-bb-location` (city) or `data-bb-panel` (overlay panel) and routes accordingly.
+
+**City resize now actually works.** Inner clicks inside a city box (on a slot rect, name text, or resource pip) were silently dropped because `data-bb-location` was only on the outer city rectangle. The drag handler now walks up the DOM tree from `e.target` to find the nearest ancestor carrying a bb-* dataset attribute — so clicks anywhere within the city (or panel) start the drag / resize correctly.
+
+**SPENT and VP panels no longer chain off TURN ORDER's height.** Previously their topY was computed as `6 + 16 + order.length * rowH + 6` (and the equivalent for VP), so they stacked under TURN ORDER. Now hardcoded to fixed defaults that match `PANEL_DEFAULTS` (y=75 and y=150), so each panel sits at its own coordinate and drag offsets don't bleed across.
+
+**Reset / Undo cover panel state.** Snapshots pushed to the position history now capture both `customPositions` (cities) and `panelPositions` (overlay panels). Undo rolls back either kind, and Reset wipes both with a single confirm.
 
 ### Birmingham: panels + markets + income on a separate overlay SVG — no longer affected by board zoom (v1.0.158)
 
@@ -1857,4 +1872,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 515 versions of user-driven development — from a blank repository to **v1.0.158**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 516 versions of user-driven development — from a blank repository to **v1.0.159**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
