@@ -1,6 +1,16 @@
 # Brass: Lancashire — Development Changelog
 
-## 512 versions of iterative development
+## 513 versions of iterative development
+
+### Birmingham: zoom now uses viewBox cropping centered on the cities (v1.0.156)
+
+Two zoom problems from v1.0.155:
+1. Zoom grew the SVG's CSS width so it overflowed the right edge, requiring horizontal scrolling to reach cities the user wanted to see (the empty space on the LEFT of the board was unused).
+2. Zoom-in hit a ceiling around ~72% — the `#game-board` CSS has `max-height: 100%`, which capped how tall the SVG element could become and silently stopped zoom-in past that point.
+
+Switched zoom to **viewBox cropping**: the SVG element stays exactly the same physical size; the visible portion of the 600×520 board is shrunk by `1/scale` and re-centered on the cities centroid (≈ 255, 270). At 200% zoom the visible viewBox is 300×260 around the cities — they fill the available area without the SVG growing past any container bound, so `max-height: 100%` is no longer the limit.
+
+Trade-off: the top-left panels (TURN ORDER / SPENT / VICTORY POINTS) and the right-edge markets get cropped out at high zoom — same trade-off any pan-style zoom would have. Zoom-out below 100% works too: the viewBox expands past 600×520 and content shrinks proportionally.
 
 ### Birmingham: zoom now produces real scrollbars, controls bar stays sticky at top (v1.0.155)
 
@@ -1818,4 +1828,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 512 versions of user-driven development — from a blank repository to **v1.0.155**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 513 versions of user-driven development — from a blank repository to **v1.0.156**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
