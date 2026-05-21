@@ -1,6 +1,25 @@
 # Brass: Lancashire — Development Changelog
 
-## 514 versions of iterative development
+## 515 versions of iterative development
+
+### Birmingham: panels + markets + income on a separate overlay SVG — no longer affected by board zoom (v1.0.158)
+
+Panels were being cropped / pushed off-screen by board zoom because they lived inside the same `#game-board` SVG as the cities. Restructured the DOM so the panels live on a SEPARATE overlay SVG that sits ON TOP of the scrollable board area but is itself unaffected by zoom or scroll.
+
+DOM after this change (created in JS on first BB render, idempotent):
+```
+.board-container (flex column, overflow: hidden)
+  .board-controls       — BB strip
+  .bb-board-area        — relative; flex: 1; overflow: hidden
+    .bb-scroll          — absolute fill; overflow: auto; contains #game-board
+    #game-board-overlay — absolute fill; pointer-events:none; contains panels + markets + income
+```
+
+The main `#game-board` SVG only contains cities + links + the title banner. When the user zooms in, that SVG grows inside `.bb-scroll` and scrollbars appear there; the overlay SVG stays put on top, so the floating panels (TURN ORDER / SPENT / VICTORY POINTS / INCOME / COAL / IRON) remain visible and at constant size regardless of zoom.
+
+Knock-on fixes:
+- `setZoom()` now targets the inner `.bb-scroll` wrapper for the auto-center scroll, not the outer container.
+- VP-panel hover trigger (still firing `GameUI.showVPBreakdown(event, playerIdx)` from the side player-bar handler) gets explicit `pointer-events: auto` on its hit-zone rect so hover survives the overlay's `pointer-events: none`.
 
 ### Birmingham: zoom restores scrollbars + auto-centers the viewport (v1.0.157)
 
@@ -1838,4 +1857,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 514 versions of user-driven development — from a blank repository to **v1.0.157**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 515 versions of user-driven development — from a blank repository to **v1.0.158**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
