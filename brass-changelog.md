@@ -1,6 +1,14 @@
 # Brass: Lancashire — Development Changelog
 
-## 511 versions of iterative development
+## 512 versions of iterative development
+
+### Birmingham: zoom now produces real scrollbars, controls bar stays sticky at top (v1.0.155)
+
+Two related layout fixes for Birmingham zoom-in:
+
+**Zoom-in now actually pans.** `setZoom()` was applying `transform: scale(N)` to the SVG. CSS transforms are purely visual — they don't change the element's layout box. So at 200% zoom the SVG visually doubled but its layout box stayed the same; `overflow:auto` on `.board-container` saw nothing to scroll because layout-wise nothing overflowed. The visual SVG content past the original 600×520 box was invisibly clipped, so the user couldn't pan around to find cities below the fold. Fix: switch to `style.width = (100 * scale)%` + matching height. The SVG's actual rendered footprint now grows with zoom, the container's `overflow:auto` triggers real horizontal + vertical scrollbars, and panning works.
+
+**Controls bar stays put when scrolling.** With the zoom fix above, scrolling actually moves the SVG — but it was also dragging the controls bar with it because the bar was just an `static`-positioned flex child of the scroll container. Changed to `position: sticky; top: 0; left: 0; z-index: 15`. The bar now pins to the top-left of the visible viewport while the SVG scrolls underneath, so the controls are always reachable regardless of pan position.
 
 ### Birmingham: card-name in every action log + Reset Turn checkpoint (v1.0.154)
 
@@ -1810,4 +1818,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 511 versions of user-driven development — from a blank repository to **v1.0.154**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 512 versions of user-driven development — from a blank repository to **v1.0.155**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
