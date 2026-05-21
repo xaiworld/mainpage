@@ -1,6 +1,22 @@
 # Brass: Lancashire — Development Changelog
 
-## 507 versions of iterative development
+## 508 versions of iterative development
+
+### Birmingham: own default seat palette + per-game-type favourite colour (v1.0.151)
+
+**Birmingham gets its own seat palette.** New games assign Red / Yellow / Purple / White to seats 0–3 (vs Lancashire's Red / Purple / Green / Yellow). Distinct enough from Lancashire that muscle-memory transfers without colliding. Existing in-progress games keep whatever was stored on `gamePlayers.color`.
+
+- Added `playerColorNamesBirmingham` + `playerColorNamesFor(gameType)` helper in `lib/industry-data.js`.
+- `routes/lobby-routes.js` routes every `addGamePlayer(..., seat, color)` call through the helper, picking the right palette based on `game.gameType`.
+
+**Favourite colour is now per game type.** A player can have a different preferred board colour in Lancashire vs Birmingham — e.g. White in BB, Purple in BL.
+
+- `lib/db.js`: storage moved to `user.favoriteColors = { lancashire, birmingham }`. The legacy `user.favoriteColor` is kept in sync with the Lancashire slot for backward-compat (anything still reading the old shape gets the right value). New helper `getUserFavoriteColor(userId, gameType)` resolves with a legacy fallback.
+- `routes/account-routes.js`: the colour-picker form accepts a `gameType` field and saves to the right slot; the redirect carries `?favgt=` so the user stays on the same tab.
+- `routes/game-routes.js`: each game page receives the favourite colour matching its own `gameType`, so the per-viewer board recolour works correctly in both games.
+- `views/account.ejs`: tabs above the colour grid let the user switch which game's favourite they're editing. The tab labels show the currently-saved colour for each game (`Brass: Lancashire (Purple)` / `Brass: Birmingham (White)`).
+
+**BB renderer reads the canonical colour from the player record.** `seatColor()` was a fixed local palette indexed by seat — favourite-colour remap didn't apply and the new BB palette wouldn't show. Now it reads `gameState.players[seat].color`, applies `BOARD._colorRemap`, and resolves via `BOARD.colorByName` — same plumbing the Lancashire side panel uses. `BOARD.displayColor()` was also updated to prefer the live player record's canonical name (works for both games without knowing the type), falling back to the legacy `seatColorNames` when no game state is available (lobby tables).
 
 ### Birmingham: dedicated VICTORY POINTS panel + controls strip no longer overlaps the board (v1.0.150)
 
@@ -1751,4 +1767,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 507 versions of user-driven development — from a blank repository to **v1.0.150**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 508 versions of user-driven development — from a blank repository to **v1.0.151**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
