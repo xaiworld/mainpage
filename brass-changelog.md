@@ -1,6 +1,16 @@
 # Brass: Lancashire — Development Changelog
 
-## 499 versions of iterative development
+## 500 versions of iterative development
+
+### Webpage records flow into the news feed, with a filter pill — and a peak-active-games fix (v1.0.143)
+
+**News integration.** When a site-wide record is broken (peak concurrent games, busiest day, etc.), an entry now lands in the news feed: `🌐 brass · New site record — Peak Concurrent Games: 42 (previous: 37)`. Implementation: `db.getWebpageTrophies()` diffs each recompute against the previously cached snapshot and pushes a `webpage_record` news entry for every max-based metric whose value strictly increased. Running totals (totalGames, totalActions, etc.) are intentionally skipped — they bump on every action and would flood the feed. The news entry has no `gameType` (site-wide records apply to both games), so the Lancashire/Birmingham filter leaves it visible regardless.
+
+**Filter pill.** A new `🌐 Records` pill joins Wins / Achievements / Trophies / Streaks in the news filter row. Activating it shows only site-record entries; combinations work as usual.
+
+**Bug fix: Peak Concurrent Games was wildly inflated.** The sweep added a `+1` event for each game's `started_at` but tried to add the `-1` event from `g.finished_at` — which doesn't exist on the games record. `finished_at` lives on `gameResults`. So every finished game stayed "active" forever in the timeline sweep and the peak ran away (e.g. reporting 63 when only ~36 games are actually concurrent at peak). Fix: build a `game_id → finished_at` lookup from `gameResults` and use that for the `-1` events. Also added a stable tie-break (process `+1` before `-1` on identical timestamps).
+
+**Bug fix: System Data tabs all stacked on top of each other.** The Total / Lancashire / Birmingham panes used `<%= cond ? '' : 'style="display:none"' %>` to hide non-active panes — but `<%= %>` HTML-escapes its output, so the rendered HTML was `style=&quot;display:none&quot;` (broken attribute, browser ignores). Switched to `<%- %>` (raw output) so the style applies. Same fix applied to the Finished Games section header which had the identical bug.
 
 ### Webpage trophies — site-wide records bar above the Hall of Fame (v1.0.142)
 A new strip above the Hall of Fame shows **site-wide records** (independent of per-player ones). Each pill shows an icon + record value + label + (when relevant) the date it was set.
@@ -1665,4 +1675,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 499 versions of user-driven development — from a blank repository to **v1.0.142**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 500 versions of user-driven development — from a blank repository to **v1.0.143**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
