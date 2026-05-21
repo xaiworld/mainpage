@@ -1,6 +1,20 @@
 # Brass: Lancashire — Development Changelog
 
-## 510 versions of iterative development
+## 511 versions of iterative development
+
+### Birmingham: card-name in every action log + Reset Turn checkpoint (v1.0.154)
+
+**`[Card] verb…` log format on every Birmingham action.** Lancashire logs every action as `username [Cotton Mill] built …` so you can see at a glance which card was spent. Birmingham was emitting bare lines (`username built coalMine L1 at coalbrookdale (cost £5 …)`), no card reference anywhere. Wired the card name into every action log line:
+- pass / loan: `xai [Wild Location] passed`, `xai [Coal Mine] took a loan: +£30, income +5→-3/turn, has £40`.
+- build: `xai [Birmingham] built Cotton Mill L1 at Birmingham (cost £12, total £18, £25→£7)`.
+- link: `xai [Wolverhampton] built canal Wolverhampton ⇄ Walsall (spent £3)`. Location names also now pretty-print on link endpoints (`Stoke-on-Trent` not `stokeOnTrent`).
+- sell: `xai [Manufacturer] sold 2 tiles`.
+- develop: `xai [Iron Works] developed Iron Works L1 (cost £3, £20→£17)`. Money before/after now included.
+- scout: `xai [Stoke-on-Trent] scouted: also discarded Birmingham + Coal Mine, drew 1 wild location + 1 wild industry`. Was just `discarded 3` before.
+
+New module `lib/games/birmingham/card-display.js` exposes `cardName(state, cardId)`, `locName(state, locId)`, `indName(industryType)` — used everywhere a card or location appears in a log entry.
+
+**Reset Turn checkpoint for Birmingham.** Lancashire's engine writes a `state.turnStart` snapshot on every new-player turn so the `/api/games/:id/reset-turn` route can roll back instantly. Birmingham wasn't doing this — `state.turnStart` was only set at game creation (by the lobby), then never refreshed. Reset Turn still worked via the history fallback, but only when history hadn't been pruned and required an extra DB round-trip. Added `snapshotTurnStart()` to `lib/games/birmingham/engine.js` and call it in `advanceTurn()` when the player rotation ticks, plus at the end of `endRound()` after income / new round init. Reset Turn now resolves the same way for both games.
 
 ### Bug: winner mis-attributed when VP tied — only the actual tiebreaker winner is recorded now (v1.0.153)
 
@@ -1796,4 +1810,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 510 versions of user-driven development — from a blank repository to **v1.0.153**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 511 versions of user-driven development — from a blank repository to **v1.0.154**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
