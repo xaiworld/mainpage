@@ -1,6 +1,16 @@
 # Brass: Lancashire — Development Changelog
 
-## 517 versions of iterative development
+## 518 versions of iterative development
+
+### Birmingham: Confirm Turn now fires after the last action (Reset Turn was already working) (v1.0.161)
+
+**Reset Turn:** already worked. The `/api/games/:id/reset-turn` route is engine-agnostic and BB's `advanceTurn()` writes a `state.turnStart` snapshot on every player rotation (added v1.0.154) — so the reset checkpoint is always fresh.
+
+**Confirm Turn:** was missing in Birmingham. The mechanism existed in the BB engine (`action.holdForConfirm: true` → `state.pendingConfirm = true`) but the Birmingham UI's `_bbSubmit` never set `holdForConfirm` and the BB hijack of `updateActionPanel` skipped the pendingConfirm branch entirely. So the turn auto-advanced on the last action with no chance to review.
+
+Two-piece fix:
+- `_bbSubmit` checks `gameState.actionsRemaining === 1 && GameUI.confirmTurnOnEnd` and sets `action.holdForConfirm = true` plus `action._resetVersion`. (No wild-build edge case to handle — Birmingham doesn't have one.)
+- BB's `updateActionPanel` fork now: (a) maintains `_turnStartVersion` / `_turnResetVersion` when our turn begins/ends, (b) detects `state.pendingConfirm` and routes to the existing `_showTurnEndConfirm()` helper. So the confirm dialog is the same overlay Lancashire uses — Confirm clicks `/api/games/:id/confirm-turn`, which is also engine-agnostic and routes `advanceTurn` through the registry.
 
 ### Birmingham: floating-hand Dock button hidden (v1.0.160)
 
@@ -1876,4 +1886,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 517 versions of user-driven development — from a blank repository to **v1.0.160**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 518 versions of user-driven development — from a blank repository to **v1.0.161**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
