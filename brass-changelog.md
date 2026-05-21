@@ -1,6 +1,29 @@
 # Brass: Lancashire — Development Changelog
 
-## 509 versions of iterative development
+## 510 versions of iterative development
+
+### Bug: winner mis-attributed when VP tied — only the actual tiebreaker winner is recorded now (v1.0.153)
+
+In Lancashire game 103 (xai / yosi / albertotower), yosi and albertotower finished tied on VP. ELO correctly picked albertotower (higher income), but the result + news + top-bar treated both as winners — `is_winner` was set with a plain `vp === maxVP` check, with no tiebreaker logic. So both got "won a game" entries in the news feed; the top bar lit up yosi's name because she was iterated first; logs called it a co-win.
+
+Fix is split across the two games per official rules:
+
+- **Brass: Lancashire — never a tie.** Tiebreaker chain: VP → income → money → spent-this-round (lower wins) → turn-order index (earlier wins). The turn-order index is a permutation so the chain always resolves to exactly one winner. The "King of Empatitos" trophy + the per-VP-tie achievement still trigger off raw VP ties (correct — those reward the tied state itself).
+- **Brass: Birmingham — can share victory.** Tiebreaker chain stops at VP → income → money. If all three are tied, the players involved share the win (official rules). Birmingham's `lib/games/birmingham/scoring.js` already did this correctly.
+
+New `lib/winner-resolver.js` exposes `resolveWinners(state)` — returns the Set of winning userIds applying the right chain based on `state.gameType`. Wired into:
+
+- `routes/game-routes.js` `recordGameResult` (replaces `is_winner: p.vp === maxVP`).
+- `routes/game-routes.js` push-notification path (winner-label string).
+- `lib/bot-engine.js` finished-game branch (`is_winner` + notification label).
+- `public/js/game-ui.js` `_resolveWinners()` (also game-type-aware) — drives the top bar "wins with X VP!" line and the finished-game info panel.
+
+UI polish that came with it:
+- Top bar reads `X wins with N VP!` for the unique Lancashire winner and `X & Y tie with N VP!` only when the (Birmingham) chain genuinely ties.
+- Finished-game info panel adds a muted note when a VP tie was broken: `2 players tied at 100 VP — broken by income / money.` (Birmingham) or `... broken by income / money / spent / turn order.` (Lancashire).
+- Placement display ("you finished 2nd out of 3") for Lancashire no longer says "tied for Xth" — there are no ties in a finished Lancashire game.
+
+Note: this is a forward-only fix. The stored `gameResults` for game 103 and any prior wrong-attribution games still carry both players as `is_winner: true`. The news entries for those games are also already posted. Happy to add a one-time backfill pass that recomputes `is_winner` across stored results and prunes the orphaned win-news if you want it — left out by default since the trophies / ELO are already correct and rewriting history is reversible only by another sweep.
 
 ### Birmingham: board sits below the controls bar, not next to it (v1.0.152)
 
@@ -1773,4 +1796,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 509 versions of user-driven development — from a blank repository to **v1.0.152**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 510 versions of user-driven development — from a blank repository to **v1.0.153**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
