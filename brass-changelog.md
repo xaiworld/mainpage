@@ -1,6 +1,16 @@
 # Brass: Lancashire — Development Changelog
 
-## 503 versions of iterative development
+## 504 versions of iterative development
+
+### Birmingham layout pass: markets stacked top-right, income vertical, links match Lancashire (v1.0.147)
+
+**Coal + iron markets stacked top-right.** Previously coal was mid-right and iron was bottom-right, with a big visual gap. Now both ladders sit tightly stacked in the top-right corner: coal on top (anchorX=545, bottomY=122 → spans y≈16-122), iron immediately below (bottomY=220 → spans y≈140-220). Frees the entire bottom strip for the player summary and gives the eye one place to look for "market state".
+
+**Income track is vertical now.** Switched from a 5×20 horizontal serpentine across the bottom to a 5×20 vertical serpentine on the right edge below the markets (startX=535, startY=240). Box 0 sits at top of column 0; the track flows down col 0, up col 1, down col 2, etc. U-turn arrows redrawn at column-ends instead of row-ends. The empty bottom strip is the upside — locations no longer have to dodge a wall of income squares.
+
+**Links match Lancashire's visual language.** Birmingham was drawing built links in a fixed canal-blue / rail-brown at width 2.2, which never showed the owner colour and didn't read as "this link belongs to player X" at a glance. Now mirrors Lancashire exactly: built links are the owner's seat colour at width 5 (canal dashed 8/4, rail solid); era-eligible unbuilt links are width-3 dashed in era tint (blue for canal, grey for rail); ineligible / wrong-era links fall back to thin dark dotted topology lines. The Y-junction (three-legged Coalbrookdale link) keeps its central dot which is now coloured by the owner too. Owner stripe ticks at link midpoints are no longer needed.
+
+**Turn-order panel on the board.** The Lancashire-style TURN ORDER panel was missing on Birmingham — `drawPlayerSummary` was just a flat seat-ordered list. Rewrote it to iterate `state.turnOrder` (not seat order), with ordinals (1st / 2nd / 3rd / 4th), seat-colour swatch, ▸ marker on the current player (only when `phase === 'actions'`), and a per-row `£N sp` chip when `spentThisRound > 0` so the tiebreaker is visible at a glance.
 
 ### Birmingham: empty merchant slots no longer carry a stray beer token (v1.0.146)
 
@@ -1705,4 +1715,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 503 versions of user-driven development — from a blank repository to **v1.0.146**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 504 versions of user-driven development — from a blank repository to **v1.0.147**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
