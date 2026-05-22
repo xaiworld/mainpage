@@ -1,6 +1,20 @@
 # Brass: Lancashire — Development Changelog
 
-## 520 versions of iterative development
+## 521 versions of iterative development
+
+### Birmingham: tap-to-select drag flow + mobile zoom actually grows the board (v1.0.164)
+
+**New drag UX (works on desktop + mobile).** The press-and-drag flow was hostile on mobile — Safari would interpret the initial touch as the start of a scroll/zoom gesture, so a single finger drag didn't reliably move things. Switched to a select-first model:
+
+1. Click **Move** (or **Resize**).
+2. A floating banner appears at the top of the viewport: *"Tap a location or panel to move it."*
+3. Tap any city, market, or panel — banner updates to *"Moving Birmingham"* (or *"Resizing TURN ORDER"*, etc.) with a **Finish** button. The selected element gets a gold drop-shadow glow.
+4. Drag anywhere on the board to move (or vertically to resize) the selected element. The touch can start on the element OR on empty space; the gesture is anchored at first contact so the element follows the finger one-to-one.
+5. Tap a different draggable to switch selection, or tap **Finish** to clear.
+
+Selection persists across re-renders + state polls. Mode toggles (Move ↔ Resize) clear selection so the banner re-prompts.
+
+**Mobile zoom now visibly zooms.** The CSS rule `body.is-mobile #game-board { min-width: 600px }` was overriding `style.width` whenever the computed value fell below 600 — so at 100% on a 360 px phone the SVG was already at 600 px, and 200% only pushed it to 720 px (barely noticeable). Floored the zoom's base width at 600 so 100% → 600 px, 200% → 1200 px. The user sees a real 2× jump.
 
 ### Birmingham mobile: locations / markets / panels are draggable + resizable via touch (v1.0.163)
 
@@ -1901,4 +1915,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 520 versions of user-driven development — from a blank repository to **v1.0.163**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 521 versions of user-driven development — from a blank repository to **v1.0.164**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
