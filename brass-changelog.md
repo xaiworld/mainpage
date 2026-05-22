@@ -1,6 +1,17 @@
 # Brass: Lancashire — Development Changelog
 
-## 523 versions of iterative development
+## 524 versions of iterative development
+
+### Birmingham mobile: drag gesture survives re-renders (root cause of "no movement") (v1.0.167)
+
+Why dragging did nothing on mobile despite selection working: `onDragStart` was re-rendering the SVG to show the gold highlight. `svg.innerHTML = ''` then rebuild removes the child element the touch was bound to. On mobile, subsequent `touchmove` events still fire on the original (now-detached) target — but with no parent in the DOM, they don't bubble up to the SVG's `ontouchmove` handler. So the gesture silently died one frame after touchstart.
+
+Two-piece fix:
+
+1. **`onDragStart` no longer re-renders.** It mutates `style.filter` on the selected DOM node in place (new helper `applyBBSelectionHighlightInPlace()`) to show the gold drop-shadow without touching the SVG tree. The touched element stays in the DOM, so subsequent touchmoves bubble normally.
+2. **Move + end handlers live on the document while a drag is active.** Attached on `attachDocDragHandlers()` at the end of `onDragStart`, detached in `onDragEnd`. So even if the SVG content rebuilds during the drag (which it has to, to show the moving element's new position), the document keeps receiving move/end events and the gesture continues.
+
+Side cleanup: removed the SVG/overlay-level `ontouchmove`/`ontouchend`/`onmousemove`/`onmouseup` handlers; only `ontouchstart` and `onmousedown` stay (they're the gesture entry points), document handles the rest.
 
 ### Birmingham mobile: floating Move / Resize / Zoom strip on the board + banner placement fix (v1.0.166)
 
@@ -1931,4 +1942,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 523 versions of user-driven development — from a blank repository to **v1.0.166**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 524 versions of user-driven development — from a blank repository to **v1.0.167**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
