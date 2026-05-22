@@ -1,6 +1,16 @@
 # Brass: Lancashire — Development Changelog
 
-## 526 versions of iterative development
+## 527 versions of iterative development
+
+### Birmingham: Iron Works L2/3/4 coal cost fixed + mat shows actual coal/iron counts (v1.0.170)
+
+Two findings in the user-supplied bug report against the manifest:
+
+**Data bug: Iron Works L2/3/4 coal cost.** Server `lib/games/birmingham/industry-data.js` and client `INDUSTRIES_BIRMINGHAM` both had `coal: 0` for Iron Works levels 2/3/4 — per the official tile manifest all four levels need **1 coal** to build (L1 was already correct). This was a real game-rule bug: building L2+ iron works was free of coal cost. Fixed both data sources to `1`. Existing games keep playing under the new rule; no migration needed (the cost is read live from the table on each Build action).
+
+**Display bug: mat showed a single boolean icon for any coal/iron count.** The mat rendered `if (ld.coal) html += ' ⬛'` so Pottery L3/L5 (2 coal) read identically to a 1-coal tile. Showed the bug: L2 of iron works in the mat had no icon (because data said 0) but was listed alongside the `£7` cost — user read `£7 ⬛` as "7 coal". Fix: render `⬛×N` when N > 1, plain `⬛` for N = 1. Same for `🟧`. Applied to both the per-level stats and the "Next: L… — £…" line.
+
+Audit pass on all six Birmingham industries vs the manifest: every other coal/iron/income/VP/links value is correct in both server + client tables. Only Iron Works coal was off.
 
 ### Birmingham: panel centre-on-tap + correct SVG coords through letterboxing (v1.0.169)
 
@@ -1965,4 +1975,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 526 versions of user-driven development — from a blank repository to **v1.0.169**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 527 versions of user-driven development — from a blank repository to **v1.0.170**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
