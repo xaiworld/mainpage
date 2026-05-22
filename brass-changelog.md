@@ -1,6 +1,21 @@
 # Brass: Lancashire — Development Changelog
 
-## 524 versions of iterative development
+## 525 versions of iterative development
+
+### Birmingham: tap-to-place move + wider selection hit areas (v1.0.168)
+
+Two changes for the mobile Move flow per user spec:
+
+**Selection now works anywhere inside a location.** Locations were only selectable if you tapped the outer rectangle frame — the inner slot rects are siblings of the outer rect (not children), so walking up the DOM from a slot tap never reached `data-bb-location`. Wrapped every city + merchant pill in a `<g data-bb-location>` containing all its parts (rects, labels, slots, pips). Tap anywhere inside the box now selects the location.
+
+**Move mode is tap-to-place, not drag.** Old flow needed a touch-and-hold-and-drag gesture that mobile browsers fought with. New flow:
+
+1. Click **Move** → banner: *"Tap a location or panel to move it"*.
+2. Tap inside a location → it lights up with a gold drop-shadow. Banner becomes *"Moving Birmingham — tap where you want it"*.
+3. Tap anywhere else on the board → that point becomes the new centre of the location. Banner stays so you can keep nudging it.
+4. Tap **Finish** → unhighlight, exit.
+
+Resize mode keeps the tap-to-select-then-drag-vertical gesture (resize is inherently a continuous-magnitude action, can't be expressed as a single tap).
 
 ### Birmingham mobile: drag gesture survives re-renders (root cause of "no movement") (v1.0.167)
 
@@ -1942,4 +1957,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 524 versions of user-driven development — from a blank repository to **v1.0.167**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 525 versions of user-driven development — from a blank repository to **v1.0.168**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
