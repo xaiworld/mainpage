@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 518 versions of iterative development
+## 519 versions of iterative development
+
+### Birmingham mobile: duplicate (Lancashire + BB) controls cleared from the Info tab (v1.0.162)
+
+Mobile BB games were showing **two** stacked control sets in the Info tab — the Lancashire row (Minimal / No icons / Links / Move / Resize + the View row) plus the BB strip (era links / other unbuilt / industry images / Move / Resize / ...). Cause: the mobile bootstrap runs at page load and moves the Lancashire `.controls-row` + `.board-vis-row` into `#mobile-board-controls`. The BB renderer then hoists its own strip into the same container — but the already-moved Lancashire elements were just sitting there from the bootstrap.
+
+Fix: `ensureBoardControlsBB` now sweeps `#mobile-board-controls` of any `.controls-row` / `.board-vis-row` / `#legend-panel` before parenting the BB strip there. Those Lancashire-only controls target `BoardRenderer.*` methods that have no meaning in a BB game, so dropping them is the right call.
 
 ### Birmingham: Confirm Turn now fires after the last action (Reset Turn was already working) (v1.0.161)
 
@@ -1886,4 +1892,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 518 versions of user-driven development — from a blank repository to **v1.0.161**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 519 versions of user-driven development — from a blank repository to **v1.0.162**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
