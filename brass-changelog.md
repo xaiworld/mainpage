@@ -1,6 +1,22 @@
 # Brass: Lancashire — Development Changelog
 
-## 528 versions of iterative development
+## 529 versions of iterative development
+
+### Birmingham mat: two-column BUILD │ FLIP layout — brewery [N] + beer-to-sell on sellable tiles (v1.0.172)
+
+Restructured the per-level row in the Birmingham industry mat into two columns separated by a `│`:
+
+- **BUILD** (left): build cost — `£X ⬛⬛ 🟧` for the money + coal + iron needed to lay the tile.
+- **FLIP** (right): what's required to flip + what you get on flip:
+  - **Auto-flip industries** (coal mine, iron works, brewery): a `[N]` badge showing the resource cubes / beer barrels that start on the tile and need to drain to 0. Brewery shows `[1]` or `[1/2]` matching the data — beige tinted.
+  - **Sellable industries** (cotton mill, manufacturer, pottery): beer cubes needed to sell — `🟫` for 1, `🟫🟫` for 2, `(no beer)` for 0 (manufacturer L3/L7).
+  - Always: `income +N` and `vp +N` gained on flip / scoring.
+
+**Brewery production switched from `🟫🟫` to `[1/2]`** as requested — matches the existing cube-count `[N]` convention used by coal mine and iron works, so all three auto-flip industries read consistently.
+
+**Added `barrelsToSell` field to client `INDUSTRIES_BIRMINGHAM`** for cotton mill, manufacturer, and pottery (was server-only). Values copied verbatim from `lib/games/birmingham/industry-data.js`.
+
+The "Next: L… — £…" headline stays minimal — just the build cost + income/VP gain — since the per-level rows now show the flip detail in full.
 
 ### Birmingham mat: repeated icons for cubes + brewery beer barrels shown (v1.0.171)
 
@@ -1983,4 +1999,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 528 versions of user-driven development — from a blank repository to **v1.0.171**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 529 versions of user-driven development — from a blank repository to **v1.0.172**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
