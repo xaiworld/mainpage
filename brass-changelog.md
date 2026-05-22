@@ -1,6 +1,14 @@
 # Brass: Lancashire — Development Changelog
 
-## 525 versions of iterative development
+## 526 versions of iterative development
+
+### Birmingham: panel centre-on-tap + correct SVG coords through letterboxing (v1.0.169)
+
+Two related fixes for the tap-to-place flow:
+
+**`clientToSvg` now honours `preserveAspectRatio` letterboxing.** The overlay SVG has `viewBox="0 0 600 520"` and (on mobile) is taller-than-wide. With default `xMidYMid meet`, the browser scales the content to fit the smaller dimension and centres it vertically — leaving transparent letterbox bands above and below. The old `clientY * (520/r.height)` formula ignored those bands, so a tap that visually landed on top of the coal market mapped to ~70 px above the slot ladder in SVG coords. That's the "invisibly taller than visible" feeling: tap on slot → coords say "above slot" → panel anchor jumps somewhere unexpected. New conversion computes the meet scale + letterbox offsets and subtracts them before scaling.
+
+**Tap-to-place puts the panel's CENTRE on the tap point, not its anchor.** Coal/iron market panels have their anchor at the top-left of the slot ladder (default `x: 545, y: 0`) — way above the visible content. Placing by anchor meant a tap "below" the visible position. INCOME's anchor is even worse (`535, 240` → top-left of a 211px-tall panel; tapping near the right edge sent the bottom half off the right of the viewBox where it became invisible). Added a `PANEL_CENTRE_OFFSET` table (offset from each panel's anchor to its visible centre) and use it in tap-to-place so the centre lands on the tap. Clamped the centre to `(20..580, 20..500)` so the panel can't be placed where it'd render past the viewBox edges.
 
 ### Birmingham: tap-to-place move + wider selection hit areas (v1.0.168)
 
@@ -1957,4 +1965,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 525 versions of user-driven development — from a blank repository to **v1.0.168**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 526 versions of user-driven development — from a blank repository to **v1.0.169**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
