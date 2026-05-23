@@ -1,6 +1,22 @@
 # Brass: Lancashire — Development Changelog
 
-## 530 versions of iterative development
+## 531 versions of iterative development
+
+### Birmingham: cascading Develop + Sell, plus board highlighting on valid targets (v1.0.174)
+
+**Cascading Develop:** Card → Tile1 → Tile2 (skip available) → Confirm. Tile choices are filtered to industries with a non-empty mat whose top-of-mat is `developable !== false` (Pottery L1/L3 are excluded per Birmingham rules). Confirm step shows the iron cost (`1` or `2`).
+
+**Cascading Sell:** Card → PickTile → PickMerchant → BeerChoice → AddOrDone → Confirm. The sales list builds up across the loop — each "Sell another tile" goes back to PickTile, "Done" advances to a final confirm summarising the queued sales. Merchant slots are pre-filtered to those that accept the picked tile's industry. Beer choice offers `Use merchant beer (also triggers bonus)` only when the merchant slot still has its beer cube; otherwise just `Use brewery beer`.
+
+**Board highlighting on valid targets.** When the cascading flow is at a step that needs a board pick, the valid candidates glow cyan:
+- Build at `location` step: valid cities (filtered by card type + network reachability) glow.
+- Network at `link` step: era-eligible unbuilt links glow.
+- Network at `doubleRail` step: remaining links (excluding the first) glow.
+- All other steps clear the highlight.
+
+Implementation: `BBBoardRenderer` exposes `setBBBoardHighlights({ locations, links })` + `refreshBBBoardHighlights()`. The flow calls these on every step transition. Visually it's a `drop-shadow(0 0 3px #5af) drop-shadow(0 0 6px #5af)` filter applied to elements matching `[data-bb-location]` / `[data-bb-link]`. Selection highlight (gold) still wins over flow highlight (cyan).
+
+Tap-on-board already advances the flow (added in v1.0.173 for Build / Network); now you can see *where* to tap.
 
 ### Birmingham: cascading menus for Build + Network (replaces the dropdown form) (v1.0.173)
 
@@ -2019,4 +2035,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 530 versions of user-driven development — from a blank repository to **v1.0.173**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 531 versions of user-driven development — from a blank repository to **v1.0.174**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
