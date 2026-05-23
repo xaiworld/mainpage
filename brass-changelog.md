@@ -1,6 +1,26 @@
 # Brass: Lancashire — Development Changelog
 
-## 529 versions of iterative development
+## 530 versions of iterative development
+
+### Birmingham: cascading menus for Build + Network (replaces the dropdown form) (v1.0.173)
+
+Replaced the form-style Build + Network panels with step-by-step cascading menus. Each step shows ONLY the next valid choices as tappable buttons, and a breadcrumb at the top shows what's been picked so far.
+
+**Build flow:** Card → Location → Industry → Confirm.
+- The card list is the player's hand (cards labelled with their `📍 Loc` / `🏭 Ind` / `⭐ Wild` icon).
+- Locations are filtered by the card chosen: a location card → only that location; a wild-location card → every location except unnamed breweries; an industry card → the player's network locations (or every location if they haven't built anything yet — first-build connectivity waiver).
+- Industries are filtered by intersection of `card.allowedIndustries` (industry card vs. any) and `slot.allowed` for the chosen location. Already-occupied slots are excluded.
+- Confirm step shows the cost summary (£, ⬛N, 🟧N) read from the top-of-mat level the player will play.
+
+**Network flow:** Card → Link → (Double-rail option in rail era) → Confirm.
+- Link choice lists every era-eligible unbuilt link as `Endpoint A ⇄ Endpoint B`.
+- In rail era, after picking the first link a follow-up step asks for an optional second link (double-rail variant £15+2 coal+1 beer), with a "Skip" button for single-rail.
+
+**Board taps integrate.** Tapping a city on the board while the build flow is at the location step picks that location (if it's valid for the card); tapping a link during the network flow picks it. Tapping when no flow is active opens the build / network panel.
+
+**Back / Cancel** buttons at the bottom of every step let the user revise without losing state — Back drops the most recent choice and steps one level up; Cancel exits.
+
+Develop, Sell, Scout, Loan, Pass keep their current panels (already simple enough that cascading would add steps without benefit). Board highlighting of valid targets is a separate iteration.
 
 ### Birmingham mat: two-column BUILD │ FLIP layout — brewery [N] + beer-to-sell on sellable tiles (v1.0.172)
 
@@ -1999,4 +2019,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 529 versions of user-driven development — from a blank repository to **v1.0.172**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 530 versions of user-driven development — from a blank repository to **v1.0.173**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
