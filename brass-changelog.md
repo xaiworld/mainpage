@@ -1,6 +1,17 @@
 # Brass: Lancashire — Development Changelog
 
-## 540 versions of iterative development
+## 541 versions of iterative development
+
+### Birmingham: Gloucester bonus is now an IMMEDIATE develop sub-step (was: deferred credit) (v1.0.184)
+
+Per Brass: Birmingham official rules the Gloucester merchant bonus is "develop 1 industry tile (no iron cost) immediately, as part of this sell." Our implementation had it as a stored `freeDevelopCredits` counter used by a future Develop action — that's not the official behaviour, and it left players wondering where their bonus went.
+
+Refactored to inline sub-step:
+
+- **Server:** New `developFreeTile(state, player, indType)` helper in `develop_scout.js` (removes the top developable tile from the player's mat with no iron cost). `applyMerchantBonus` now takes the `sale` parameter and, when the merchant is Gloucester and `sale.gloucesterDevelop` is set, calls `developFreeTile` immediately. If no target is supplied (or the chosen industry has nothing developable) the bonus is forfeited — log entry says so.
+- **Client cascade:** New `gloucesterDevelop` step in the sell flow, inserted between `beerChoice` and `addOrDone` ONLY when the user chose merchant beer at Gloucester. Lists developable industries from your mat as tappable buttons + a "Skip (forfeit)" button. Back from this step returns to `beerChoice` and undoes the pending sale.
+
+The existing `freeDevelopCredits` consumption in `actionDevelop` is kept for backward compat — any credits stored under the old rule (for games in flight) are still consumed by the next Develop. New Gloucester bonuses no longer accumulate credits.
 
 ### Birmingham: Gloucester develop-credit visible in TURN ORDER + Develop dialog (v1.0.183)
 
@@ -2151,4 +2162,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 540 versions of user-driven development — from a blank repository to **v1.0.183**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 541 versions of user-driven development — from a blank repository to **v1.0.184**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
