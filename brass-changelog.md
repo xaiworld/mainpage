@@ -1,6 +1,16 @@
 # Brass: Lancashire — Development Changelog
 
-## 531 versions of iterative development
+## 532 versions of iterative development
+
+### Birmingham desktop: cascading dialogs render in a floating popup + advance properly from card clicks (v1.0.175)
+
+Two bugs in the cascading UX on desktop:
+
+**(1) Card-click didn't advance the cascade.** The `_bbStart*FromCard` functions opened the right dialog kind, then called `preselectHandCard(<select-id>, cardId)` — but the cascading panels no longer render those `<select>` elements (the old form is gone). So the card pick was silently lost; the user had to tap the card AGAIN in the panel to actually advance. Replaced with `_bbStartFlowFromCard(kind, cardId)` which calls `bbStart(kind)` then `_bbFlowPickCard(cardId)` so the flow seeds the card and jumps to the next step (location for build, link for network, tile1 for develop, pickTile for sell). For a location card → build, also auto-picks the (single) valid location to skip a tap.
+
+**(2) Step transitions weren't re-rendering.** `_bbFlowPickX` mutated `_bbFlow` then called `GameUI.updateActionPanel()`, but `_birminghamActionPanel` early-returned when `_bbDialogOpen` was set (the "don't wipe an open dialog on state polls" guard). So the cascade froze at step 1; user had to tap Back + the action button again to see step 2. Reordered the guard so it now re-renders the active cascade flow (form-based dialogs like loan/scout/pass still don't re-render on polls — those have form state that would be lost).
+
+**Cascading dialog moved out of the right-side panel.** New `_bbRenderCascade(html)` helper: on desktop it paints into a floating, centred `#bb-cascade-dialog` overlay (`position: fixed; top: 70px; left: 50%; transform: translateX(-50%)`, gold-bordered card, max 80vh scroll) instead of injecting into the right-side `#action-panel`. The side panel stays empty on desktop as before. Mobile still uses the action-panel (which lives in the Hand tab — same place actions have always rendered on mobile). Cancel / Submit / turn-end close the overlay.
 
 ### Birmingham: cascading Develop + Sell, plus board highlighting on valid targets (v1.0.174)
 
@@ -2035,4 +2045,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 531 versions of user-driven development — from a blank repository to **v1.0.174**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 532 versions of user-driven development — from a blank repository to **v1.0.175**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
