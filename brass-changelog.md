@@ -1,6 +1,27 @@
 # Brass: Lancashire — Development Changelog
 
-## 533 versions of iterative development
+## 534 versions of iterative development
+
+### Birmingham: spatial picks go on the map, the cascading menu only asks for decisions (v1.0.177)
+
+Reorganised the cascading flow so the dialog never lists things the player can see on the board. Anything visible there — locations, links, slots, merchant slots — is highlighted and tapped on the map; the floating menu shrinks to a one-line prompt with cyan `→ Tap a highlighted X on the map (N valid)` text plus Back / Cancel. Things the map can't show (which industry to put in a slot, beer source for a sale, want a second rail?, etc.) stay as menu choices.
+
+Specifically:
+
+- **Build · location step**: was a list of city buttons → now a `→ Tap a highlighted city on the map` prompt + map highlights.
+- **Build · industry step**: stays as a menu (the slot/industry choice is a decision, not a spatial pick).
+- **Network · link step (canal AND rail era)**: was a list of links → prompt + map highlights. Single tap on a highlighted link picks it.
+- **Network · doubleRail step (rail era only)**: shows just two options — a `Just single rail — confirm` button + a prompt to tap a highlighted second link.
+- **Sell · pickTile step**: was a list of own unflipped mill/manuf/pottery → prompt + map highlights on the matching slot rects.
+- **Sell · pickMerchant step**: was a list of merchant slots → prompt + map highlights on the matching merchant pill slots.
+- **Sell · beerChoice step**: stays as a menu (`Use merchant beer` vs `Use brewery beer`).
+
+To make sell-tile and sell-merchant clickable on the board, the renderer now:
+- Tags slot rects with the existing `data-location` + `data-slot` attrs (already present) and routes them through a new `GameUI.bbBoardClickSlot(locId, slotIdx)` hook that intercepts only when the sell flow is at `pickTile`. Returns true so the generic parent-location click handler doesn't ALSO fire on the wrapping `<g>`.
+- Adds `data-bb-merchant-loc` + `data-bb-merchant-slot` attrs to merchant slot rects, routed through `GameUI.bbBoardClickMerchantSlot(mkt, si)` (only intercepts in the sell `pickMerchant` step).
+- `setBBBoardHighlights({ locations, links, slots, merchantSlots })` accepts the two new highlight sets and paints the cyan glow on the matching slot/merchant rects.
+
+Develop, Scout, Loan, Pass stay as menu-only — none of them reference anything on the map.
 
 ### Birmingham: card click → cascading dialog now actually keeps the card and skips the first step (v1.0.176)
 
@@ -2057,4 +2078,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 533 versions of user-driven development — from a blank repository to **v1.0.176**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 534 versions of user-driven development — from a blank repository to **v1.0.177**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
