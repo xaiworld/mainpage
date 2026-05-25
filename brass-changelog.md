@@ -1,6 +1,20 @@
 # Brass: Lancashire — Development Changelog
 
-## 541 versions of iterative development
+## 542 versions of iterative development
+
+### Overbuild log entries — both games (v1.0.185)
+
+When a build replaces an existing tile, a sub-log line now spells out exactly what happened:
+
+```
+xai [Cotton Mill] built Coal Mine L4 at Birmingham (£10→…)
+  ↳ OVERBUILD: Coal Mine L4 replaced yosi's Coal Mine L3 (flipped) at Birmingham
+```
+
+Captures: the new owner (line above), new industry + level, previous owner, previous industry + level, previous flipped state, and location. Reading the log later, "where did red's coal mine go?" answers itself.
+
+- **Lancashire** (`lib/game-engine.js`): snapshots `slot.owner / industryType / level / flipped` before the build overwrite, emits the `↳ OVERBUILD:` line right after the main build line.
+- **Birmingham** (`lib/games/birmingham/build.js`): same wiring. Birmingham doesn't allow overbuild in official rules today (`pickSlot` skips occupied slots), so the line never fires in current play — but the infrastructure is in place for any future rule variant.
 
 ### Birmingham: Gloucester bonus is now an IMMEDIATE develop sub-step (was: deferred credit) (v1.0.184)
 
@@ -2162,4 +2176,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 541 versions of user-driven development — from a blank repository to **v1.0.184**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 542 versions of user-driven development — from a blank repository to **v1.0.185**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
