@@ -1,6 +1,17 @@
 # Brass: Lancashire — Development Changelog
 
-## 535 versions of iterative development
+## 536 versions of iterative development
+
+### Turn navigator: full game history reachable (was: only the last ~5–30 steps) (v1.0.179)
+
+User reported "I want to go some turns back in game 69 to check what happened but I cannot, why?" Cause: two compounding history-pruning caps:
+
+- **Active games:** `MAX_HISTORY_PER_GAME = 30`. Once a game racked up >30 state snapshots (≈ one round in a 4P game), older snapshots were silently dropped. Navigator `◀` past that point hit a 404 from `/api/games/:id/state/:version`.
+- **Finished games:** `pruneFinishedGameHistory(gameId, 5)` ran at game-end and reduced history to the last 5 versions — i.e. only the very last few actions were replayable post-game.
+
+Bumped both caps to **200** snapshots, enough to cover a full Brass game's ~80-150 actions plus the surrounding phase events. Per-snapshot size is ~30–50 KB, so 200 × 50 KB ≈ 10 MB per game — fits comfortably on the Render persistent disk for hundreds of games. `routes/game-routes.js` no longer passes the old `5` to `pruneFinishedGameHistory`, so it picks up the new default.
+
+Going forward, new state pushes accumulate up to 200 per game and stay there post-finish; users can scroll back through entire games. Game 69 + other already-pruned games can't be retroactively recovered (the dropped snapshots are gone).
 
 ### Hall of Fame: ELO Sum + Birmingham ELO trophies (v1.0.178)
 
@@ -2092,4 +2103,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 535 versions of user-driven development — from a blank repository to **v1.0.178**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 536 versions of user-driven development — from a blank repository to **v1.0.179**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
