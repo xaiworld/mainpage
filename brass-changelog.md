@@ -1,6 +1,18 @@
 # Brass: Lancashire — Development Changelog
 
-## 532 versions of iterative development
+## 533 versions of iterative development
+
+### Birmingham: card click → cascading dialog now actually keeps the card and skips the first step (v1.0.176)
+
+Previously, clicking a card in your hand and choosing an action (e.g. Build) from the card popup STILL opened the cascade at the "Tap a card" step — the card context was lost. Root cause: `_bbStartFlowFromCard` first called `bbStart(kind)`, which calls `_bbBuildPanel`, which sets `_bbFlow = { step: 'card' }` and renders the card-pick step into the floating dialog. Only AFTER that did we call `_bbFlowPickCard(cardId)` to advance — and an intervening re-render (caused by `_bbApplyFlowHighlights` indirectly triggering a state update) could reset the flow back to step 'card', leaving the user staring at the card-pick prompt for the card they just clicked.
+
+Rewrote `_bbStartFlowFromCard` to seed state DIRECTLY (no `bbStart` indirection):
+- Sets `GameUI._bbDialogOpen = kind` + `GameUI._bbFlow = { kind, step: <next>, sel: { card: cardId } }` in one shot.
+- `<next>` is `'location'` for build, `'link'` for network, `'tile1'` for develop, `'pickTile'` for sell.
+- For build with a location card whose ONLY valid location is the one named on the card, also pins `sel.location` and jumps further to the `'industry'` step (one less tap).
+- Then `_bbRerenderFlow()` paints the floating dialog at the correct step.
+
+The breadcrumb at the top of the cascade always shows the card you clicked (e.g. `Card: 📍 Birmingham`) so the context is visible.
 
 ### Birmingham desktop: cascading dialogs render in a floating popup + advance properly from card clicks (v1.0.175)
 
@@ -2045,4 +2057,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 532 versions of user-driven development — from a blank repository to **v1.0.175**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 533 versions of user-driven development — from a blank repository to **v1.0.176**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
