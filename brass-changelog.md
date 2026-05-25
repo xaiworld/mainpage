@@ -1,6 +1,20 @@
 # Brass: Lancashire — Development Changelog
 
-## 538 versions of iterative development
+## 539 versions of iterative development
+
+### Birmingham mobile: cascading dialog floats above the board (was: hidden in the Hand tab) (v1.0.182)
+
+Mobile users couldn't see the cascading dialog because it rendered into `#action-panel`, which the mobile bootstrap moves to the Hand tab. Two consequences:
+- Starting an action (Build / Network / Sell / Develop) silently switched the tab to Hand, then forced the user to switch back to Board to interact with highlighted targets.
+- The "tap a highlighted tile to sell" step lit up the slot but the user had no visible feedback when they tapped — the cascade was advancing in the Hand tab, off-screen.
+
+Made `_bbRenderCascade(html)` paint into a floating `#bb-cascade-dialog` on **both** desktop and mobile:
+- **Desktop:** `position:fixed; top:70px; left:50%` (unchanged from before).
+- **Mobile:** `position:fixed; left:6px; right:6px; bottom:310px; max-height:42vh` — pinned just above the floating hand so the board stays visible above it.
+
+The action-panel is emptied on both platforms during cascading so there's no duplicate render. The auto-switch to the Hand tab in `bbStart` is suppressed for cascading actions (only loan / scout / pass still auto-switch since those panels still live in the action-panel form). Same goes for the card-popup card-tap entry path.
+
+This also fixes the reported "highlights work but tap does nothing" sell bug — the tap WAS firing `bbBoardClickSlot` correctly, but the resulting cascade advance was invisible in the Hand tab. With the floating dialog, the next step is right there.
 
 ### HoF: Lowest ELO Sum trophies for both games (v1.0.181)
 
@@ -2128,4 +2142,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 538 versions of user-driven development — from a blank repository to **v1.0.181**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 539 versions of user-driven development — from a blank repository to **v1.0.182**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
