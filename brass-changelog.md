@@ -1,6 +1,19 @@
 # Brass: Lancashire — Development Changelog
 
-## 537 versions of iterative development
+## 538 versions of iterative development
+
+### HoF: Lowest ELO Sum trophies for both games (v1.0.181)
+
+Companion to the `eloSum` trophy added in v1.0.178 — the floor of the ELO chart, per game.
+
+- **`eloSumLow` — Lowest ELO Sum (2P+3P+4P)** on the Lancashire tab.
+- **`eloBbSumLow` — Lowest ELO Sum (2P+3P+4P)** on the Birmingham tab.
+
+Same qualification rule as the highest-sum trophy: requires ≥1 game in EACH player-count category. The "lowest among qualifiers" rule avoids the trophy being claimed by a brand-new account at 3000 (1000 × 3 default) — only players who've taken the lumps in all three formats can claim the floor.
+
+Implementation: new `pickHoldersFromUsersMin(users, valueOf)` mirrors `pickHoldersFromUsers` but picks the smallest positive value (and skips 0 / null, which represent "didn't qualify"). The lan and bb sum closures are shared between the `eloSum` / `eloSumLow` (and `eloBbSum` / `eloBbSumLow`) pairs so the qualification logic stays consistent.
+
+Icon is 🫠 (the melting face — "I have descended").
 
 ### Turn navigator: walk by ACTUAL version numbers, not 0-based count (v1.0.180)
 
@@ -2115,4 +2128,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 537 versions of user-driven development — from a blank repository to **v1.0.180**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 538 versions of user-driven development — from a blank repository to **v1.0.181**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
