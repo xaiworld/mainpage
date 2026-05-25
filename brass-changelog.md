@@ -1,6 +1,18 @@
 # Brass: Lancashire — Development Changelog
 
-## 536 versions of iterative development
+## 537 versions of iterative development
+
+### Turn navigator: walk by ACTUAL version numbers, not 0-based count (v1.0.180)
+
+v1.0.179 raised the history cap but the navigator was still broken for any game that had EVER been pruned. Cause: the client did `navVersion = HISTORY_COUNT - 1` and then iterated 0..count-1 as if those were the version numbers. After a prune the stored versions are e.g. `50..79` — fetching version 29 (count-1 of 30) returns 404 and the navigator bails to "live". That's exactly what the user reported: ◀ jumps to "the end of my last turn" (the most-recent surviving snapshot it managed to find by coincidence) and refuses to go further.
+
+Fix is end-to-end:
+
+- **Server:** new `db.getStateHistoryVersions(gameId)` returns the sorted-ascending array of actual version numbers. Exposed via `/api/games/:id/history` (now returns `{ count, versions }`) and injected into the game page as `HISTORY_VERSIONS`.
+- **Client:** navigator now uses `navVersionsList` (the version array) instead of a count. `navPrev` finds the current version's index in the list and steps to `list[idx - 1]`; `navFirst` jumps to `list[0]`; `navNext` to `list[idx + 1]`. Before every nav, `_refreshNavVersions()` re-fetches the list so a new turn taken since page load is picked up.
+- **Label:** `N/M` now means "position N of M available snapshots", not a count-based ordinal (which read as a tiny number when the underlying versions were already in the hundreds).
+
+Combined with v1.0.179's larger cap, you can now walk a whole game's history end-to-end.
 
 ### Turn navigator: full game history reachable (was: only the last ~5–30 steps) (v1.0.179)
 
@@ -2103,4 +2115,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 536 versions of user-driven development — from a blank repository to **v1.0.179**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 537 versions of user-driven development — from a blank repository to **v1.0.180**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
