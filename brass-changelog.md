@@ -1,6 +1,16 @@
 # Brass: Lancashire — Development Changelog
 
-## 542 versions of iterative development
+## 543 versions of iterative development
+
+### Overbuild log gets a skull + battle cry (v1.0.186)
+
+The overbuild sub-line now reads:
+
+```
+  ↳ 💀 OVERBUILD: Coal Mine L4 replaced yosi's Coal Mine L3 (flipped) at Birmingham — this must be revenged!!
+```
+
+Same in Lancashire + Birmingham.
 
 ### Overbuild log entries — both games (v1.0.185)
 
@@ -2176,4 +2186,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 542 versions of user-driven development — from a blank repository to **v1.0.185**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 543 versions of user-driven development — from a blank repository to **v1.0.186**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
