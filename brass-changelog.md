@@ -1,6 +1,15 @@
 # Brass: Lancashire — Development Changelog
 
-## 539 versions of iterative development
+## 540 versions of iterative development
+
+### Birmingham: Gloucester develop-credit visible in TURN ORDER + Develop dialog (v1.0.183)
+
+User reported "I sold through Gloucester with the Gloucester beer but my bonus didn't happen." Logs confirmed the bonus DID trigger — it just had nowhere to show. Gloucester's bonus is `develop`, which grants `player.freeDevelopCredits += 1`, consumed by your next Develop action (waiving its 1 iron cost). Without a UI surface, the credit was effectively invisible until you happened to develop something and pay 0 iron.
+
+Two surfaces added:
+
+- **TURN ORDER panel row:** `🛠×N` chip after the money for any player holding develop credits. Updates every render.
+- **Develop cascade dialog:** A gold-tinted note `🛠 Gloucester credit: N free develop (iron cost waived)` at the top when credits > 0. The confirm step now shows `Iron cost: X (Gloucester waives Y)` so you can see what each tile actually costs after the credit applies.
 
 ### Birmingham mobile: cascading dialog floats above the board (was: hidden in the Hand tab) (v1.0.182)
 
@@ -2142,4 +2151,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 539 versions of user-driven development — from a blank repository to **v1.0.182**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 540 versions of user-driven development — from a blank repository to **v1.0.183**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
