@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 550 versions of iterative development
+## 551 versions of iterative development
+
+### Lancashire Tutorial #1 — correct the sell-network wording (v1.0.194)
+
+The intro modal said "connected via your own links to a port"; the actual Lancashire rule is that the selling-network uses links built by ANY player and the port can be owned by ANY player. Fixed in the intro body + the tour step about the Lancaster⇄Preston link. The solo-game caveat is called out so the player isn't confused that they'll still build them themselves in this lesson.
 
 ### Lancashire Tutorials — pedagogical intro modal, guided tour, clearer hints (v1.0.193)
 
@@ -2250,4 +2254,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 550 versions of user-driven development — from a blank repository to **v1.0.193**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 551 versions of user-driven development — from a blank repository to **v1.0.194**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
