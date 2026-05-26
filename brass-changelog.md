@@ -1,6 +1,14 @@
 # Brass: Lancashire — Development Changelog
 
-## 543 versions of iterative development
+## 544 versions of iterative development
+
+### Birmingham — wild card clicks + highlight cleanup (v1.0.187)
+
+Two related fixes for Birmingham's wild card flow:
+
+- **Click handler now walks up the DOM.** A player reported that the Wild Location card worked on desktop but on mobile "there were no cities available". The SVG click handler only read `e.target.dataset` directly, but `data-bb-location` lives on the wrapping `<g>` — taps on inner elements (outer city rect, name text) never reached the location handler. It now walks up to find ancestors carrying any `data-bb-*` attribute, so wildLocation (and every other build flow) registers clicks across the whole city box on both desktop and mobile.
+- **Highlight dead ends are gone.** Wild Location and Wild Industry highlights now skip cities with no open slot — previously they'd light up a fully-built city and force you to back out of the cascade. Wild Location also still skips the two unnamed breweries (rule).
+- **Cross-flow protection.** Stray location/link/merchant clicks no longer clobber an active sell/develop/network flow, and tapping an external market (Gloucester, Oxford, etc.) is now correctly a no-op rather than opening a stray build dialog.
 
 ### Overbuild log gets a skull + battle cry (v1.0.186)
 
@@ -2186,4 +2194,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 543 versions of user-driven development — from a blank repository to **v1.0.186**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 544 versions of user-driven development — from a blank repository to **v1.0.187**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
