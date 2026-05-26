@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 548 versions of iterative development
+## 549 versions of iterative development
+
+### Lancashire Tutorials — visible "New to the game?" banner (v1.0.192)
+
+The tutorials section was tucked inside the right column under "Create new game" where it was easy to miss. Moved it to a prominent gold-bordered banner spanning the full lobby width, right above the two-column layout, titled "🎓 New to the game? Try these tutorials!". Auto-expanded for users who haven't completed any lessons yet; collapses to a compact header once at least one is done.
 
 ### Lancashire Tutorials — framework + lesson #1 (v1.0.191)
 
@@ -2236,4 +2240,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 548 versions of user-driven development — from a blank repository to **v1.0.191**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 549 versions of user-driven development — from a blank repository to **v1.0.192**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
