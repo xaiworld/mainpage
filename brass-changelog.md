@@ -1,6 +1,25 @@
 # Brass: Lancashire — Development Changelog
 
-## 551 versions of iterative development
+## 552 versions of iterative development
+
+### Tutorial #1 tour — 14 steps covering every UI surface on desktop + mobile (v1.0.195)
+
+Expanded the lesson-1 tour from 6 steps to 14, and dropped the "action panel" step (players actually play actions by tapping a card in the hand, not from a separate panel). New stops:
+
+- Your hand of cards (with note about the tap-card-to-act flow)
+- The map
+- A location (Preston) + another location (Lancaster)
+- A link (Lancaster ⇄ Preston)
+- **The coal market** + **the iron market** (with how pricing rises as supply drops)
+- **The income track** (what your starting square means, what bumps it)
+- **The VP track** (when scoring happens)
+- **The turn-order panel** (least-spent goes first)
+- **Players summary** (left panel on desktop / "Info" tab on mobile)
+- **Your tile mat** (right panel on desktop / "Hand & Tiles" tab on mobile)
+- **The game log**
+- **Chat**
+
+Each tour step now carries an optional `mobileTab` field; the tour switches the mobile bottom-tab automatically (with a 150ms repaint delay) before measuring the target — so on mobile you don't have to manually navigate between Info/Board/Hand/Log/Chat to follow the tour. Added `data-panel="<id>"` to each SVG panel group (`beginScaledGroup` in board-renderer.js) so tour selectors can target coal/iron market / income / VP / turn-order individually.
 
 ### Lancashire Tutorial #1 — correct the sell-network wording (v1.0.194)
 
@@ -2254,4 +2273,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 551 versions of user-driven development — from a blank repository to **v1.0.194**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 552 versions of user-driven development — from a blank repository to **v1.0.195**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
