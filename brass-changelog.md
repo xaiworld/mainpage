@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 553 versions of iterative development
+## 554 versions of iterative development
+
+### Tutorial #1 — correct round count in closing modal (v1.0.197)
+
+Said "12–16 rounds across two eras". The actual numbers are 16 (4-player) or 20 (2/3-player), per `roundsPerEra = numP === 4 ? 8 : 10` × 2 eras. Fixed.
 
 ### Tutorial #1 — fix hand highlight + add "Ready to play?" closing modal (v1.0.196)
 
@@ -2278,4 +2282,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 553 versions of user-driven development — from a blank repository to **v1.0.196**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 554 versions of user-driven development — from a blank repository to **v1.0.197**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
