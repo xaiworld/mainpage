@@ -1,6 +1,11 @@
 # Brass: Lancashire — Development Changelog
 
-## 544 versions of iterative development
+## 545 versions of iterative development
+
+### Birmingham — Scout becomes a cascade + dead-end filter pulled (v1.0.188)
+
+- **Scout uses the cascade overlay** like Build / Network / Sell / Develop. Tap a card to play, then the 1st to discard, then the 2nd, then Confirm — each step rendered into the floating dialog with the running summary in the breadcrumb. No more right-side form, and the three dropdowns can no longer be left with duplicate selections (the cards already picked are filtered out of subsequent steps).
+- **Reverted the v1.0.187 "skip dead-end city" highlight filter.** Birmingham allows overbuild in specific cases — own tile of any industry at higher level, plus opponent coal/iron when the relevant market is empty — so a city with all slots occupied is NOT automatically a dead end. (Saved as a memory so this doesn't get re-introduced.)
 
 ### Birmingham — wild card clicks + highlight cleanup (v1.0.187)
 
@@ -2194,4 +2199,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 544 versions of user-driven development — from a blank repository to **v1.0.187**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 545 versions of user-driven development — from a blank repository to **v1.0.188**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
