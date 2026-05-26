@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 545 versions of iterative development
+## 546 versions of iterative development
+
+### Birmingham Scout — skip the card pick + tap hand row to pick discards (v1.0.189)
+
+When Scout is launched by tapping a card in your hand → "🔭 Scout" in the popup, the cascade now skips the "tap a card to play" step (obviously: it's the card you just clicked) and lands you directly at "discard 1".
+
+At the discard1 / discard2 steps, you can now pick discards by **tapping cards directly in your hand row** — no need to go through the cascade buttons. The played card and any already-picked discards are filtered (tapping them is a no-op). The cascade buttons are still there as a fallback.
 
 ### Birmingham — Scout becomes a cascade + dead-end filter pulled (v1.0.188)
 
@@ -2199,4 +2205,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 545 versions of user-driven development — from a blank repository to **v1.0.188**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 546 versions of user-driven development — from a blank repository to **v1.0.189**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
