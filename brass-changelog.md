@@ -1,6 +1,33 @@
 # Brass: Lancashire — Development Changelog
 
-## 547 versions of iterative development
+## 548 versions of iterative development
+
+### Lancashire Tutorials — framework + lesson #1 (v1.0.191)
+
+First slice of the planned 15-tutorial onboarding system. Framework + the first lesson are live; the remaining 14 + 3 completion achievements will land once this is verified end-to-end.
+
+**Framework**
+- `lib/tutorials.js` — scenario registry. Each entry: id, title, description, `buildStartState()` (hand-tuned starting state), `isGoalMet(state, player)` (post-action goal check), ordered `hints[]`, `maxRound` budget.
+- Engine post-action hook (`lib/game-engine.js`): after every successful action, if `state.tutorial` is set, bump `hintIdx`, run `isGoalMet`. On success → `phase='finished'`, `tutorial.goalMet=true`, log "🎓 Tutorial goal accomplished". After advanceTurn, if `state.round` exceeds `maxRound` → `tutorial.failed=true`, `phase='finished'`.
+- `POST /tutorials/:id/start` and `POST /tutorials/next/start` (lobby-routes.js) create a 1-player Lancashire game with the scenario's starting state.
+- `GET /api/tutorials/:id` returns scenario metadata for the in-game UI.
+- Tutorial completions persist as `user.tutorialsCompleted: [...ids]` (db.js migration + `markTutorialCompleted` / `getTutorialsCompleted`).
+- Tutorial games short-circuit ELO / streak / normal achievement processing in `game-routes.js` — they're a learning surface, not a competitive one.
+
+**Lobby UI**
+- New "🎓 Lancashire Tutorials" collapsible section under "Create new game", listing every scenario with a Start / Replay button and a "✓" status badge.
+
+**In-game UI** (`public/js/tutorial-ui.js`)
+- Fixed top banner: lesson title, current round (e.g. "Round 3 of 8"), hint counter ("Hint 2/4"), "Show hint" button (collapsed by default — the player can try without).
+- Hint reveals inline; advances automatically after each action.
+- Success modal on `goalMet`: "Lesson complete! [Next lesson →] [Back to Tutorials]".
+- Try-again modal on `failed`: "Out of rounds [Try again] [Back to Tutorials]".
+
+**Lesson #1 — Sell a Cotton Mill (L1) through your own port**
+- Hand-tuned: £30, hand = [preston_1, lancaster_1, cotton_1, port_1, fleetwood_1, colne_1, bury_1, bolton_1].
+- Goal path (4 actions in ~3 rounds): build cotton at Preston → canal Lancaster⇄Preston → port at Lancaster → sell. Uses two different cities because canal-era rules forbid two of your tiles at one location.
+
+The other 14 scenarios (sell Cotton L2, flip coal mine, flip iron works, build a shipyard, reach £10 income, connect 3 locations, sell 2 in one action with external market, take a loan, auto-sell coal, develop a tile, overbuild own L1 with L2, score 10 VP from flipped tiles, use a wild card, end-of-era L2 survival) plus the 5/10/15-complete achievements will land in v1.0.192+.
 
 ### Birmingham Scout — fix the prompt wording (v1.0.190)
 
@@ -2209,4 +2236,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 547 versions of user-driven development — from a blank repository to **v1.0.190**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 548 versions of user-driven development — from a blank repository to **v1.0.191**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
