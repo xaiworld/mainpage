@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 546 versions of iterative development
+## 547 versions of iterative development
+
+### Birmingham Scout — fix the prompt wording (v1.0.190)
+
+Header text now reads "Play 1 card, then discard 2 more from your hand…" — the previous "Discard 3" was confusing because the first card is the action card (played), not a discard.
 
 ### Birmingham Scout — skip the card pick + tap hand row to pick discards (v1.0.189)
 
@@ -2205,4 +2209,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 546 versions of user-driven development — from a blank repository to **v1.0.189**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 547 versions of user-driven development — from a blank repository to **v1.0.190**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
