@@ -1,6 +1,16 @@
 # Brass: Lancashire — Development Changelog
 
-## 549 versions of iterative development
+## 550 versions of iterative development
+
+### Lancashire Tutorials — pedagogical intro modal, guided tour, clearer hints (v1.0.193)
+
+Three additions to the tutorial framework based on play-test feedback:
+
+- **Intro modal per lesson.** When you start a tutorial, a modal pops up with a plain-language summary: *what mechanics this lesson covers, what your goal is, and how many rounds you have.* Two buttons: "Show me the tour" or "Skip — let me play". Re-openable from the banner via the 📖 button.
+- **Guided tour overlays** (lesson #1 only for now). After dismissing the intro you can opt into a tour that spotlights the key UI areas one by one — your hand, the map, a specific location (Preston), the partner location (Lancaster), the canal-era link between them, and the action panel. Each step shows a tooltip card with Next / Skip controls. Other lessons can opt in by adding `tour: [...]` to their scenario.
+- **Hints rewritten in plain language.** Old hint: *"use any card with Network to build the Lancaster ⇄ Preston canal (£3)"* (assumed you already know what "Network" means). New hint: *"click the Network (Link) action. Pick ANY card (Bury, Bolton, Colne, Fleetwood — anything except Preston/Lancaster, which you still need). Choose the Lancaster ⇄ Preston canal. Cost £3."* Same change for the build / sell hints — every hint now names the action button to click and the choices to make.
+
+Framework changes: `lib/tutorials.js` gains `intro: { title, body }` and `tour: [{ selector, title, body }]` fields per scenario. `GET /api/tutorials/:id` returns them. `public/js/tutorial-ui.js` was rewritten to render intro modal + tour spotlight in addition to the persistent banner / hint button / success modal. The "intro seen" flag is stored in localStorage scoped per game id so reloads don't re-prompt but Replay does.
 
 ### Lancashire Tutorials — visible "New to the game?" banner (v1.0.192)
 
@@ -2240,4 +2250,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 549 versions of user-driven development — from a blank repository to **v1.0.192**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 550 versions of user-driven development — from a blank repository to **v1.0.193**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
