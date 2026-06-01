@@ -1,6 +1,22 @@
 # Brass: Lancashire — Development Changelog
 
-## 555 versions of iterative development
+## 556 versions of iterative development
+
+### Memory fix — move game-state history off RAM onto the persistent disk (v1.0.199)
+
+The Render service kept hitting its memory limit. Root cause: **state history**. Every action stored a full ~40 KB snapshot in `gameStateHistory` (up to 200 per game), the entire DB lived in RAM, and every single action called `save()` → `JSON.stringify(data)`, briefly duplicating all of that history in memory. With several games going, that transient spike blew the ceiling.
+
+Fix: history no longer lives in `db.json`/RAM at all. It's now one append-only file per game on the **persistent disk** (`/data/history/<gameId>.jsonl`, next to db.json):
+
+- **Off RAM.** The always-resident `db.json` now holds only users / games / live current-states — tiny. History is read on demand (replay + turn navigator), which is rare. RAM for history: effectively zero.
+- **`turnStart` stripped from snapshots.** Each saved state embedded a `turnStart` field that is itself a full nested copy of a prior state — it doubled every snapshot. History navigation doesn't need it (and reset-turn re-derives it from the live state), so it's dropped from history entries. ~2x smaller before compression.
+- **gzip + base64 per entry.** On top of the turnStart strip, each snapshot is gzipped. Net: a realistic 4-player snapshot goes **46.8 KB → 2.0 KB (≈23×)**. A game's full 200-snapshot history: **~9 MB in RAM → ~0.4 MB on disk, 0 in RAM**.
+- **One-time migration.** On first boot after deploy, any existing in-`db.json` history is moved to per-game disk files and cleared from the DB (which also shrinks db.json and the per-save spike). Idempotent; safe to re-run.
+- **Append-only + lazy prune.** Writes are O(1) appends; files are trimmed occasionally (and to 200 on game finish). A torn append only ever loses its own last line — the rest of the file stays readable.
+
+### Turn navigator — spinner while loading a historical snapshot (v1.0.199)
+
+Since "go back in time" now reads the snapshot from disk (gunzip) instead of memory, the turn-navigator label shows a small spinner while an uncached version loads, and ignores a stale response if you step to another version mid-load. Cached versions still show instantly.
 
 ### Lancashire — fix: "Build" option missing when only spots are overbuildable opponent coal/iron mines (v1.0.198)
 
@@ -2290,4 +2306,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 555 versions of user-driven development — from a blank repository to **v1.0.198**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 556 versions of user-driven development — from a blank repository to **v1.0.199**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
