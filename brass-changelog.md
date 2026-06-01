@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 558 versions of iterative development
+## 559 versions of iterative development
+
+### Admin — reset a user's password (v1.0.202)
+
+xai can now reset any user's password from the lobby's admin panel ("Admin: Reset Password" — pick a user, confirm). The reset clears the account's password to the "pending" state, so on the user's next login the normal first-login flow prompts them to **choose a brand-new password themselves** — the admin never sets or sees it. Bots and the admin's own account are excluded (the latter to avoid a lockout). Backed by `POST /admin/reset-password` (xai-only), mirroring the existing create-user + first-login-setup mechanism.
 
 ### Lancashire Tutorials — all 15 lessons + 3 completion achievements (v1.0.201)
 
@@ -2336,4 +2340,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 558 versions of user-driven development — from a blank repository to **v1.0.201**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 559 versions of user-driven development — from a blank repository to **v1.0.202**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
