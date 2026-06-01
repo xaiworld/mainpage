@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 556 versions of iterative development
+## 557 versions of iterative development
+
+### Turn navigator — free the browser history cache on return to Live (v1.0.200)
+
+Clarifying the memory model: server-side, a historical snapshot is never retained — `getStateAtVersion` reads one snapshot from the disk file per request and it's GC'd right after the HTTP response, so back-in-time browsing costs the Render server nothing persistent. Browser-side, each visited version was cached in `navCache` and (previously) never released. Now it's cleared when the player returns to **Live**, bounding in-tab memory to a single browsing session (re-entering history re-fetches from disk, cheaply, with the spinner). It's also gone entirely on page reload, as before.
 
 ### Memory fix — move game-state history off RAM onto the persistent disk (v1.0.199)
 
@@ -2306,4 +2310,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 556 versions of user-driven development — from a blank repository to **v1.0.199**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 557 versions of user-driven development — from a blank repository to **v1.0.200**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
