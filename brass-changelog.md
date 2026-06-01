@@ -1,6 +1,32 @@
 # Brass: Lancashire — Development Changelog
 
-## 557 versions of iterative development
+## 558 versions of iterative development
+
+### Lancashire Tutorials — all 15 lessons + 3 completion achievements (v1.0.201)
+
+The full tutorial set is live. Lessons 2–15 join lesson 1, each a solo hand-tuned scenario with a pedagogical intro overlay, plain-language hints, a single clear goal, and an 8-round (10 for the era lesson) budget:
+
+1. Sell a Cotton Mill (L1) through your own port
+2. Sell a Cotton Mill (L2) through a port — *coal-to-build; pre-placed ports at Fleetwood & Warrington*
+3. Flip a coal mine — *cubes sell to market on build when port-connected*
+4. Flip an iron works — *sells to market with no port needed*
+5. Build a shipyard — *£16 + coal + iron; 10 VP, flips on build*
+6. Reach £10 income — *flip an L2 coal mine to jump the income track*
+7. Connect 3 locations with your own links
+8. Sell two cottons in one action, one to the distant (export) market
+9. Take a loan, then build with it — *starts at £4 so the loan is forced*
+10. Sell coal to the market by building a connected coal mine
+11. Develop a tile from your mat
+12. Overbuild your own L1 Cotton Mill with an L2
+13. Score 10 VP from flipped tiles
+14. Wild Build — build anywhere using two cards + both actions
+15. Survive the era change — *starts at round 5; build an L2; closing overlay explains canal links wipe + L1 mat-lock*
+
+**Every lesson was verified solvable by running its intended solution through the real game engine** (15/15 pass) — no "looks right" guessing.
+
+**3 new achievements** (Apprentice / Journeyman / Master Engineer) for completing 5 / 10 / 15 lessons, granted the moment a lesson pushes your completed count over each threshold.
+
+Framework additions: shared scenario builders in `lib/tutorials.js` (blank-board, pre-place tile/link, base-state factory, goal helpers); a `tutorial`-kind achievement evaluator (`evaluateTutorial`) wired into the tutorial-completion branch of the action route.
 
 ### Turn navigator — free the browser history cache on return to Live (v1.0.200)
 
@@ -2310,4 +2336,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 557 versions of user-driven development — from a blank repository to **v1.0.200**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 558 versions of user-driven development — from a blank repository to **v1.0.201**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
