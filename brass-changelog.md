@@ -1,6 +1,14 @@
 # Brass: Lancashire — Development Changelog
 
-## 554 versions of iterative development
+## 555 versions of iterative development
+
+### Lancashire — fix: "Build" option missing when only spots are overbuildable opponent coal/iron mines (v1.0.198)
+
+A player with a Coal Mine L3 ready on the mat, coal market empty, and several opponents' L2 coal mines in their network was NOT offered the "Build Coal Mine" option from the card popup — even though overbuilding those L2 mines with an L3 is legal (opponent coal/iron overbuild is allowed once the relevant market is empty).
+
+Root cause: the card-popup helper `getValidBuildLocations()` in `game-ui.js` took a shortcut — `if (slot.owner !== myPlayer.seat) continue; // can't overbuild opponent (simplified)` — skipping ALL opponent-owned slots. So when the only legal spots were overbuildable opponent coal/iron mines, the helper returned zero spots and the popup hid the Build button entirely (`if (validLocs.length > 0)`).
+
+The fix mirrors the rule the engine and the detailed build-flow highlight already implement correctly: opponent overbuild is allowed for coal/iron only, and only when that resource's market is 0. Same-type + strictly-higher-level is now enforced in the helper too (it previously skipped the type check for own slots). Only the popup helper was affected — the detailed Build flow and Wild Build flow already handled this case, so once the button appears the rest of the path worked.
 
 ### Tutorial #1 — correct round count in closing modal (v1.0.197)
 
@@ -2282,4 +2290,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 554 versions of user-driven development — from a blank repository to **v1.0.197**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 555 versions of user-driven development — from a blank repository to **v1.0.198**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
