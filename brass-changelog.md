@@ -1,6 +1,21 @@
 # Brass: Lancashire — Development Changelog
 
-## 559 versions of iterative development
+## 560 versions of iterative development
+
+### Birmingham fixes batch + market/log polish (v1.0.203)
+
+A batch of Birmingham correctness + UX fixes (and two cross-game touches):
+
+- **Era change now removes Level 1 tiles.** The canal→rail transition was keeping all industries; per the rules every L1 tile is swept from the board (after canal scoring, so flipped L1 tiles still earn their VP). Removed tiles are recorded per player as "canal removed".
+- **Mat chart out-of-game markers for Birmingham.** The mat panel's developed (orange) / canal-removed (blue) / overbuilt (✕) markers + the "Out of game" list now work for BB — the L1 sweep above populates canal-removed, and the bottom list got icons for the BB-only industries (manufacturer/pottery/brewery) instead of "?".
+- **Tiles use the owner's full colour** as the fill (matching Lancashire), not just the border — flipped tiles render translucent, with the industry image/letter/colour stripe on top.
+- **Canal-era one-tile-per-location enforced.** You could previously build a second tile in the same city during canal era (a different slot). Now blocked server-side, and the UI no longer offers those cities in canal era.
+- **Selling is menu-driven.** Instead of tapping tiny board slots: pick a location (only cities with your sellable tiles, with a single-tile auto-skip), then the tile, then the merchant — all as buttons. Tapping the board still works as a shortcut.
+- **Reachable merchants only + whole-box click.** The merchant step now shows/highlights only markets actually connected to the tile (mirrors the server connectivity rule), and the whole external-market rectangle is a click target, not just the slot pill.
+- **Coal/iron market sell direction fixed.** Selling cubes to the market filled the cheapest slot first (earning the least, fragmenting the market); it now fills the most-expensive empty slot first (the boundary), earning the most first and keeping the market contiguous — matching Lancashire. (Confirmed the era transition does NOT reset the markets; they persist correctly.)
+- **Card names show capitalised** in the Birmingham cascade menus / popups (location cards were showing the raw lowercase id).
+- **Achievement names** no longer show raw `bb:` keys: the lobby "recent" pill resolves the namespaced id, the profile page detects BB achievements as earned, and the three tutorial achievements (Apprentice/Journeyman/Master Engineer) got their display names.
+- **Wild builds log their cards.** Lancashire's wild build (2 cards) now names both cards in the log instead of just the first; Birmingham already named the wild card used.
 
 ### Admin — reset a user's password (v1.0.202)
 
@@ -2340,4 +2355,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 559 versions of user-driven development — from a blank repository to **v1.0.202**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 560 versions of user-driven development — from a blank repository to **v1.0.203**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
