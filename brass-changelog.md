@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 560 versions of iterative development
+## 561 versions of iterative development
+
+### Retrofit: sweep leftover Level 1 tiles from game 118 (v1.0.204)
+
+Game 118 (Birmingham) reached the rail era before the v1.0.203 fix that removes Level 1 tiles at the canal→rail transition, so its L1 tiles were still on the board. A guarded one-shot migration (idempotent, scoped to game 118) removes every L1 industry tile from that game's board on the next boot, recording them as "canal removed" so the mat's out-of-game accounting stays correct. Verified the sweep removes only L1 (L2+ tiles are kept) and credits each tile to its owner's removed list.
 
 ### Birmingham fixes batch + market/log polish (v1.0.203)
 
@@ -2355,4 +2359,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 560 versions of user-driven development — from a blank repository to **v1.0.203**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 561 versions of user-driven development — from a blank repository to **v1.0.204**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
