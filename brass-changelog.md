@@ -1,6 +1,18 @@
 # Brass: Lancashire — Development Changelog
 
-## 561 versions of iterative development
+## 562 versions of iterative development
+
+### Tutorials reworked — 20 lessons reached by normal play (v1.0.205)
+
+Tutorials 2–20 were rebuilt so they're learned the way the game is actually played, not as one-move puzzles:
+
+- **Real round-1 starts.** Every lesson (except the era-change one) now begins at round 1 with an empty board and a standard tile mat — only the hand (and, where a mechanic needs it, money or market supply) is tuned. No more pre-placed tiles or mid-game starts. You reach each goal by building up normally within ~8 rounds.
+- **Higher levels via Develop.** L2-cotton, overbuild-your-own, and shipyard lessons now teach the real path: Develop past the lower tiles first, then build the higher one.
+- **The era-change lesson is the deliberate exception** — it starts at round 6 with a coal mine that carries its coal into the rail era, so it can actually teach the transition (canal links wiped, L1 tiles locked out).
+- **Expanded to 20 lessons.** New ones: export to the distant market, the industry-card network rule, watching distant-market demand drop, buying coal from the market, the "first build can go anywhere" rule, and a "flip three tiles" capstone. The income goal is now £8/turn.
+- **Tutorial play counts.** Actions in a tutorial now feed the normal achievement economy (action / streak / build achievements) and action-derived trophies — only ELO and recorded win/loss results stay out (a solo lesson isn't competitive). Completion milestones at **5 / 10 / 15 / 20** lessons grant the Apprentice → Grand Master Engineer achievements.
+
+Every one of the 20 lessons was verified solvable from its round-1 start by running the intended solution through the real engine (20/20).
 
 ### Retrofit: sweep leftover Level 1 tiles from game 118 (v1.0.204)
 
@@ -2359,4 +2371,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 561 versions of user-driven development — from a blank repository to **v1.0.204**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 562 versions of user-driven development — from a blank repository to **v1.0.205**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
