@@ -1,6 +1,15 @@
 # Brass: Lancashire — Development Changelog
 
-## 562 versions of iterative development
+## 563 versions of iterative development
+
+### Tutorials — 10/15/25 VP challenge lessons (v1.0.206)
+
+The VP lesson is back to a **10 VP** target (two cotton mills + two ports, sell each cotton through its own port → 3+2+3+2 = 10), and two longer VP challenges were added:
+
+- **Lesson 20 — Score 15 VP:** build a shipyard (10 VP, flips on build) plus a cotton sold through a port (5 VP).
+- **Lesson 21 — Score 25 VP:** the grand challenge — a shipyard, two iron works (flipping into an empty iron market), and two cotton sales (one through a port, one to the distant market) → 26 VP. Takes most of its rounds.
+
+That brings the set to **22 lessons** (the era-change finale is now #22). All 22 were re-verified solvable from their round-1 starts by running the intended solutions through the real engine (22/22).
 
 ### Tutorials reworked — 20 lessons reached by normal play (v1.0.205)
 
@@ -2371,4 +2380,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 562 versions of user-driven development — from a blank repository to **v1.0.205**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 563 versions of user-driven development — from a blank repository to **v1.0.206**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
