@@ -1,6 +1,17 @@
 # Brass: Lancashire — Development Changelog
 
-## 563 versions of iterative development
+## 564 versions of iterative development
+
+### Tutorials — 3 more lessons (now 25) + Legendary Engineer milestone (v1.0.207)
+
+Three new Lancashire lessons round the set out to **25**, plus a fifth completion milestone:
+
+- **Lesson 23 — Feed a build from your own coal mine:** build a coal mine that keeps its coal (no port to sell through), link it, then build an iron works that pulls its 1 coal off your mine instead of paying the market — teaching that builds draw from connected coal mines first, and a mine only flips once fully emptied.
+- **Lesson 24 — Build a Level-3 Coal Mine:** Develop past the L1 and both L2 coal tiles, then build the stronger L3 (4 cubes) — teaching repeated Develop and higher tiers.
+- **Lesson 25 — Build a rail link in the rail era:** an era exception that starts in the rail era (round 7) with a loaded coal mine and a cotton mill — canal links are gone, L1 can't be built, and links are now rails costing £5 + 1 coal (or two for £15 + 2 coal). Build one to finish.
+- **Legendary Engineer** achievement (`tutorial_25`): complete all 25 lessons. Joins Apprentice/Journeyman/Master/Grand Master at 5/10/15/20.
+
+All three new solutions were verified solvable through the real engine.
 
 ### Tutorials — 10/15/25 VP challenge lessons (v1.0.206)
 
@@ -2380,4 +2391,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 563 versions of user-driven development — from a blank repository to **v1.0.206**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 564 versions of user-driven development — from a blank repository to **v1.0.207**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
