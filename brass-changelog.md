@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 565 versions of iterative development
+## 566 versions of iterative development
+
+### Birmingham — double rail finds beer at the second rail's destination (v1.0.209)
+
+Fixed a bug where a **double rail** action reported "no beer available" even though the second rail reached a brewery (your own or an opponent's) carrying a beer cube. The beer search only looked at locations reachable from the *first* rail's endpoint on the *current* board — but the brewery sits at the *second* rail's destination, which isn't connected until the rails are placed. The search now considers every endpoint of both rails (the post-build network), so a brewery at any rail's destination is correctly found and consumed. The sell action's beer logic is unchanged.
 
 ### Birmingham — loans allowed until the end of the game (v1.0.208)
 
@@ -2395,4 +2399,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 565 versions of user-driven development — from a blank repository to **v1.0.208**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 566 versions of user-driven development — from a blank repository to **v1.0.209**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
