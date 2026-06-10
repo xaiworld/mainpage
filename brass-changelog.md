@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 567 versions of iterative development
+## 568 versions of iterative development
+
+### Lobby — tutorials section starts collapsed (v1.0.211)
+
+The "🎓 New to the game? Try these tutorials!" section now loads **collapsed by default** for everyone (it previously auto-expanded for players who hadn't completed any lessons). Click the header to open it. The completed-count label is unchanged.
 
 ### Birmingham — bigger text in the Turn Order / Spent / VP panels (v1.0.210)
 
@@ -2403,4 +2407,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 567 versions of user-driven development — from a blank repository to **v1.0.210**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 568 versions of user-driven development — from a blank repository to **v1.0.211**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
