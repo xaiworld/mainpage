@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 566 versions of iterative development
+## 567 versions of iterative development
+
+### Birmingham — bigger text in the Turn Order / Spent / VP panels (v1.0.210)
+
+The text in the **Turn Order**, **Spent This Round**, and **Victory Points** board panels was rendering smaller than Lancashire's equivalents. Bumped the font sizes across all three so they read at the same size as Brass: Lancashire (panel titles, player names, ordinals, the £ totals, and the VP hex numbers). Also **removed the £money readout from the Turn Order panel** — like Lancashire, it now lists player names only (the Gloucester develop-credit marker is still shown when present). Panel positions and row heights are unchanged, so saved layouts aren't disturbed.
 
 ### Birmingham — double rail finds beer at the second rail's destination (v1.0.209)
 
@@ -2399,4 +2403,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 566 versions of user-driven development — from a blank repository to **v1.0.209**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 567 versions of user-driven development — from a blank repository to **v1.0.210**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
