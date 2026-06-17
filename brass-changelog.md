@@ -1,6 +1,14 @@
 # Brass: Lancashire — Development Changelog
 
-## 570 versions of iterative development
+## 571 versions of iterative development
+
+### Birmingham — handless players no longer freeze the game (+ game 118 repaired) (v1.0.214)
+
+Every Birmingham action requires playing a card, so when the deck ran dry and it became the turn of a player with an **empty hand**, that player had no legal move and the game **froze** — it couldn't advance to finish. (Game 118 was stuck exactly here, "no cards to keep finishing.")
+
+- **Engine:** a player with no cards is now auto-skipped (they forfeit any remaining actions). When the skip wraps past the last seat it ends the round, which — via the per-era round cap / deck-exhaustion check — finishes the era/game cleanly.
+- **Repair migration:** a one-shot pass unsticks any Birmingham game already frozen on a handless turn (game 118 included), cascading through empty hands to finish it if the era is done.
+- **Safety net:** if a game's stored state is finished but its row wasn't marked finished (e.g. finalized by the migration), the result is now recorded the next time it's loaded — so it lands in standings/Hall of Fame normally.
 
 ### Birmingham — eras capped at the correct length (2P 10, 3P 9, 4P 8 rounds) (v1.0.213)
 
@@ -2419,4 +2427,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 570 versions of user-driven development — from a blank repository to **v1.0.213**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 571 versions of user-driven development — from a blank repository to **v1.0.214**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
