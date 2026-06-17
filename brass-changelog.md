@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 569 versions of iterative development
+## 570 versions of iterative development
+
+### Birmingham — eras capped at the correct length (2P 10, 3P 9, 4P 8 rounds) (v1.0.213)
+
+Each Birmingham era now ends at its fixed number of rounds — **10 for 2 players, 9 for 3, 8 for 4** — matching the physical game (and the deck math: deck ÷ 2 cards/turn ÷ players). Previously the era ended purely on deck-exhaustion, which a **Scout** could push one round past the proper length: Scout's wild cards come from a separate pool (not the draw deck), so playing them let a 3-player era reach round 10 instead of 9. A hard per-era round cap now guarantees the correct game length; a clean game (no scouting) already ended at exactly the cap, so normal games are unaffected. Verified for both the canal→rail transition and the final rail-era finish.
 
 ### Birmingham — Turn Order / Spent / VP panels rebuilt to match Lancashire (v1.0.212)
 
@@ -2415,4 +2419,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 569 versions of user-driven development — from a blank repository to **v1.0.212**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 570 versions of user-driven development — from a blank repository to **v1.0.213**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
