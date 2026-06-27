@@ -1,6 +1,13 @@
 # Brass: Lancashire — Development Changelog
 
-## 571 versions of iterative development
+## 572 versions of iterative development
+
+### Rail coal — nearest source across both endpoints, and ties ask you (v1.0.215)
+
+Building a **rail link** now sources its 1 coal from the genuinely nearest connected mine, measured across **both** endpoints of the link you're laying. Previously the engine looked at the link's stored "from" endpoint first and took any connected coal it found there — so building **Bury—Manchester** pulled an **opponent's** coal one link past Bury (distance 1) and ignored **your own** mine sitting right at the Manchester endpoint (distance 0). A coal mine at either endpoint of the new link is distance 0 and now correctly wins.
+
+- **Engine:** `pickCoalEndpoint` BFS-scans both endpoints and picks the globally nearest connected coal. On a distance **tie** it no longer auto-prefers your own coal — the server fallback (bots / API) just takes the nearest deterministically.
+- **UI:** a **single rail** with two or more equidistant coal sources (e.g. your own mine and an opponent's, both one link away) now opens the **coal picker and asks you to choose** instead of silently auto-sourcing. A unique nearest source still auto-resolves with no extra click. (Two-rail builds already prompted on ties.)
 
 ### Birmingham — handless players no longer freeze the game (+ game 118 repaired) (v1.0.214)
 
@@ -2427,4 +2434,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 571 versions of user-driven development — from a blank repository to **v1.0.214**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 572 versions of user-driven development — from a blank repository to **v1.0.215**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
