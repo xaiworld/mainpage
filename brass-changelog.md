@@ -1,6 +1,12 @@
 # Brass: Lancashire — Development Changelog
 
-## 572 versions of iterative development
+## 573 versions of iterative development
+
+### Birmingham — fix "Network error" crash when sorting a hand that holds Wild cards (v1.0.216)
+
+Scouting in Birmingham adds **Wild Location / Wild Industry** cards to your hand. If your hand sort was set to **Alphabetical** or **Type + A→Z**, the next hand re-render threw `can't access property "localeCompare", ai.label is undefined` (surfaced as a generic "Network error"), because the sort helper computed a label only for location/industry cards and left wild cards with no label.
+
+- **UI:** the hand-sort label helper now returns the wild card's own label (`Wild Loc` / `Wild Ind`) and guards against an undefined label, so the `localeCompare` sorts can't throw for any card type. The **Default** and **Type** sorts were unaffected; Alphabetical and Type+A→Z now work with wild cards in hand.
 
 ### Rail coal — nearest source across both endpoints, and ties ask you (v1.0.215)
 
@@ -2434,4 +2440,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 572 versions of user-driven development — from a blank repository to **v1.0.215**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 573 versions of user-driven development — from a blank repository to **v1.0.216**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
