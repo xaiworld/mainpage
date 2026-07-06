@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 575 versions of iterative development
+## 576 versions of iterative development
+
+### Card dock is now draggable everywhere, with a grip handle (v1.0.219)
+
+The floating card dock now has a **grip handle** (the dotted "⠿" area on the left of its header) and can be **dragged on touch devices too**, not just desktop. Grab the grip (or any empty part of the header) and move the dock anywhere; the sort buttons, size slider and Dock toggle stay clickable (dragging is ignored when you press a control). The dock is clamped so a strip always stays on-screen, so you can always drag it back. On mobile this lifts the dock out of its fixed bottom position for the duration of the drag.
 
 ### Mobile card-dock size slider is now blue (v1.0.218)
 
@@ -2454,4 +2458,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 575 versions of user-driven development — from a blank repository to **v1.0.218**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 576 versions of user-driven development — from a blank repository to **v1.0.219**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
