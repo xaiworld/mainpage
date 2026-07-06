@@ -1,6 +1,16 @@
 # Brass: Lancashire — Development Changelog
 
-## 573 versions of iterative development
+## 574 versions of iterative development
+
+### Case-insensitive login + display-name style, and a mobile card-dock size slider (v1.0.217)
+
+Two things:
+
+**Usernames are now case-insensitive at login.** A player registered as `meju` can sign in as `Meju`, `MEJU`, or `mejU` — all resolve to the same account (an exact-case match still wins first, so nothing changes for existing names). The stored username stays canonical (it's the key for profiles, ELO, Hall of Fame and log matching); only the match is relaxed.
+
+- **Account → Display name style:** a new setting to choose how your name is *shown* everywhere — **As registered**, **lowercase**, **UPPERCASE**, or **Capitalized**. It applies across the lobby, news feed, rankings, Hall of Fame, profiles, player bars and live in-game player names (board labels, turn/winner bars, hand review, mat). Historical game **log** lines keep their original casing (they're frozen text). Purely cosmetic — it never changes your login name.
+
+**Mobile card dock is now resizable.** The floating hand's header (where the sort buttons and *Dock* live) gains a size **slider** on mobile, so you can make the cards as large or small as you like — the dock was previously a fixed height with no way to resize it by dragging. Your chosen size is remembered per device.
 
 ### Birmingham — fix "Network error" crash when sorting a hand that holds Wild cards (v1.0.216)
 
@@ -2440,4 +2450,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 573 versions of user-driven development — from a blank repository to **v1.0.216**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 574 versions of user-driven development — from a blank repository to **v1.0.217**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
