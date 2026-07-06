@@ -1,6 +1,10 @@
 # Brass: Lancashire — Development Changelog
 
-## 574 versions of iterative development
+## 575 versions of iterative development
+
+### Mobile card-dock size slider is now blue (v1.0.218)
+
+The card-size slider added in v1.0.217 inherited the theme accent (`--accent`, a red/pink), which read as red. It's now blue (`#2b6cb0`, the app's player-blue) to stand apart from the red accent used for warnings/errors.
 
 ### Case-insensitive login + display-name style, and a mobile card-dock size slider (v1.0.217)
 
@@ -2450,4 +2454,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 574 versions of user-driven development — from a blank repository to **v1.0.217**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 575 versions of user-driven development — from a blank repository to **v1.0.218**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
