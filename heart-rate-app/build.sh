@@ -16,7 +16,7 @@ APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ANDROID_JAR="/usr/lib/android-sdk/platforms/android-23/android.jar"
 BUILD="$APP_DIR/build"
 R8_JAR="$BUILD/r8.jar"
-R8_URL="https://storage.googleapis.com/r8-releases/raw/main/00054e52ddc3a2260dbc05a6e0d820112e1cea7b/r8.jar"
+R8_URL="https://storage.googleapis.com/r8-releases/raw/8.5.51/r8.jar"
 KEYSTORE="$BUILD/debug.keystore"
 
 rm -rf "$BUILD/classes" "$BUILD/dex" "$BUILD/apk"

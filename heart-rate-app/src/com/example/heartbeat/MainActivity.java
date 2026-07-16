@@ -7,9 +7,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayDeque;
@@ -25,6 +29,11 @@ import java.util.List;
  * that signal with two exponential moving averages, pick peaks against
  * a noise-adaptive threshold, and turn the last few beat-to-beat
  * intervals into a BPM estimate once enough beats have been seen.
+ *
+ * The bottom of the screen keeps a history of measurement runs. The
+ * current run shows a live beat count and time since its first beat;
+ * when the detector has to recalibrate (a >2s gap between beats, or
+ * the app is paused), the row freezes as-is and a new row starts.
  */
 public class MainActivity extends Activity implements SensorEventListener {
 
@@ -33,6 +42,24 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private TextView bpmView;
     private TextView statusView;
+
+    private LinearLayout historyLayout;
+    private ScrollView historyScroll;
+    private TextView currentRunView;
+    private int runCount;
+    private int beatCount;
+    private long firstBeatElapsedMs; // SystemClock.elapsedRealtime() at the run's first beat
+
+    private final Handler uiHandler = new Handler(Looper.getMainLooper());
+    private final Runnable ticker = new Runnable() {
+        @Override
+        public void run() {
+            if (currentRunView != null) {
+                updateCurrentRunRow();
+            }
+            uiHandler.postDelayed(this, 1000);
+        }
+    };
 
     private double emaFast;
     private double emaSlow;
@@ -54,19 +81,26 @@ public class MainActivity extends Activity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        float density = getResources().getDisplayMetrics().density;
+
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setGravity(Gravity.CENTER);
         root.setBackgroundColor(Color.BLACK);
         root.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        LinearLayout centerBlock = new LinearLayout(this);
+        centerBlock.setOrientation(LinearLayout.VERTICAL);
+        centerBlock.setGravity(Gravity.CENTER);
+        root.addView(centerBlock, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
 
         bpmView = new TextView(this);
         bpmView.setTextColor(Color.WHITE);
         bpmView.setTextSize(72);
         bpmView.setGravity(Gravity.CENTER);
         bpmView.setText("--");
-        root.addView(bpmView, new LinearLayout.LayoutParams(
+        centerBlock.addView(bpmView, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         statusView = new TextView(this);
@@ -75,8 +109,18 @@ public class MainActivity extends Activity implements SensorEventListener {
         statusView.setGravity(Gravity.CENTER);
         statusView.setPadding(60, 40, 60, 40);
         statusView.setText("Place the phone flat on your bare chest, screen up, and stay still.");
-        root.addView(statusView, new LinearLayout.LayoutParams(
+        centerBlock.addView(statusView, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        historyScroll = new ScrollView(this);
+        historyLayout = new LinearLayout(this);
+        historyLayout.setOrientation(LinearLayout.VERTICAL);
+        int pad = (int) (16 * density);
+        historyLayout.setPadding(pad, pad / 2, pad, pad);
+        historyScroll.addView(historyLayout, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        root.addView(historyScroll, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, (int) (180 * density)));
 
         setContentView(root);
 
@@ -97,23 +141,27 @@ public class MainActivity extends Activity implements SensorEventListener {
         } else {
             statusView.setText("No motion sensor available on this device.");
         }
+        uiHandler.postDelayed(ticker, 1000);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
+        uiHandler.removeCallbacks(ticker);
+        freezeCurrentRun();
     }
 
     private void resetDetection() {
         emaInit = false;
         emaFast = 0;
         emaSlow = 0;
-        emaVariance = 0;
+        emaVariance = 0.01;
         lastBeatNanos = 0;
         beatIntervalsMs.clear();
         smoothedBpm = -1;
         bpmView.setText("--");
+        freezeCurrentRun();
     }
 
     @Override
@@ -160,21 +208,80 @@ public class MainActivity extends Activity implements SensorEventListener {
         boolean refractoryOk = lastBeatNanos == 0 || (now - lastBeatNanos) > MIN_BEAT_INTERVAL_NANOS;
 
         if (dynamicThreshold > 1e-6 && signal > dynamicThreshold && refractoryOk) {
-            if (lastBeatNanos != 0) {
+            if (lastBeatNanos == 0) {
+                startNewRun();
+            } else {
                 long intervalNanos = now - lastBeatNanos;
                 if (intervalNanos < MAX_BEAT_INTERVAL_NANOS) {
+                    beatCount++;
                     long intervalMs = intervalNanos / 1_000_000L;
                     beatIntervalsMs.addLast(intervalMs);
                     if (beatIntervalsMs.size() > MAX_INTERVALS) {
                         beatIntervalsMs.removeFirst();
                     }
                 } else {
+                    // Recalibration: freeze the finished run and start a fresh one.
                     beatIntervalsMs.clear();
+                    startNewRun();
                 }
             }
             lastBeatNanos = now;
+            updateCurrentRunRow();
             updateBpmDisplay();
         }
+    }
+
+    private void startNewRun() {
+        freezeCurrentRun();
+        runCount++;
+        beatCount = 1;
+        firstBeatElapsedMs = SystemClock.elapsedRealtime();
+
+        float density = getResources().getDisplayMetrics().density;
+        currentRunView = new TextView(this);
+        currentRunView.setTextColor(Color.WHITE);
+        currentRunView.setTextSize(16);
+        currentRunView.setPadding(0, (int) (4 * density), 0, (int) (4 * density));
+        historyLayout.addView(currentRunView, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        historyScroll.post(new Runnable() {
+            @Override
+            public void run() {
+                historyScroll.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+    }
+
+    private void freezeCurrentRun() {
+        if (currentRunView != null) {
+            currentRunView.setText(runRowText(false));
+            currentRunView.setTextColor(Color.GRAY);
+            currentRunView = null;
+        }
+    }
+
+    private void updateCurrentRunRow() {
+        if (currentRunView != null) {
+            currentRunView.setText(runRowText(true));
+        }
+    }
+
+    private String runRowText(boolean live) {
+        long elapsedMs = SystemClock.elapsedRealtime() - firstBeatElapsedMs;
+        String row = "Run " + runCount + " — " + beatCount
+                + (beatCount == 1 ? " beat · " : " beats · ") + formatElapsed(elapsedMs);
+        return live ? row + "  ●" : row;
+    }
+
+    private static String formatElapsed(long ms) {
+        long totalSec = ms / 1000;
+        long h = totalSec / 3600;
+        long m = (totalSec % 3600) / 60;
+        long s = totalSec % 60;
+        if (h > 0) {
+            return h + ":" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+        }
+        return m + ":" + (s < 10 ? "0" : "") + s;
     }
 
     private void updateBpmDisplay() {

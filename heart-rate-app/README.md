@@ -31,6 +31,11 @@ reading.
    it shows a "Calibrating… N/4 beats" message.
 6. If a sample spikes far past the noise floor (phone being picked up/moved),
    it's treated as motion, not a heartbeat, and the UI says so.
+7. The bottom of the screen keeps a history of measurement runs: the current
+   run shows a live beat count and elapsed time since its first beat (ticking
+   once a second); when the detector recalibrates (a beat gap over 2s, or the
+   app is paused), that row freezes in place and a new row starts, so no run
+   is ever lost.
 
 No network access, no permissions beyond the accelerometer (which needs none
 at the OS level), no background service — it only runs while the app is in
