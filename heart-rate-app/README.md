@@ -23,8 +23,13 @@ reading.
    posture). Their difference is a crude band-pass filter that isolates the
    quick heartbeat blip from slower motion.
 4. Tracks a noise-adaptive threshold (based on the running variance of that
-   filtered signal) and calls anything that crosses it — outside a 300ms
-   refractory window, to avoid double-counting one beat — a detected beat.
+   filtered signal) and calls anything that crosses it — outside a refractory
+   window — a detected beat. The refractory window starts at 300ms; once
+   locked onto a rhythm it stretches to 55% of the median beat spacing
+   (capped at 650ms). That matters because every heartbeat makes *two*
+   chest-wall thumps (the S1 "lub" and S2 "dub", ~300-350ms apart): with a
+   fixed 300ms window the second thump can sneak in as a fake beat, and the
+   displayed BPM ramps toward double the true rate.
 5. Keeps the last 8 beat-to-beat intervals, discards outliers (>40% off the
    median), averages the rest, and converts to BPM. Once at least 4 beats
    have been seen, it shows a live, exponentially-smoothed BPM; before that

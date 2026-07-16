@@ -67,8 +67,15 @@ public class MainActivity extends Activity implements SensorEventListener {
     private boolean emaInit;
 
     private long lastBeatNanos;
-    private static final long MIN_BEAT_INTERVAL_NANOS = 300_000_000L; // refractory period, caps ~200 BPM
+    private static final long MIN_BEAT_INTERVAL_NANOS = 300_000_000L; // absolute refractory floor, caps ~200 BPM
     private static final long MAX_BEAT_INTERVAL_NANOS = 2_000_000_000L; // gap this long resets the run
+    // Each heartbeat produces two chest-wall thumps (S1 "lub" and S2 "dub",
+    // ~300-350ms apart), so a fixed 300ms dead time lets S2 slip through and
+    // get counted as its own beat - the displayed BPM then ramps toward 2x.
+    // Once locked onto a rhythm, stretch the dead time to 55% of the median
+    // beat spacing; capped so a genuinely fast rate is still detectable.
+    private static final double ADAPTIVE_REFRACTORY_FRACTION = 0.55;
+    private static final long MAX_ADAPTIVE_REFRACTORY_MS = 650;
 
     private final Deque<Long> beatIntervalsMs = new ArrayDeque<>();
     private static final int MAX_INTERVALS = 8;
@@ -205,7 +212,14 @@ public class MainActivity extends Activity implements SensorEventListener {
             return;
         }
 
-        boolean refractoryOk = lastBeatNanos == 0 || (now - lastBeatNanos) > MIN_BEAT_INTERVAL_NANOS;
+        long refractoryNanos = MIN_BEAT_INTERVAL_NANOS;
+        if (beatIntervalsMs.size() >= MIN_BEATS_FOR_BPM) {
+            long adaptiveMs = Math.min(
+                    (long) (ADAPTIVE_REFRACTORY_FRACTION * medianIntervalMs()),
+                    MAX_ADAPTIVE_REFRACTORY_MS);
+            refractoryNanos = Math.max(refractoryNanos, adaptiveMs * 1_000_000L);
+        }
+        boolean refractoryOk = lastBeatNanos == 0 || (now - lastBeatNanos) > refractoryNanos;
 
         if (dynamicThreshold > 1e-6 && signal > dynamicThreshold && refractoryOk) {
             if (lastBeatNanos == 0) {
@@ -284,6 +298,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         return m + ":" + (s < 10 ? "0" : "") + s;
     }
 
+    private long medianIntervalMs() {
+        List<Long> sorted = new ArrayList<>(beatIntervalsMs);
+        Collections.sort(sorted);
+        return sorted.get(sorted.size() / 2);
+    }
+
     private void updateBpmDisplay() {
         int count = beatIntervalsMs.size();
         if (count < MIN_BEATS_FOR_BPM) {
@@ -291,9 +311,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             return;
         }
 
-        List<Long> sorted = new ArrayList<>(beatIntervalsMs);
-        Collections.sort(sorted);
-        long median = sorted.get(sorted.size() / 2);
+        long median = medianIntervalMs();
 
         long sum = 0;
         int used = 0;
