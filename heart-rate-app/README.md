@@ -65,5 +65,9 @@ over USB with Developer Options / USB debugging enabled). You'll need to allow
 "install unknown apps" for whichever app you use to open the file, since it's
 not from an app store.
 
-Targets `minSdkVersion 19`, `targetSdkVersion 23` — Android 14+ refuses to
-install apps that target below API 23, so 23 is intentionally the floor here.
+Targets `minSdkVersion 19`, `targetSdkVersion 34` — recent Android releases
+refuse to sideload apps that declare an old target SDK (Android 14 started
+blocking targets below API 23 and the floor keeps rising), so the manifest
+declares a modern target even though the code only uses ancient APIs. The
+`HIGH_SAMPLING_RATE_SENSORS` permission is declared because targetSdk 31+
+otherwise caps accelerometer sampling at 200 Hz.
