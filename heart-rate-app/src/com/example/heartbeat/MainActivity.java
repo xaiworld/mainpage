@@ -54,6 +54,14 @@ public class MainActivity extends Activity implements SensorEventListener {
     private final Runnable ticker = new Runnable() {
         @Override
         public void run() {
+            long nowMs = SystemClock.elapsedRealtime();
+            if (sensor != null && nowMs >= suppressUntilMs
+                    && nowMs - lastBeatWallMs > STALL_TIMEOUT_MS) {
+                resetDetection();
+                statusView.setText("No heartbeat detected — set the phone on your chest again.");
+                suppressUntilMs = nowMs + SETTLE_AFTER_STALL_MS;
+                lastBeatWallMs = nowMs;
+            }
             if (currentRunView != null) {
                 updateCurrentRunRow();
             }
@@ -83,6 +91,14 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private double smoothedBpm = -1;
     private long lastMovementWarningNanos;
+
+    // Stall handling: with no beat for this long, tell the user to reposition
+    // the phone, then ignore the sensor briefly so the bump of repositioning
+    // doesn't feed the fresh calibration.
+    private static final long STALL_TIMEOUT_MS = 5000;
+    private static final long SETTLE_AFTER_STALL_MS = 1000;
+    private long lastBeatWallMs;
+    private long suppressUntilMs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +164,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         } else {
             statusView.setText("No motion sensor available on this device.");
         }
+        lastBeatWallMs = SystemClock.elapsedRealtime();
+        suppressUntilMs = 0;
         uiHandler.postDelayed(ticker, 1000);
     }
 
@@ -173,6 +191,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        if (SystemClock.elapsedRealtime() < suppressUntilMs) {
+            return; // settle window after a stall reset
+        }
         double x = event.values[0];
         double y = event.values[1];
         double z = event.values[2];
@@ -240,6 +261,12 @@ public class MainActivity extends Activity implements SensorEventListener {
                 }
             }
             lastBeatNanos = now;
+            lastBeatWallMs = SystemClock.elapsedRealtime();
+            // The run's row only materializes once calibration completes, so
+            // aborted pre-calibration runs never clutter the history.
+            if (currentRunView == null && beatIntervalsMs.size() >= MIN_BEATS_FOR_BPM) {
+                createRunRow();
+            }
             updateCurrentRunRow();
             updateBpmDisplay();
         }
@@ -247,9 +274,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private void startNewRun() {
         freezeCurrentRun();
-        runCount++;
         beatCount = 1;
         firstBeatElapsedMs = SystemClock.elapsedRealtime();
+    }
+
+    private void createRunRow() {
+        runCount++;
 
         float density = getResources().getDisplayMetrics().density;
         currentRunView = new TextView(this);

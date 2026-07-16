@@ -39,8 +39,12 @@ reading.
 7. The bottom of the screen keeps a history of measurement runs: the current
    run shows a live beat count and elapsed time since its first beat (ticking
    once a second); when the detector recalibrates (a beat gap over 2s, or the
-   app is paused), that row freezes in place and a new row starts, so no run
-   is ever lost.
+   app is paused), that row freezes in place and a new row starts, so no
+   calibrated run is ever lost. A run's row only appears once calibration
+   completes (4 beats) — runs that die earlier leave no trace.
+8. If no beat is detected for 5 seconds, the app asks you to set the phone on
+   your chest again, resets the detector, and ignores the sensor for 1 second
+   so the bump of repositioning doesn't pollute the fresh calibration.
 
 No network access, no permissions beyond the accelerometer (which needs none
 at the OS level), no background service — it only runs while the app is in
