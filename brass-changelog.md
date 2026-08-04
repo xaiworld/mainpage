@@ -1,6 +1,15 @@
 # Brass: Lancashire — Development Changelog
 
-## 577 versions of iterative development
+## 578 versions of iterative development
+
+### Tap-through shields, confirm-turn ownership, and an action-forensics endpoint (v1.0.221)
+
+Follow-up to game #274: the player reports the sell **auto-finished and the turn ended with no Done/Confirm press**. That is possible, and the mechanism is **tap-through**, not the engine (which provably holds the turn — `pendingConfirm` is only cleared by a POST to `/confirm-turn`):
+
+- On mobile the sell flow is a fixed bottom sheet that **re-renders in place, synchronously**, when you tap a mill/port on the board: full-width [Sell Another] [Done] [Cancel] rows materialise under the finger, so the tail of a double-tap can press them. Likewise the centered **"Turn complete!"** overlay appears ~200–300ms after the tap that finished the action — the second contact of a double-tap can land on [Confirm]. To the player this genuinely feels like "it did it by itself".
+- **Shields added:** the sell sheet ignores taps for 450ms after any board-tap-triggered re-render (mill pick, port pick, external-market tap), and the Turn-complete overlay ignores Confirm for 600ms after appearing. Reset was already safe (native browser dialog).
+- **`/confirm-turn` now requires the caller to BE the current player** (mirrors reset-turn's ownership check). Previously any logged-in session could clear another player's held turn — not the cause here, but an open door.
+- **Forensics:** auto-finished sells are now tagged `_auto` in the submitted payload, and a new admin-only endpoint **`/api/games/:id/action-log`** returns every stored action row (exact client payload + state version + timestamp). Pair with `/api/games/:id/state/:version` to reconstruct what a client saw. For #274 this reveals whether maltzur's client sent `sales:[1 entry]` because it computed no other sellable mill (connectivity) or because Done was pressed.
 
 ### Sell-cotton finish guard + admin Flip Tile no longer double-counts VP (v1.0.220)
 
@@ -2466,4 +2475,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 577 versions of user-driven development — from a blank repository to **v1.0.220**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 578 versions of user-driven development — from a blank repository to **v1.0.221**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
