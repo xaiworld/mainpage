@@ -1,6 +1,14 @@
 # Brass: Lancashire — Development Changelog
 
-## 576 versions of iterative development
+## 577 versions of iterative development
+
+### Sell-cotton finish guard + admin Flip Tile no longer double-counts VP (v1.0.220)
+
+Investigated game #274 ("turn seemingly ended after the first cotton sell"). The engine and the sell dialog both fully support selling **any number of mills in one Sell action** — verified action-by-action: multi-sale in one action, partial distant-market commits, mill+port owner income, no VP at sale time, and correct turn advancement. What *can* end a turn after a single sale: pressing **Done** on the "Sell another mill?" step (and then confirming the turn), or the flow auto-finishing because no remaining mill had a valid route (connected unflipped port, or distant-market demand) at that moment.
+
+- **New guard:** pressing **Done** (including after a distant-market commit) while you still have sellable mills now warns *"You can still sell N more cotton mills as part of this SAME action…"* and offers to keep selling. The auto-finish path (genuinely nothing left to sell) never sees the dialog.
+- **Admin Fix → Flip Tile no longer adds VP.** It used to add the tile's printed VP to the owner's stored score immediately — but the live VP panel already projects every flipped tile on the board, and era-end scoring counts flipped tiles again, so an admin flip displayed and would later score **double** (flipping an L4 cotton mill showed +24 VP instead of +12). Flip Tile now applies only the income gain, exactly like a real sale; the VP arrives via scoring on its own. The panel header, per-tile labels (also fixed: they read a nonexistent `income` field and always showed "+0inc") and the game-log line now say so.
+- **If you used Flip Tile before this fix**, subtract the tile's printed VP from that player's VP field in the admin panel once — that removes the stored double-count; the board projection is correct.
 
 ### Card dock is now draggable everywhere, with a grip handle (v1.0.219)
 
@@ -2458,4 +2466,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 576 versions of user-driven development — from a blank repository to **v1.0.219**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 577 versions of user-driven development — from a blank repository to **v1.0.220**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
