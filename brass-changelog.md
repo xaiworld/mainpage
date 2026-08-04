@@ -1,6 +1,15 @@
 # Brass: Lancashire — Development Changelog
 
-## 578 versions of iterative development
+## 579 versions of iterative development
+
+### Admin Fix mode gets an Undo button (v1.0.222)
+
+Fix mode can now **undo the last admin fix** — e.g. flip a cotton mill by mistake, press **↩ Undo last fix**, and the game returns to the exact state before the flip (tile unflipped, income back, VP back, log line gone — everything, because it restores the pre-fix snapshot from the state history rather than trying to reverse each field).
+
+- Every admin fix records its pre-fix version in an `adminFixStack` on the state (pause/resume toggles are deliberately not recorded, so Undo targets the real fix, not the pause bracketing it). The Fix panel shows the button with a description of what will be undone, plus a count of earlier undoable fixes.
+- **Chained:** each press pops one fix, newest first — the restored snapshot carries the stack as it was before that fix, so stepping back through several fixes just works (verified by test).
+- **Safety guard:** if the game state changed after that fix (player/bot actions), undo answers 409 and the panel asks for confirmation before restoring — because the restore discards those later changes too. Undo log lines and `turnStart` snapshots don't count as changes (content comparison, not version arithmetic).
+- New admin-only endpoint: `POST /api/games/:id/admin-undo` (`{ force: true }` after the confirmation).
 
 ### Tap-through shields, confirm-turn ownership, and an action-forensics endpoint (v1.0.221)
 
@@ -2475,4 +2484,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 578 versions of user-driven development — from a blank repository to **v1.0.221**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 579 versions of user-driven development — from a blank repository to **v1.0.222**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
