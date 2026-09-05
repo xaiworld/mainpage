@@ -1,0 +1,7 @@
+<resources>
+    <!-- The whole UI is drawn with Jetpack Compose (see ui/theme/Theme.kt), so this
+         Android view-system theme only needs to set up the base window look. -->
+    <style name="Theme.ExpenseTracker" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/launcher_background</item>
+    </style>
+</resources>

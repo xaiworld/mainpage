@@ -1,0 +1,13 @@
+<!-- Two overlapping circles standing in for the two people sharing expenses. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,40 m-21,0 a21,21 0 1,0 42,0 a21,21 0 1,0 -42,0" />
+    <path
+        android:fillColor="#B3FFFFFF"
+        android:pathData="M69,72 m-21,0 a21,21 0 1,0 42,0 a21,21 0 1,0 -42,0" />
+</vector>
