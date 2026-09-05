@@ -19,9 +19,16 @@ object NearbyPermissions {
             android.Manifest.permission.BLUETOOTH_ADVERTISE,
             android.Manifest.permission.BLUETOOTH_CONNECT,
             android.Manifest.permission.BLUETOOTH_SCAN,
-            android.Manifest.permission.ACCESS_FINE_LOCATION
+            // Nearby Connections checks for COARSE specifically (not just FINE) before it
+            // will start advertising/discovery, even though FINE implies COARSE everywhere
+            // else — see MISSING_PERMISSION_ACCESS_COARSE_LOCATION (error 8034).
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION
         )
-        else -> arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
+        else -> arrayOf(
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION
+        )
     }
 
     fun allGranted(context: Context): Boolean = required().all {

@@ -21,7 +21,12 @@
         tools:targetApi="s" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="28" />
+    <!--
+         Nearby Connections' discovery/advertising calls hard-check for COARSE location
+         internally on pre-Android-13 devices even though FINE also covers it, so both must
+         be requested (capped at 32: NEARBY_WIFI_DEVICES below replaces them on API 33+).
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="32" />
     <uses-permission
         android:name="android.permission.NEARBY_WIFI_DEVICES"
