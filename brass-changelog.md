@@ -1,6 +1,13 @@
 # Brass: Lancashire — Development Changelog
 
-## 581 versions of iterative development
+## 582 versions of iterative development
+
+### Lobby shows both "Last move" and "Last seen" (v1.0.225)
+
+The players table now has two time columns:
+
+- **Last move**: when the player last submitted a move (from their own actions, as of v1.0.224). The Recientes sort still uses this.
+- **Last seen**: the last time they were on the site at all, even if they didn't move. Every logged-in request (any page, or a game page polling) stamps `last_seen_at` on the user. It's updated in memory on each request and only forces a DB write when the stored value is more than 5 minutes old. Until someone visits after this deploy, it falls back to their last login or last move, whichever is newer.
 
 ### "Last seen" now means the player's own last move (v1.0.224)
 
@@ -2498,4 +2505,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 581 versions of user-driven development — from a blank repository to **v1.0.224**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 582 versions of user-driven development — from a blank repository to **v1.0.225**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
