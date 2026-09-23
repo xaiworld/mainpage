@@ -1,6 +1,13 @@
 # Brass: Lancashire — Development Changelog
 
-## 580 versions of iterative development
+## 581 versions of iterative development
+
+### "Last seen" now means the player's own last move (v1.0.224)
+
+A player showed "3m ago" in the lobby with a 🔥 0 streak. The streak was right: it counts days on which you submitted a move. "Last seen" was the thing that was wrong. It scanned game logs for any line whose text *contained the username*, so another player's move that mentioned them (or a longer username containing theirs) counted as them being active.
+
+- "Last seen" (and the Recientes sort) now uses the timestamp of the player's own most recent submitted action.
+- Streak edge case: a turn confirmed just after UTC midnight stamped the day as played without adding it to the streak, costing a day. The turn counter now rolls the day through the same streak logic.
 
 ### Streaks no longer freeze when a player stops playing (v1.0.223)
 
@@ -2491,4 +2498,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 580 versions of user-driven development — from a blank repository to **v1.0.223**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 581 versions of user-driven development — from a blank repository to **v1.0.224**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
