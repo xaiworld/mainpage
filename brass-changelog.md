@@ -1,6 +1,13 @@
 # Brass: Lancashire — Development Changelog
 
-## 579 versions of iterative development
+## 580 versions of iterative development
+
+### Streaks no longer freeze when a player stops playing (v1.0.223)
+
+A player last seen 29 days ago was still showing a 🔥 44 streak. `streak.current` was only ever recomputed when the player submitted an action, so once they stopped playing nothing reset it and the old number stayed frozen forever.
+
+- New `liveStreak()` helper in `lib/achievements.js`: the streak counts only if the last active day is today or yesterday (UTC); otherwise it reads as 0.
+- Used everywhere the streak is shown: lobby player list (Racha sort), lobby header pill, profile, account page, and the streak/achievements API. The stored record (`longest`, achievements, Hall of Fame) is untouched.
 
 ### Admin Fix mode gets an Undo button (v1.0.222)
 
@@ -2484,4 +2491,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 579 versions of user-driven development — from a blank repository to **v1.0.222**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 580 versions of user-driven development — from a blank repository to **v1.0.223**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
