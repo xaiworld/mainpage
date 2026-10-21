@@ -1,6 +1,19 @@
 # Brass: Lancashire — Development Changelog
 
-## 582 versions of iterative development
+## 583 versions of iterative development
+
+### "Peak Concurrent Games" no longer counts games that already ended (v1.0.226)
+
+The site record showed 148 concurrent games while only 36 were running. The peak is worked out by walking a timeline: +1 when a game starts, -1 when it finishes, using `finished_at` from the game's result row. Some finished games never get a result row, so they got the +1 but never the -1, and stayed "running" forever:
+
+- **Tutorials.** A finished lesson is marked finished but deliberately records no result (no ELO/stats), so every completed lesson added 1 to the count for good.
+- **Old finished games** from before results were recorded.
+
+The peak could only grow, and each bump posted a fake "new site record" to the news feed.
+
+- Tutorials (1-seat solo lessons) are no longer counted, either in the sweep or in the "at least as many as are running now" floor.
+- A finished game with no result row now ends at its last move. If it has no moves either, it's left out instead of being left open.
+- One-time cleanup: the old "Peak Concurrent Games" record posts are removed from the news feed. They were all computed the broken way. They're kept in `meta.removedPeakActiveNews`, not deleted. Records only get posted when a value goes up, so the corrected (lower) value doesn't post a new one.
 
 ### Lobby shows both "Last move" and "Last seen" (v1.0.225)
 
@@ -2505,4 +2518,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 582 versions of user-driven development — from a blank repository to **v1.0.225**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 583 versions of user-driven development — from a blank repository to **v1.0.226**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
