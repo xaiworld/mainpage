@@ -1,6 +1,13 @@
 # Brass: Lancashire — Development Changelog
 
-## 583 versions of iterative development
+## 584 versions of iterative development
+
+### Peak Concurrent Games is never below the lobby's running count (v1.0.227)
+
+v1.0.226 left tutorials out of the peak entirely, including lessons still in progress. The lobby's "active" number counts those lessons, so the record could show fewer games than the lobby says are running right now (e.g. 34 while the lobby shows 38).
+
+- In-progress lessons count as running again, same as in the lobby. The "at least as many as are running now" floor now uses exactly the lobby's number.
+- Finished lessons still don't inflate the record: they have no result row, so like other such games they end at their last move.
 
 ### "Peak Concurrent Games" no longer counts games that already ended (v1.0.226)
 
@@ -2518,4 +2525,4 @@ Each trophy whose record points at a single game gets a deep-link to that game (
 
 ---
 
-*Built with love iteratively through 583 versions of user-driven development — from a blank repository to **v1.0.226**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
+*Built with love iteratively through 584 versions of user-driven development — from a blank repository to **v1.0.227**: a full multiplayer Brass: Lancashire with neural-network AI, mobile UI, push notifications, ELO, achievements, streak records, daily turns counter, live news feed with type filters and deep scrollable history, a wired-up maintenance page, per-viewer favorite-color recoloring, a 49-trophy Hall of Fame with shared ties, group filters, name highlights (56 of them, including a collapsible radioactive section that pulses smoothly in each base's own colour) for everyone, and duration records, a 10-language interface with proper i18n coverage for every Hall of Fame group and every achievement name, a newest-first changelog, a more reliable reset-turn, and an action submenu that stays put.*
